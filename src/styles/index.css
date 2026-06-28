@@ -1,0 +1,209 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Clix Solutions — Design Tokens (Tailwind v4 @theme)
+   SOHub-style: light "paper" theme · ink-black type · Heebo (RTL)
+   ============================================================ */
+@theme {
+  /* Fonts */
+  --font-sans: "Heebo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Apple's UI type: real San Francisco on Apple devices, Inter (SF-Pro lookalike)
+     everywhere else, Heebo to catch Hebrew glyphs SF/Inter don't carry. */
+  --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Heebo", system-ui, sans-serif;
+
+  /* Light surfaces — pure white page for the piano-key contrast */
+  --color-bg: #ffffff;
+  --color-bg-2: #fafafa;
+  --color-surface: #f3f4ef;
+  --color-surface-2: #ffffff;
+  --color-surface-3: #dedfd7;
+
+  /* Ink — near-black for dark pills, the closing CTA and the render */
+  --color-ink: #121210;
+  --color-ink-2: #1e1f1b;
+  --color-on-ink: #f1f2ec;
+
+  /* Lines */
+  --color-border: rgba(18, 18, 16, 0.12);
+  --color-border-strong: rgba(18, 18, 16, 0.26);
+
+  /* Text */
+  --color-fg: #131311;
+  --color-muted: #56574e;
+  --color-faint: #84857b;
+
+  /* Brand — restrained violet → cyan accent (used sparingly) */
+  --color-brand: #5b4bd8;
+  --color-brand-600: #4a3bc2;
+  --color-brand-300: #7c6def;
+  --color-cyan: #1898b6;
+  --color-cyan-300: #46c2dd;
+
+  /* Radii */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.625rem;
+  --radius-md: 0.875rem;
+  --radius-lg: 1.25rem;
+  --radius-xl: 1.75rem;
+  --radius-2xl: 2.5rem;
+
+  /* Fluid display sizes — SOHub scale: big, confident, heavy */
+  --text-display: clamp(3rem, 9vw, 8rem);
+  --text-display--line-height: 0.92;
+  --text-h1: clamp(2.5rem, 6vw, 5rem);
+  --text-h1--line-height: 1;
+  --text-h2: clamp(2rem, 4.6vw, 3.75rem);
+  --text-h2--line-height: 1.04;
+
+  /* Easing + timing tokens */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Animations */
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-16px); }
+}
+
+@keyframes scroll-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(220%); }
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-brand) 22%, transparent);
+    color: var(--color-fg);
+  }
+
+  /* Headings: tight tracking, heavy weight for the SOHub mood */
+  h1, h2, h3 {
+    letter-spacing: -0.025em;
+    font-weight: 800;
+  }
+
+  /* Custom scrollbar (light) */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-bg); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-surface-3);
+    border-radius: 999px;
+    border: 2px solid var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #c9cabf; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ============================================================
+   Lenis smooth scroll
+   ============================================================ */
+html.lenis,
+html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ============================================================
+   Utilities (Tailwind v4 @utility)
+   ============================================================ */
+@utility container-x {
+  width: 100%;
+  margin-inline: auto;
+  max-width: 84rem; /* 1344px */
+  padding-inline: 1.5rem;
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(100deg, var(--color-brand), var(--color-cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility surface-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px rgba(18, 18, 16, 0.04), 0 24px 50px -34px rgba(18, 18, 16, 0.3);
+}
+
+@utility glass {
+  background: color-mix(in oklab, var(--color-bg) 72%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--color-border);
+}
+
+@utility ring-glow {
+  box-shadow: 0 1px 2px rgba(18, 18, 16, 0.05), 0 30px 60px -32px rgba(18, 18, 16, 0.28);
+}
+
+@utility grid-fade {
+  background-image:
+    linear-gradient(to right, rgba(18, 18, 16, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18, 18, 16, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+/* Tabular figures for metrics/years */
+@utility nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
