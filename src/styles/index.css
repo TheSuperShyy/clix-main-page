@@ -95,6 +95,12 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
+    /* Reserve the scrollbar gutter on BOTH edges so the content box is centered
+       in the viewport. Without this, the always-present vertical scrollbar makes
+       the content box narrower on one side, pushing full-width centered content
+       (the hero 3D logo) a few px off-center — direction depends on where the
+       browser puts the RTL scrollbar. both-edges keeps it symmetric. */
+    scrollbar-gutter: stable both-edges;
   }
 
   body {
@@ -151,8 +157,8 @@ html.lenis body { height: auto; }
 @utility container-x {
   width: 100%;
   margin-inline: auto;
-  max-width: 84rem; /* 1344px */
-  padding-inline: 1.5rem;
+  max-width: 96rem; /* 1536px — wider so the left/right gaps (the centering margin) shrink */
+  padding-inline: 1rem;
 }
 
 @utility text-gradient {

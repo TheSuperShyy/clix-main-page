@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { brand, contact, nav } from "../data/content";
+import { gsap, ScrollTrigger, useGSAP } from "../lib/gsap";
 
 function Wordmark({ className = "" }: { className?: string }) {
   return (
     <a
       href="#top"
       aria-label={brand.full}
-      className={`font-black lowercase leading-none tracking-tight transition-opacity hover:opacity-70 ${className}`}
+      className={`font-black uppercase leading-none tracking-tight transition-opacity hover:opacity-70 ${className}`}
     >
       {brand.name}
     </a>
@@ -42,6 +43,31 @@ const pillMotion = {
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const reduced = useReducedMotion();
+  const clixRef = useRef<HTMLAnchorElement>(null);
+
+  // Once the hero is half-scrolled, the big CLIX wordmark flies up + fades out;
+  // scrolling back up brings it back. Scroll-driven → GSAP ScrollTrigger (synced
+  // to Lenis in useLenis). md+ only (where CLIX shows) and motion-safe.
+  useGSAP(() => {
+    const el = clixRef.current;
+    if (!el) return;
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
+      const fly = gsap.to(el, {
+        y: -140,
+        autoAlpha: 0,
+        duration: 0.9,
+        ease: "power2.in",
+      });
+      ScrollTrigger.create({
+        trigger: "#top",
+        start: "center top", // hero's vertical center hits the viewport top = half scrolled
+        animation: fly,
+        toggleActions: "play none none reverse",
+      });
+    });
+    return () => mm.revert();
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -62,9 +88,10 @@ export function Navbar() {
             shows it at the headline's weight + size (the look set previously). */}
         <Wordmark className="text-2xl text-fg md:hidden" />
         <a
+          ref={clixRef}
           href="#top"
           aria-label={brand.full}
-          className="hidden font-apple text-h1 font-extrabold lowercase leading-none tracking-[0.15em] text-fg transition-opacity hover:opacity-70 md:block"
+          className="hidden font-apple text-h1 font-extrabold uppercase leading-none tracking-[0.15em] text-fg md:block"
         >
           {brand.name}
         </a>
@@ -75,11 +102,11 @@ export function Navbar() {
           <motion.a
             {...pillMotion}
             href={nav.cta.href}
-            className="group hidden items-center gap-3.5 rounded-full bg-ink/[0.07] py-2 pe-2 ps-6 text-fg transition-colors hover:bg-ink/[0.12] sm:inline-flex"
+            className="group hidden items-center gap-4 rounded-full bg-ink/[0.07] py-2.5 pe-2.5 ps-7 text-fg transition-colors hover:bg-ink/[0.12] sm:inline-flex"
           >
-            <span className="text-base font-semibold tracking-tight">{nav.cta.label}</span>
-            <span className="grid size-11 place-items-center rounded-full bg-surface-2 text-ink shadow-[0_1px_3px_rgba(18,18,16,0.16)] ring-1 ring-ink/5 transition-transform duration-300 group-hover:-rotate-12">
-              <ChatIcon className="size-5" />
+            <span className="text-lg font-semibold tracking-tight">{nav.cta.label}</span>
+            <span className="grid size-12 place-items-center rounded-full bg-surface-2 text-ink shadow-[0_1px_3px_rgba(18,18,16,0.16)] ring-1 ring-ink/5 transition-transform duration-300 group-hover:-rotate-12">
+              <ChatIcon className="size-[22px]" />
             </span>
           </motion.a>
 
@@ -90,13 +117,13 @@ export function Navbar() {
             aria-label={nav.menuLabel}
             aria-haspopup="dialog"
             aria-expanded={open}
-            className="group inline-flex items-center gap-3.5 rounded-full bg-ink py-2 pe-2 ps-6 text-on-ink transition-colors hover:bg-ink-2"
+            className="group inline-flex items-center gap-4 rounded-full bg-ink py-2.5 pe-2.5 ps-7 text-on-ink transition-colors hover:bg-ink-2"
           >
-            <span className="text-base font-semibold tracking-tight">{nav.menuLabel}</span>
-            <span className="grid size-11 place-items-center rounded-full bg-on-ink/10 transition-colors group-hover:bg-on-ink/15">
+            <span className="text-lg font-semibold tracking-tight">{nav.menuLabel}</span>
+            <span className="grid size-12 place-items-center rounded-full bg-on-ink/10 transition-colors group-hover:bg-on-ink/15">
               <span className="flex items-center gap-1.5">
-                <span className="size-2 rounded-full bg-on-ink" />
-                <span className="size-2 rounded-full bg-on-ink" />
+                <span className="size-2.5 rounded-full bg-on-ink" />
+                <span className="size-2.5 rounded-full bg-on-ink" />
               </span>
             </span>
           </motion.button>
@@ -121,10 +148,10 @@ export function Navbar() {
                   {...pillMotion}
                   onClick={() => setOpen(false)}
                   aria-label="סגרו תפריט"
-                  className="group inline-flex items-center gap-3.5 rounded-full bg-on-ink/10 py-2 pe-2 ps-6 text-on-ink transition-colors hover:bg-on-ink/15"
+                  className="group inline-flex items-center gap-4 rounded-full bg-on-ink/10 py-2.5 pe-2.5 ps-7 text-on-ink transition-colors hover:bg-on-ink/15"
                 >
-                  <span className="text-base font-semibold tracking-tight">סגירה</span>
-                  <span className="grid size-11 place-items-center rounded-full bg-on-ink/15 text-2xl leading-none transition-colors group-hover:bg-on-ink/25">
+                  <span className="text-lg font-semibold tracking-tight">סגירה</span>
+                  <span className="grid size-12 place-items-center rounded-full bg-on-ink/15 text-3xl leading-none transition-colors group-hover:bg-on-ink/25">
                     ×
                   </span>
                 </motion.button>
