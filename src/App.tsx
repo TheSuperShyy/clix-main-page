@@ -1,11 +1,10 @@
 import { useLenis } from "./hooks/useLenis";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
-import { Work } from "./components/Work";
-import { Services } from "./components/Services";
-import { CTA } from "./components/CTA";
-import { Footer } from "./components/Footer";
+import { ValueProp } from "./components/ValueProp";
 
+// Work / Services / CTA / Footer are parked (still on disk) while the page is
+// rebuilt section-by-section to the on.energy reference. Re-add here to revive.
 export default function App() {
   useLenis();
 
@@ -14,11 +13,8 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <Work />
-        <Services />
-        <CTA />
+        <ValueProp />
       </main>
-      <Footer />
     </>
   );
 }

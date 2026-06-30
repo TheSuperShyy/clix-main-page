@@ -1,5 +1,7 @@
+import { useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { hero } from "../data/content";
+import { gsap, ScrollTrigger, useGSAP } from "../lib/gsap";
 
 /**
  * Hero — on.energy-style full-bleed dark hero.
@@ -13,6 +15,28 @@ import { hero } from "../data/content";
  */
 export function Hero() {
   const reduced = useReducedMotion();
+  const fadeRef = useRef<HTMLDivElement>(null);
+
+  // The bottom fade is hidden at the top of the hero and scrubs in as you
+  // scroll down (scroll-driven → GSAP ScrollTrigger, synced to Lenis).
+  useGSAP(() => {
+    const el = fadeRef.current;
+    if (!el) return;
+    if (reduced) {
+      gsap.set(el, { opacity: 0.85 }); // static fade when motion is reduced
+      return;
+    }
+    gsap.set(el, { opacity: 0 });
+    // Start the fade once you're ~25% into the hero and reach full black by the
+    // time the hero bottom clears the top — so the scroll-OUT reads clearly.
+    ScrollTrigger.create({
+      trigger: "#top",
+      start: "top top-=25%",
+      end: "bottom top",
+      scrub: true,
+      animation: gsap.to(el, { opacity: 1, ease: "none" }),
+    });
+  }, [reduced]);
 
   // Shared mount transition — entrance from below, expo-out.
   const rise = (delay: number) => ({
@@ -44,16 +68,25 @@ export function Hero() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-ink/75 to-transparent"
       />
+      {/* Bottom fade — sits ABOVE the content (z-20) so it fades the video AND
+          the text into black toward the bottom, as one overlay over the page.
+          pointer-events-none keeps the discover card / links clickable. */}
       <div
+        ref={fadeRef}
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-ink via-ink/40 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[90%]"
+        style={{
+          opacity: 0,
+          background:
+            "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 24%, rgba(0,0,0,0.82) 48%, rgba(0,0,0,0.45) 74%, transparent 100%)",
+        }}
       />
 
       {/* Content layer */}
-      <div className="container-x relative z-10 flex min-h-[100svh] flex-col pb-12 pt-32 sm:pb-16">
+      <div className="container-x relative z-10 flex min-h-[100svh] flex-col pb-12 pt-32 sm:pb-16 sm:ps-8 lg:ps-24">
         <motion.h1
           {...rise(0.15)}
-          className="mt-[18vh] max-w-4xl text-balance text-[clamp(2.5rem,7.5vw,6.5rem)] font-light leading-[0.98] tracking-tight text-white sm:mt-[22vh]"
+          className="mt-[18vh] max-w-3xl text-balance text-[clamp(2rem,5.5vw,4.5rem)] font-light leading-[1.02] tracking-tight text-white sm:mt-[22vh]"
         >
           {hero.headline}
         </motion.h1>
@@ -70,22 +103,22 @@ export function Hero() {
           <motion.a
             {...rise(0.42)}
             href={hero.discover.href}
-            className="group flex items-center gap-4 rounded-2xl border border-on-ink/15 bg-ink/40 p-3 pe-5 backdrop-blur-md transition-colors hover:bg-ink/55 sm:max-w-sm"
+            className="group flex items-center gap-4 rounded-[14px] border border-on-ink/15 bg-ink/40 p-3.5 backdrop-blur-md transition-colors hover:bg-ink/55 sm:max-w-[306px]"
           >
             <div className="min-w-0">
               <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-on-ink/70">
                 <span className="size-1.5 rounded-full bg-cyan" />
                 {hero.discover.eyebrow}
               </span>
-              <p className="mt-1.5 text-sm leading-snug text-on-ink sm:text-[0.95rem]">
+              <p className="mt-2 text-[15px] leading-snug text-on-ink sm:text-base">
                 {hero.discover.title}
               </p>
             </div>
-            <span className="grid size-16 shrink-0 place-items-center overflow-hidden rounded-xl bg-ink-2 ring-1 ring-on-ink/10">
+            <span className="grid size-24 shrink-0 place-items-center overflow-hidden rounded-[10px] bg-ink-2 ring-1 ring-on-ink/10">
               <img
                 src="/clix-logo-3d.webp"
                 alt=""
-                className="h-full w-full object-contain p-2"
+                className="h-full w-full object-contain p-1.5"
               />
             </span>
           </motion.a>
