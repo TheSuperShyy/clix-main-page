@@ -37,7 +37,9 @@ Guidance for Claude Code when working in this repository. Read this first, every
 
 ## 📦 Project Overview
 
-Marketing website for **Clix Solutions** — a Tel Aviv AI-engineering agency. Hebrew, **RTL**, single long-scroll landing page. Premium dark, image-first aesthetic inspired by [sohub.digital](https://sohub.digital/), rebuilt with Clix's real content from [clixsolutions.info](https://www.clixsolutions.info/).
+Marketing website for **Clix Solutions** — a Tel Aviv AI-engineering agency. Hebrew, **RTL**, single long-scroll landing page. **Clean, light, corporate-tech aesthetic inspired by [on.energy](https://www.on.energy/)** — white space, cool near-black type, a restrained **blue/teal** accent, photography-forward, minimal motion. Rebuilt with Clix's real content from [clixsolutions.info](https://www.clixsolutions.info/). Redesign lives in the **clix-main-page** repo (the prior SOHub version is archived in `clixsolutions`).
+
+**Repo (origin):** [`clix-main-page`](https://github.com/TheSuperShyy/clix-main-page) — the active repo for this redesign. The prior SOHub build is archived at [`clixsolutions`](https://github.com/TheSuperShyy/clixsolutions).
 
 See [`CONTEXT.md`](./CONTEXT.md) for the full content scrape, design notes, decisions, and build status.
 
@@ -80,7 +82,7 @@ public/                    # placeholder assets (swap for real brand assets late
 - **RTL first.** `dir="rtl"` is on `<html>`. Use Tailwind **logical** utilities (`ps-/pe-`, `ms-/me-`, `start-/end-`, `text-start/text-end`) — never hard-coded `left/right`. Test that layouts mirror correctly.
 - **Hebrew copy lives in `src/data/content.ts` only.** Components import strings from there — don't hard-code Hebrew text in JSX. This keeps copy editable in one place.
 - **One component per section**, composed in `App.tsx` in page order.
-- **Dark theme tokens** (`bg`, `surface`, `border`, `fg`, `muted`, `brand`, `brand-2`) are defined in `src/styles/index.css` — use the tokens, don't invent hex values inline.
+- **Theme tokens** — clean light palette (`bg`, `surface`, `border`, `fg`, `muted`, `brand` = blue, `cyan` = teal, `ink`/`on-ink` for dark bands) defined in `src/styles/index.css`. Use the tokens, don't invent hex values inline.
 - **Respect `prefers-reduced-motion`** in every animation.
 - **Placeholders** are intentional (gradients, mock dashboards, sample projects). Keep them swappable; don't hardwire fake data into logic.
 

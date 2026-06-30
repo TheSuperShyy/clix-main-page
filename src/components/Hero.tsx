@@ -1,41 +1,32 @@
 import { motion } from "motion/react";
 import { lazy, Suspense } from "react";
 import { hero } from "../data/content";
+import HeroLogoImage from "./HeroLogoImage";
 
-const HeroLogo3D = lazy(() => import("./HeroLogo3D"));
-
-/** Shown while the 3D bundle streams in (and as a graceful no-WebGL fallback). */
-function LogoFallback() {
-  return (
-    <img
-      src="/clix-logo.png"
-      alt="הלוגו של Clix"
-      className="w-[clamp(220px,32vw,420px)] select-none opacity-90 drop-shadow-[0_30px_40px_rgba(18,18,16,0.3)]"
-      draggable={false}
-    />
-  );
-}
+// True 3D, orbitable badge (three.js). Streams in as a separate chunk; the
+// static pre-rendered WebP (HeroLogoImage) shows meanwhile / as a no-WebGL fallback.
+const HeroLogoModel = lazy(() => import("./HeroLogoModel"));
 
 function HeroStage() {
   return (
     <div className="absolute inset-0 grid place-items-center">
-      {/* ground shadow on the white bg — a soft radial pool below the logo's
-          base (darker core, fading out). Narrower than the mark + a gap beneath
-          it = floating, lit from above. Sits below/behind the transparent canvas. */}
+      {/* ground shadow on the white bg — a soft radial pool beneath the stack's
+          base (darker core, fading out). Narrower than the mark + a gap below it
+          = floating, lit from above. Sits behind the transparent canvas. */}
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-[8%] left-1/2 h-12 w-[clamp(170px,24vw,360px)] -translate-x-1/2"
+        className="pointer-events-none absolute bottom-[10%] left-1/2 h-10 w-[clamp(150px,22vw,320px)] -translate-x-1/2"
         style={{
           background:
-            "radial-gradient(50% 50% at 50% 50%, rgba(18,18,16,0.40) 0%, rgba(18,18,16,0.20) 42%, transparent 72%)",
+            "radial-gradient(50% 50% at 50% 50%, rgba(18,18,16,0.34) 0%, rgba(18,18,16,0.16) 42%, transparent 72%)",
           filter: "blur(6px)",
         }}
       />
 
-      {/* interactive 3D canvas (drag to orbit) */}
+      {/* interactive 3D badge (drag to orbit) */}
       <div className="relative z-10 aspect-square w-[clamp(300px,44vw,620px)] cursor-grab active:cursor-grabbing">
-        <Suspense fallback={<div className="grid size-full place-items-center"><LogoFallback /></div>}>
-          <HeroLogo3D />
+        <Suspense fallback={<HeroLogoImage />}>
+          <HeroLogoModel />
         </Suspense>
       </div>
 
@@ -63,7 +54,7 @@ export function Hero() {
     <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden">
       {/* 3D logo stage */}
       <motion.div
-        initial={{ opacity: 0, y: 26 }}
+        initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
         className="absolute inset-0"

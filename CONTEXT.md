@@ -6,8 +6,9 @@
 
 ## 🟢 Current Status
 
-**Phase:** ✅ v2 — rebuilt as a faithful **SOHub clone** (light theme, minimal section set).
-**Done:** Pivoted from the dark 12-section "blend" to SOHub's actual structure: **light "paper" theme** (ink-black type on off-white), hero centered on the **3D WebGL logo** render (bottom-start headline + scroll cue; background wordmark removed), SOHub-accurate floating navbar (wordmark + light chat pill + ink "תפריט" pill, each with a trailing circle icon → full-screen ink menu overlay), and only the Clix sections that fit SOHub's page: **Hero → Work → Services (4-col) → "בואו נבנה משהו" ink CTA → Footer**. `npm run build` passes; dev serves HTTP 200.
+**Phase:** 🔄 **v3 — redesign to the [on.energy](https://www.on.energy/) reference** (clean light · blue/teal · section structure mirrors on.energy) in the new **clix-main-page** repo. Foundation (palette tokens + docs) reset 2026-06-30; awaiting the user's hero/layout screenshot to rebuild the sections. _v2 (SOHub clone) is superseded — notes retained below._
+**Prev (v2):** ✅ rebuilt as a faithful **SOHub clone** (light theme, minimal section set).
+**Done:** Pivoted from the dark 12-section "blend" to SOHub's actual structure: **light "paper" theme** (ink-black type on off-white), hero centered on the **new pre-rendered 3D Clix mark** (transparent WebP, float + pointer-parallax tilt — the WebGL-extruded logo was retired; `HeroLogo3D.tsx` still on disk), bottom-start headline + scroll cue; background wordmark removed, SOHub-accurate floating navbar (wordmark + light chat pill + ink "תפריט" pill, each with a trailing circle icon → full-screen ink menu overlay), and only the Clix sections that fit SOHub's page: **Hero → Work → Services (4-col) → "בואו נבנה משהו" ink CTA → Footer**. `npm run build` passes; dev serves HTTP 200.
 **Parked (not forced into SOHub's structure, per user):** Stack, Voice-AI dashboard, Web+Mobile feature, Methodology (pinned), Testimonials, Training — components/data still on disk, just not rendered in `App.tsx`.
 **Next (suggested):** Swap the hero render + project thumbnails for real assets; confirm the `info@clixsolution.com` vs `clixsolutions.info` discrepancy; decide whether any parked section returns; install Superpowers plugin; responsive QA.
 
@@ -15,7 +16,7 @@
 
 ## 🎯 Project Goal
 
-Build, from scratch, a new Hebrew **RTL** marketing site for **Clix Solutions** (Tel Aviv AI-engineering agency). Reuse Clix's real content from [clixsolutions.info](https://www.clixsolutions.info/), rebuilt with the **premium dark, image-first aesthetic of [sohub.digital](https://sohub.digital/)** as the design reference. **Blend** approach: SOHub's look + ALL of Clix's richer sections.
+Build a Hebrew **RTL** marketing site for **Clix Solutions** (Tel Aviv AI-engineering agency). Reuse Clix's real content from [clixsolutions.info](https://www.clixsolutions.info/), rebuilt with the **clean, light, corporate-tech aesthetic of [on.energy](https://www.on.energy/)** as the design reference — white space, blue/teal accent, restrained motion. **Section structure mirrors on.energy.** Redesign repo: **clix-main-page**.
 
 ## 🔒 Locked Decisions
 
@@ -23,7 +24,11 @@ Build, from scratch, a new Hebrew **RTL** marketing site for **Clix Solutions** 
 |----------|--------|
 | Language / direction | **Hebrew, full RTL** |
 | Stack | **Vite + React + TS + Tailwind v4 + Motion (Framer) + GSAP + Lenis** |
-| Design fidelity | **Blend** — SOHub aesthetic, keep all Clix sections |
+| Design reference | **[on.energy](https://www.on.energy/)** — clean, light, corporate-tech (replaced SOHub, 2026-06-30) |
+| Accent | **Blue → teal** on white |
+| Section structure | **Mirror on.energy** (hero → value prop → feature cards → expertise grid → stats → news → contact CTA) |
+| Hero visual | **Pending** — user is sending a layout screenshot |
+| Repo | **clix-main-page** (SOHub build archived in `clixsolutions`) |
 | Assets | **Polished placeholders** now; real assets swapped later |
 
 ---
@@ -55,9 +60,26 @@ Build, from scratch, a new Hebrew **RTL** marketing site for **Clix Solutions** 
 **Contact:** info@clixsolution.com · Tel Aviv · global service · Instagram @clix_solution · Sun–Thu 09:00–18:00.
 > ⚠️ Site domain is `clixsolutions.info` but listed email is `info@clixsolution.com` — using the on-site value; **confirm with user**.
 
-## 🎨 SOHub Design Reference
+## 🎨 on.energy Design Reference (current)
 
-Deep-charcoal/near-black bg, high contrast, big hero render, minimal narrative copy. Work portfolio as 2-col card grid; Services as 2×2 expandable cards; sticky nav + persistent CTA; scroll-triggered reveals; large closing-CTA visual ("Don't be shy"). Next.js, image-first.
+Clean, corporate-tech, **light** (white/off-white bg, cool near-black text), restrained **blue/teal** accent, modern bold sans-serif, generous whitespace, **minimal motion** (hover + smooth scroll only; no heavy parallax). Flat — no gradients. Photography-forward (real deployments, AVIF/WebP, lazy fade-in).
+
+**Section order (mirror this with Clix content):**
+1. Sticky nav — logo · text-label menus · right-aligned accent "Get in touch" CTA
+2. Hero — bold headline + tagline + one clear CTA button _(layout per user screenshot)_
+3. Value-prop paragraph with an inline link
+4. Four iconographic feature cards (solid-fill icons)
+5. Three-column expertise grid
+6. Stats band — 4 big metric blocks
+7. News / insights row — thumbnail + metadata cards
+8. Contact CTA ("Get in touch")
+9. Footer — nav · social · legal
+
+**Clix content mapping:** hero (Clix headline + CTA) · value prop (`services.intro`) · 4 feature cards (the 4 Clix services) · expertise grid (methodology / 3 pillars) · stats band (1.2k closed · 842ms · 99.9% · +24%) · news/insights (Work projects or testimonials) · contact CTA ("בואו נבנה משהו") · footer.
+
+> ⚠️ This look is partly inferred from fetched markup — refine against the user's screenshot(s).
+
+_Prior reference (archived): SOHub — deep-charcoal, dramatic, image-first, motion-heavy; 2-col Work grid; 2×2 Services cards._
 
 ## 🧱 Architecture — SOHub clone (page order)
 
@@ -117,6 +139,11 @@ A local `gsap` skill was added this session. To instead use GreenSock's official
 
 ## 🗒 Changelog
 
+- **2026-06-30 (Higgsfield MCP connected — pending auth)** — To generate the hero video, registered Higgsfield's **hosted MCP server** at project scope: wrote [`.mcp.json`](./.mcp.json) → `{ mcpServers: { higgsfield: { type: "http", url: "https://mcp.higgsfield.ai/mcp" } } }`. The `claude` CLI isn't on PATH inside the VSCode extension, so `claude mcp add` wasn't usable — the config file is the equivalent. **Not live until the user reloads the session**, approves the project-scoped server, and runs `/mcp` to OAuth-login with their Higgsfield account (no API key; **spends Higgsfield credits per generation**). **NEXT SESSION — resume plan:** once `/mcp` shows higgsfield connected, find its image-to-video tool via ToolSearch, inspect its input format (URL vs upload — frames live in `storyboard-frames/`). Generate **one test clip** (start with `frame-1-intro.png`, preset Super Dolly In, prompt from [`docs/hero-video-prompts.md`](./docs/hero-video-prompts.md) Shot 1, Motion=Low, 16:9), review, then batch the remaining 5. Then assemble per the doc and build the full-bleed `HeroVideo`. _(I cannot run the OAuth step or generate without the user completing the login.)_
+- **2026-06-30 (storyboard frames extracted)** — User supplied `storyboard.png` (root, 1280×543) — a 2×3 grid of 6 cinematic frames of the Clix mark — and wanted the **individual frames only** (not the grid) as source images for Higgsfield. Auto-detected panel bounds via per-row/col background-fraction analysis (off-white gutter > 222 on all channels, runs ≥8%), tightened each crop to its non-bg bbox (removes gutters/crop-marks/neighbor bleed), then Lanczos-upscaled each to **1280px wide (≈16:9, ~688–711px tall)** for better I2V input. Output → **`storyboard-frames/`**: `frame-1-intro`, `frame-2-on`, `frame-3-industrial`, `frame-4-float`, `frame-5-core`, `frame-6-lockup` (.png). These map 1:1 to the Shot 1–6 prompts in [`docs/hero-video-prompts.md`](./docs/hero-video-prompts.md). Note: true detail is capped by the small source storyboard — original high-res renders (if available) would be far better Higgsfield inputs. **Reminder to user:** I cannot generate the video myself (no Higgsfield/video-model access) — these are upload-ready source frames.
+- **2026-06-30 (v3.0 — reference pivot to on.energy + new repo)** — User: "start from scratch, change the reference to [on.energy](https://www.on.energy/)" and create repo **clix-main-page**. Created the empty public repo `TheSuperShyy/clix-main-page` (SOHub build stays archived in `clixsolutions`). Studied on.energy: clean light, blue/teal accent, photography-forward, restrained motion; section order hero→value-prop→feature-cards→expertise-grid→stats→news→contact-CTA. **Locked decisions:** accent = blue→teal; section structure = mirror on.energy; hero layout = **pending user screenshot**. Reset palette tokens in `index.css` (warm paper + violet/cyan → cool white + blue `#1a5cff` / teal `#0fb5bd`, tunable to the screenshot) and swapped the reference across CLAUDE.md + CONTEXT.md (goal, locked decisions, design-reference section). No section components rebuilt yet — awaiting the hero/layout screenshot. Note: reconcile with the v2.12 cinematic-hero-video plan (dark full-bleed) once the screenshot lands. **Skill:** ui-ux-pro-max (color system). `npm run build` passes.
+- **2026-06-29 (v2.12 — hero pivot to full-bleed cinematic video, planning)** — User wants the hero to become a **dramatic, luxurious advertisement video** in the style of [on.energy](https://www.on.energy/), animating a supplied 6-frame storyboard (the dark metallic Clix mark in moody industrial/architectural settings) via **Higgsfield** (image-to-video, DoP camera presets). **Decisions (user):** hero treatment = **full-bleed background video** (dark grade, Hebrew headline + CTA overlaid bottom-start over a gradient scrim) — replaces the current light/3D-badge hero; **build deferred** until the video is generated & exported. Deliverable this session: a Higgsfield **prompt pack** — one paste-ready I2V prompt per storyboard frame, each with a camera preset (Super Dolly In / Dolly In low-angle / Arc Right / Crane Up / Super Dolly In macro / Super Dolly Out), a shared style anchor, Motion=Low, plus assembly (1→6 + dissolve-to-1 ≈24s loop), full-bleed RTL framing notes, and export specs (1920×1080 MP4+WebM <8MB, poster JPG = reduced-motion fallback, muted/loop/autoplay/playsInline, files → `public/`). Saved to [`docs/hero-video-prompts.md`](./docs/hero-video-prompts.md). No code changed yet. **Skill:** prompt-master (Higgsfield I2V prompt pack). **Next:** generate + edit the loop, drop `hero.mp4`/`hero.webm`/`hero-poster.jpg` into `public/`, then build `HeroVideo` + rework `Hero.tsx` to full-bleed (ui-ux-pro-max + framer-motion/gsap reveal); the `HeroLogoModel`/WebP can stay on disk as a fallback option.
+- **2026-06-29 (v2.11 — new pre-rendered 3D hero logo)** — User supplied `new-logo.png` (a full-color isometric glass/metal Clix render) in the repo root and asked to use it, bg removed. The file was 24bpp (no alpha) with a **baked checkerboard** preview background (grays ≈232/255), and the render has brushed-metal plates near the same gray + semi-transparent glass — so flood-fill would damage it. Used an **AI matte** instead: `pip install rembg pillow onnxruntime`, ran the `isnet-general-use` model (`post_process_mask=True`), auto-cropped to content bbox (794×912), exported `public/clix-logo-3d.png` (827 KB) + `public/clix-logo-3d.webp` (**118 KB**, used). Because this is a finished render (not a flat silhouette), it **can't** go through the `potrace → ExtrudeGeometry` pipeline — so the WebGL mesh hero was retired: new `HeroLogoImage.tsx` shows the WebP with an outer **idle float** + inner **pointer-parallax tilt** (rotateX/rotateY + horizontal parallax on a `perspective:1100` stage), all gated by `useReducedMotion`. `Hero.tsx` drops the `lazy`/`Suspense`/`HeroLogo3D` scaffolding and the drag-to-orbit hint; ground-shadow pool retuned smaller/softer. Net: three.js no longer in the bundle (**470 KB / 158 KB gzip**, down from the ~261 KB-gzip three chunk). `HeroLogo3D.tsx` + three deps left on disk (reversible). `npm run build` passes; dev serves HTTP 200, asset 200. **Skills:** ui-ux-pro-max (sizing/elevation), framer-motion (float + parallax tilt).
 - **2026-06-29 (v2.10 — larger navbar pills)** — Bumped the pills ~60px → ~68px: `py-2 → py-2.5`, `pe-2 → pe-2.5`, `ps-6 → ps-7`, circle `size-11 → size-12`, label `text-base → text-lg`, gap `3.5 → 4`, chat icon `size-5 → size-[22px]`, MENU dots `size-2 → size-2.5`, close × `text-2xl → text-3xl`. Applied across both navbar pills + the overlay close button (shared anatomy). `npm run build` passes. **Skill:** ui-ux-pro-max.
 - **2026-06-29 (v2.9a — wider container to shrink side gaps)** — The v2.9 padding cut didn't visibly move anything on wide screens because the side gaps there are the centering auto-margin from `container-x`'s `max-width: 84rem` cap, not the padding. Widened the cap **84rem → 96rem** (1344→1536px) so navbar (CLIX/pills), hero headline and all sections sit ~96px closer to each edge. Screens ≤96rem become near-edge (just the 1rem padding). `npm run build` passes.
 - **2026-06-29 (v2.9 — tighter side padding)** — Reduced the site-wide `container-x` `padding-inline` **1.5rem → 1rem** so all section content (navbar, headline, sections) sits closer to the edges. Note: on viewports wider than the 84rem container the side gap is mostly the centering auto-margin, so the visible change is largest on mobile/tablet/mid screens. `npm run build` passes.

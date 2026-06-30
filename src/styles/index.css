@@ -2,7 +2,7 @@
 
 /* ============================================================
    Clix Solutions — Design Tokens (Tailwind v4 @theme)
-   SOHub-style: light "paper" theme · ink-black type · Heebo (RTL)
+   on.energy-style: clean white · cool near-black type · blue→teal accent · Heebo (RTL)
    ============================================================ */
 @theme {
   /* Fonts */
@@ -11,33 +11,33 @@
      everywhere else, Heebo to catch Hebrew glyphs SF/Inter don't carry. */
   --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Heebo", system-ui, sans-serif;
 
-  /* Light surfaces — pure white page for the piano-key contrast */
+  /* Surfaces — clean white page with cool off-white panels (on.energy) */
   --color-bg: #ffffff;
-  --color-bg-2: #fafafa;
-  --color-surface: #f3f4ef;
+  --color-bg-2: #f6f8fb;
+  --color-surface: #f2f5f9;
   --color-surface-2: #ffffff;
-  --color-surface-3: #dedfd7;
+  --color-surface-3: #e4e9f0;
 
-  /* Ink — near-black for dark pills, the closing CTA and the render */
-  --color-ink: #121210;
-  --color-ink-2: #1e1f1b;
-  --color-on-ink: #f1f2ec;
+  /* Ink — cool near-black for dark sections / the closing CTA band */
+  --color-ink: #0d1117;
+  --color-ink-2: #161b22;
+  --color-on-ink: #eef2f7;
 
   /* Lines */
-  --color-border: rgba(18, 18, 16, 0.12);
-  --color-border-strong: rgba(18, 18, 16, 0.26);
+  --color-border: rgba(13, 17, 23, 0.10);
+  --color-border-strong: rgba(13, 17, 23, 0.22);
 
   /* Text */
-  --color-fg: #131311;
-  --color-muted: #56574e;
-  --color-faint: #84857b;
+  --color-fg: #0d1117;
+  --color-muted: #515b68;
+  --color-faint: #8a93a1;
 
-  /* Brand — restrained violet → cyan accent (used sparingly) */
-  --color-brand: #5b4bd8;
-  --color-brand-600: #4a3bc2;
-  --color-brand-300: #7c6def;
-  --color-cyan: #1898b6;
-  --color-cyan-300: #46c2dd;
+  /* Brand — on.energy blue → teal accent (tunable to the reference screenshot) */
+  --color-brand: #1a5cff;
+  --color-brand-600: #1147cf;
+  --color-brand-300: #6f9bff;
+  --color-cyan: #0fb5bd;
+  --color-cyan-300: #57d3d9;
 
   /* Radii */
   --radius-xs: 0.375rem;
