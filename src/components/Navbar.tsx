@@ -1,23 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { brand, contact, nav } from "../data/content";
 import { ScrollTrigger, useGSAP } from "../lib/gsap";
 
-/** Brand logo tile — accent square with the Clix mark masked into it
-    (on.energy-style: a solid chip at the start of the bar). Over the blue
-    value-prop band it inverts to a white tile with a brand-blue mark. */
-function LogoTile({ className = "", accent = false }: { className?: string; accent?: boolean }) {
+/** Brand logo tile — brand-blue square with the Clix mark masked into it
+    (on.energy-style: a solid chip at the start of the bar). */
+function LogoTile({ className = "" }: { className?: string }) {
   return (
     <a
       href="#top"
       aria-label={brand.full}
-      className={`grid shrink-0 place-items-center rounded-[6px] transition-colors duration-300 ${
-        accent ? "bg-white hover:bg-white/90" : "bg-brand hover:bg-brand-600"
-      } ${className}`}
+      className={`grid shrink-0 place-items-center rounded-[6px] bg-brand transition-colors duration-300 hover:bg-brand-600 ${className}`}
     >
       <span
         aria-hidden
-        className={`block h-[78%] w-[78%] ${accent ? "bg-brand" : "bg-white"}`}
+        className="block h-[78%] w-[78%] bg-white"
         style={{
           WebkitMaskImage: "url(/clix-logo.svg)",
           maskImage: "url(/clix-logo.svg)",
@@ -149,12 +146,16 @@ function NavTab({
   );
 }
 
+// Full-bleed dark sections (after the hero) where the bar must stay light.
+const DARK_SECTIONS = ["#intro", "#reveal"];
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
   // Has the hero scrolled past the navbar?
   const [scrolled, setScrolled] = useState(false);
-  // Is the navbar currently over the blue value-prop band (#intro)?
-  const [onAccent, setOnAccent] = useState(false);
+  // Is the navbar currently over one of the dark sections (#intro / #reveal)?
+  const [onDark, setOnDark] = useState(false);
+  const darkFlags = useRef<Record<string, boolean>>({});
   const reduced = useReducedMotion();
 
   useGSAP(() => {
@@ -165,16 +166,22 @@ export function Navbar() {
       onEnter: () => setScrolled(true),
       onLeaveBack: () => setScrolled(false),
     });
-    // Over the blue value-prop band → invert the logo/CTA to white, keep glass tabs.
-    const accentST = ScrollTrigger.create({
-      trigger: "#intro",
-      start: "top top+=72",
-      end: "bottom top+=72",
-      onToggle: (self) => setOnAccent(self.isActive),
-    });
+    // Over any dark section → keep the glass tabs light (don't switch to the
+    // dark-on-light treatment). Track each, then OR them together.
+    const darkSTs = DARK_SECTIONS.map((sel) =>
+      ScrollTrigger.create({
+        trigger: sel,
+        start: "top top+=72",
+        end: "bottom top+=72",
+        onToggle: (self) => {
+          darkFlags.current[sel] = self.isActive;
+          setOnDark(Object.values(darkFlags.current).some(Boolean));
+        },
+      }),
+    );
     return () => {
       heroST.kill();
-      accentST.kill();
+      darkSTs.forEach((st) => st.kill());
     };
   }, []);
 
@@ -186,8 +193,8 @@ export function Navbar() {
   }, [open]);
 
   // Tabs/menu use the dark (on-light-body) treatment only when NOT over the hero
-  // and NOT over the blue band — both of those keep the light glass treatment.
-  const darkNav = scrolled && !onAccent;
+  // and NOT over a dark section — both of those keep the light glass treatment.
+  const darkNav = scrolled && !onDark;
 
   // Mobile menu tile — same glass treatment, square.
   const menuTile = `ms-auto grid size-9 shrink-0 place-items-center rounded-[6px] backdrop-blur-md transition-colors duration-300 md:hidden ${
@@ -203,7 +210,7 @@ export function Navbar() {
         className="container-x flex items-center gap-2 font-apple sm:gap-2.5"
       >
         {/* Logo tile — start (right in RTL) */}
-        <LogoTile className="size-9" accent={onAccent} />
+        <LogoTile className="size-9" />
 
         {/* Segmented glass nav — desktop, fills the width */}
         <nav className="hidden flex-1 items-center gap-1.5 md:flex">
@@ -216,11 +223,7 @@ export function Navbar() {
         <motion.a
           {...pillMotion}
           href={nav.cta.href}
-          className={`hidden h-9 shrink-0 items-center rounded-[6px] px-5 text-[14px] font-bold transition-colors duration-300 md:inline-flex ${
-            onAccent
-              ? "bg-white text-brand hover:bg-white/90"
-              : "bg-brand text-white hover:bg-brand-600"
-          }`}
+          className="hidden h-9 shrink-0 items-center rounded-[6px] bg-brand px-5 text-[14px] font-bold text-white transition-colors duration-300 hover:bg-brand-600 md:inline-flex"
         >
           {nav.cta.label}
         </motion.a>

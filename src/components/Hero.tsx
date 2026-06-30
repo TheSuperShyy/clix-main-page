@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { hero } from "../data/content";
 import { gsap, ScrollTrigger, useGSAP } from "../lib/gsap";
@@ -16,6 +16,42 @@ import { gsap, ScrollTrigger, useGSAP } from "../lib/gsap";
 export function Hero() {
   const reduced = useReducedMotion();
   const fadeRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Reliable muted-autoplay. The ambient background loop is silent and always
+  // plays — even under reduced-motion (only the UI motion below honours it).
+  // React doesn't always set the `muted` DOM *property* from the attribute, so
+  // set it imperatively, then play. We retry on `canplay` and — if the browser
+  // still refuses autoplay — on the first user interaction (pointer / key /
+  // scroll / touch), after which the listeners self-remove.
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.defaultMuted = true;
+
+    let started = false;
+    const events = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"] as const;
+    const cleanup = () => {
+      v.removeEventListener("canplay", tryPlay);
+      events.forEach((e) => window.removeEventListener(e, tryPlay));
+    };
+    const tryPlay = () => {
+      if (started) return;
+      v.play().then(
+        () => {
+          started = true;
+          cleanup();
+        },
+        () => {}, // autoplay refused — wait for the next trigger
+      );
+    };
+
+    tryPlay();
+    v.addEventListener("canplay", tryPlay);
+    events.forEach((e) => window.addEventListener(e, tryPlay, { passive: true }));
+    return cleanup;
+  }, []);
 
   // The bottom fade is hidden at the top of the hero and scrubs in as you
   // scroll down (scroll-driven → GSAP ScrollTrigger, synced to Lenis).
@@ -50,12 +86,16 @@ export function Hero() {
       id="top"
       className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink text-on-ink"
     >
-      {/* Full-bleed looping video */}
+      {/* Full-bleed looping video — stitched montage (macrostar → macroarrow → lowhero → lockup).
+          poster = a bright opening frame so the hero never paints black before/without playback
+          (autoplay can be deferred or blocked); videoRef + onCanPlay nudge play() to be safe. */}
       <video
+        ref={videoRef}
         className="absolute inset-0 h-full w-full object-cover"
-        src="/clix-ads.mp4"
-        autoPlay={!reduced}
-        loop={!reduced}
+        src="/hero-montage.mp4"
+        poster="/hero-poster.jpg"
+        autoPlay
+        loop
         muted
         playsInline
         preload="auto"
@@ -86,7 +126,7 @@ export function Hero() {
       <div className="container-x relative z-10 flex min-h-[100svh] flex-col pb-12 pt-32 sm:pb-16 sm:ps-8 lg:ps-24">
         <motion.h1
           {...rise(0.15)}
-          className="mt-[18vh] max-w-3xl text-balance text-[clamp(2rem,5.5vw,4.5rem)] font-light leading-[1.02] tracking-tight text-white sm:mt-[22vh]"
+          className="mt-[18vh] max-w-3xl text-balance text-[clamp(2rem,5.5vw,4.5rem)] leading-[1.02] tracking-tight text-white sm:mt-[22vh]"
         >
           {hero.headline}
         </motion.h1>
