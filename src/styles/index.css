@@ -95,11 +95,9 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-    /* Reserve the scrollbar gutter only where the scrollbar actually sits (no
-       layout shift when it appears) — NOT both-edges, which would leave an empty
-       strip on the opposite side and stop the full-bleed hero video from reaching
-       the true viewport edge. */
-    scrollbar-gutter: stable;
+    /* Hide the native scrollbar — Lenis drives the smooth scroll, and a white
+       track would otherwise show as a strip over the dark hero. (Firefox) */
+    scrollbar-width: none;
   }
 
   body {
@@ -123,15 +121,8 @@
     font-weight: 800;
   }
 
-  /* Custom scrollbar (light) */
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: var(--color-bg); }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-surface-3);
-    border-radius: 999px;
-    border: 2px solid var(--color-bg);
-  }
-  ::-webkit-scrollbar-thumb:hover { background: #c9cabf; }
+  /* Hide the native scrollbar (Chrome/Safari/Edge) — Lenis provides scrolling. */
+  ::-webkit-scrollbar { width: 0; height: 0; }
 
   :focus-visible {
     outline: 2px solid var(--color-ink);

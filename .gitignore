@@ -25,3 +25,9 @@ dist-ssr
 
 # TypeScript incremental build cache
 *.tsbuildinfo
+
+# Raw working video/asset sources (not referenced by the site; kept local only).
+# The hero uses public/clix-ads.mp4, which IS tracked.
+/clix-vid.mp4
+/hero-video/
+/storyboard-frames/matte/

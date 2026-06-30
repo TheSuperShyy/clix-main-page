@@ -1,5 +1,5 @@
 /**
- * content.ts — Single source of truth for ALL Hebrew copy (RTL).
+ * content.ts - Single source of truth for ALL Hebrew copy (RTL).
  * Edit text here, never inline in components. (See CLAUDE.md conventions.)
  * Placeholder items are marked with `placeholder: true` where relevant.
  */
@@ -24,7 +24,16 @@ export const brand = {
 export const nav = {
   items: [
     { label: "עבודות", href: "#work" },
-    { label: "שירותים", href: "#services" },
+    {
+      label: "שירותים",
+      href: "#services",
+      menu: [
+        { label: "סוכני AI קוליים", href: "#services" },
+        { label: "אפליקציות ואתרים", href: "#services" },
+        { label: "אוטומציות ואינטגרציות", href: "#services" },
+        { label: "CRM ואוטומציית WhatsApp", href: "#services" },
+      ],
+    },
     { label: "צרו קשר", href: "#contact" },
   ],
   cta: { label: "בואו נדבר", href: "#contact" },
@@ -38,20 +47,25 @@ export const hero = {
   headline: "מערכות AI מהונדסות לעסק שלכם.",
   // Bottom-corner supporting line (on.energy: "ON.energy builds and operates…")
   subcopy:
-    "Clix בונה ומתפעלת מערכות AI מהונדסות — סוכנים קוליים, אוטומציות ומוצרים דיגיטליים שפותרים את האתגרים האמיתיים של העסק.",
+    "Clix בונה ומתפעלת מערכות AI מהונדסות, סוכנים קוליים, אוטומציות ומוצרים דיגיטליים שפותרים את האתגרים האמיתיים של העסק.",
   // Bottom-corner "discover" card (on.energy: the DISCOVER AI UPS card)
   discover: {
-    eyebrow: "Voice AI",
-    title: "סוכנים קוליים שמנהלים את כל השיחה — מקצה לקצה.",
+    eyebrow: "AI קולי",
+    title: "סוכנים קוליים שמנהלים את כל השיחה, מקצה לקצה.",
     href: "#services",
   },
   scroll: "גלול",
   dragHint: "גררו כדי לסובב",
 } as const;
 
+// Full-bleed accent band right after the hero (on.energy's bold yellow statement).
+export const valueProp = {
+  body: "Clix בונה ומתפעלת מערכות AI מהונדסות שפותרות את האתגרים האמיתיים של העסק. מסוכנים קוליים ואוטומציות ועד אפליקציות ומערכות CRM, אנחנו מספקים פתרונות מותאמים אישית, מהונדסים לאמינות, למהירות ולצמיחה, שעובדים מהיום הראשון.",
+} as const;
+
 export const stack = {
   eyebrow: "הסטאק",
-  title: "כל הכלים שאתם משתמשים בהם — מזינים מוח אחד",
+  title: "כל הכלים שאתם משתמשים בהם, מזינים מוח אחד",
   subtitle:
     "אנחנו מחברים את כל המערכות שלכם לליבה אחת חכמה, שמבינה הקשר ופועלת אוטומטית.",
   coreLabel: "Clix Core",
@@ -76,7 +90,7 @@ export const services = {
   eyebrow: "שירותים",
   title: "מה אנחנו בונים",
   intro:
-    "אנחנו לא עוד סוכנות. אנחנו צוות הנדסה שהופך את החזון שלכם למערכת AI שעובדת — מהיום הראשון.",
+    "אנחנו לא עוד סוכנות. אנחנו צוות הנדסה שהופך את החזון שלכם למערכת AI שעובדת, מהיום הראשון.",
   subtitle: "תוכנה שעובדת, תוצאות שמדברות.",
   items: [
     {
@@ -90,14 +104,14 @@ export const services = {
       index: "02",
       icon: "code" as IconName,
       title: "אפליקציות ואתרים",
-      desc: "מוצרי Full-stack מהונדסים כמערכות — ממערכות CRM ופורטלי לקוחות ועד אפליקציות מובייל נייטיב ואתרים ייעודיים.",
+      desc: "מוצרי Full-stack מהונדסים כמערכות, ממערכות CRM ופורטלי לקוחות ועד אפליקציות מובייל נייטיב ואתרים ייעודיים.",
       points: ["מערכות CRM", "פורטלי לקוחות", "iOS / Android", "אתרי תדמית"],
     },
     {
       index: "03",
       icon: "automation" as IconName,
       title: "אוטומציות ואינטגרציות",
-      desc: "מחברים את הכלים שכבר יש לכם לזרימת עבודה אחת — עם Vapi, n8n, Make, OpenAI ו-Claude.",
+      desc: "מחברים את הכלים שכבר יש לכם לזרימת עבודה אחת, עם Vapi, n8n, Make, OpenAI ו-Claude.",
       points: ["זרימות עבודה", "אינטגרציות API", "סנכרון נתונים", "ניטור חכם"],
     },
     {
@@ -113,7 +127,7 @@ export const services = {
 export const voiceAI = {
   eyebrow: "Voice AI",
   title: "סוכנים קוליים שמנהלים את כל השיחה",
-  body: "Voice AI ברמת ייצור לצוותים מודרניים. הסוכן עונה לשיחות נכנסות, מאמת לידים, קובע פגישות ומעביר שיחות לנציג אנושי כשצריך — בלי להחמיץ אף הזדמנות.",
+  body: "Voice AI ברמת ייצור לצוותים מודרניים. הסוכן עונה לשיחות נכנסות, מאמת לידים, קובע פגישות ומעביר שיחות לנציג אנושי כשצריך, בלי להחמיץ אף הזדמנות.",
   points: [
     "מענה אנושי וטבעי בעברית",
     "אינטגרציה ישירה ל-CRM וליומן",
@@ -131,7 +145,7 @@ export const voiceAI = {
 export const webMobile = {
   eyebrow: "Web + Mobile",
   title: "אפליקציות ואתרים, מהונדסים כמערכות",
-  body: "ממערכות ניהול CRM ועד פורטלי לקוחות, מאפליקציות מובייל נייטיב ועד אתרים ייעודיים — אנחנו בונים מוצרים שמחזיקים בעומס ונראים מצוין.",
+  body: "ממערכות ניהול CRM ועד פורטלי לקוחות, מאפליקציות מובייל נייטיב ועד אתרים ייעודיים, אנחנו בונים מוצרים שמחזיקים בעומס ונראים מצוין.",
   points: [
     { title: "מערכות CRM", desc: "פלטפורמות ניהול מותאמות לתהליך שלכם" },
     { title: "פורטלי לקוחות", desc: "חוויית לקוח מאובטחת ומהירה" },
@@ -143,7 +157,7 @@ export const webMobile = {
 export const work = {
   eyebrow: "עבודות",
   title: "הופכים רעיונות למציאות דיגיטלית",
-  subtitle: "מבחר מתוך מה שבנינו לאחרונה. (תצוגה לדוגמה — יוחלף בפרויקטים אמיתיים.)",
+  subtitle: "מבחר מתוך מה שבנינו לאחרונה. (תצוגה לדוגמה, יוחלף בפרויקטים אמיתיים.)",
   projects: [
     { title: "SalesIQ", category: "פלטפורמת מכירות + Voice AI", year: "2026", placeholder: true },
     { title: "סטודיו אדיר", category: "אתר תדמית + הזמנות אונליין", year: "2025", placeholder: true },
@@ -164,12 +178,12 @@ export const methodology = {
     {
       num: "02",
       title: "תכנון",
-      desc: "מתכננים את המערכת הקומפקטית ביותר שפותרת את הבעיה הגדולה ביותר — לפי ROI, אבטחה ועמידוּת.",
+      desc: "מתכננים את המערכת הקומפקטית ביותר שפותרת את הבעיה הגדולה ביותר, לפי ROI, אבטחה ועמידוּת.",
     },
     {
       num: "03",
       title: "בנייה",
-      desc: "מהנדסים בכירים משחררים גרסאות בקצב מהיר. מוצרים שמיש כל שבוע — לא מצגות.",
+      desc: "מהנדסים בכירים משחררים גרסאות בקצב מהיר. מוצרים שמיש כל שבוע, לא מצגות.",
     },
     {
       num: "04",
@@ -213,7 +227,7 @@ export const testimonials = {
 export const training = {
   eyebrow: "הרצאות והדרכות",
   title: "מביאים את צוות המומחים אל החדר שלכם",
-  body: "הרצאות, הדרכות וייעוץ לארגונים שרוצים לפעול עם AI — לא רק לדבר עליו. נשאיר את הצוות שלכם עם כלים שאפשר להפעיל כבר מחר בבוקר.",
+  body: "הרצאות, הדרכות וייעוץ לארגונים שרוצים לפעול עם AI, לא רק לדבר עליו. נשאיר את הצוות שלכם עם כלים שאפשר להפעיל כבר מחר בבוקר.",
   points: ["הרצאות והכשרות", "ייעוץ אסטרטגי", "ליווי יישום בארגון"],
 } as const;
 
@@ -236,7 +250,7 @@ export const contact = {
 } as const;
 
 export const footer = {
-  blurb: "סוכנות הנדסת AI שבונה מערכות שעובדות — מהונדסות לצמיחה.",
+  blurb: "סוכנות הנדסת AI שבונה מערכות שעובדות, מהונדסות לצמיחה.",
   socials: [
     { label: "Instagram", href: "https://instagram.com/clix_solution" },
     { label: "LinkedIn", href: "#" },
