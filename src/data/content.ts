@@ -36,6 +36,15 @@ export const hero = {
   wordmark: "clix",
   // Lower-start headline (SOHub: "Your story builds our history.")
   headline: "מערכות AI מהונדסות לעסק שלכם.",
+  // Bottom-corner supporting line (on.energy: "ON.energy builds and operates…")
+  subcopy:
+    "Clix בונה ומתפעלת מערכות AI מהונדסות — סוכנים קוליים, אוטומציות ומוצרים דיגיטליים שפותרים את האתגרים האמיתיים של העסק.",
+  // Bottom-corner "discover" card (on.energy: the DISCOVER AI UPS card)
+  discover: {
+    eyebrow: "Voice AI",
+    title: "סוכנים קוליים שמנהלים את כל השיחה — מקצה לקצה.",
+    href: "#services",
+  },
   scroll: "גלול",
   dragHint: "גררו כדי לסובב",
 } as const;

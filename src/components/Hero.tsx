@@ -1,81 +1,94 @@
-import { motion } from "motion/react";
-import { lazy, Suspense } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { hero } from "../data/content";
-import HeroLogoImage from "./HeroLogoImage";
 
-// True 3D, orbitable badge (three.js). Streams in as a separate chunk; the
-// static pre-rendered WebP (HeroLogoImage) shows meanwhile / as a no-WebGL fallback.
-const HeroLogoModel = lazy(() => import("./HeroLogoModel"));
+/**
+ * Hero — on.energy-style full-bleed dark hero.
+ *  • Looping muted background video (clix-ads.mp4) covers the whole band.
+ *  • Same element set as the on.energy reference, RTL-mirrored:
+ *      large light headline (inline-start), supporting paragraph at the
+ *      bottom-start corner, a "discover" glass card at the bottom-end corner.
+ *  • Top + bottom scrims keep the navbar and copy legible over the footage.
+ *  • framer-motion mount stagger; honours prefers-reduced-motion
+ *    (the video does not autoplay/loop when reduced motion is requested).
+ */
+export function Hero() {
+  const reduced = useReducedMotion();
 
-function HeroStage() {
+  // Shared mount transition — entrance from below, expo-out.
+  const rise = (delay: number) => ({
+    initial: reduced ? false : { opacity: 0, y: 26 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] as const, delay },
+  });
+
   return (
-    <div className="absolute inset-0 grid place-items-center">
-      {/* ground shadow on the white bg — a soft radial pool beneath the stack's
-          base (darker core, fading out). Narrower than the mark + a gap below it
-          = floating, lit from above. Sits behind the transparent canvas. */}
-      <div
+    <section
+      id="top"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink text-on-ink"
+    >
+      {/* Full-bleed looping video */}
+      <video
+        className="absolute inset-0 h-full w-full object-cover"
+        src="/clix-ads.mp4"
+        autoPlay={!reduced}
+        loop={!reduced}
+        muted
+        playsInline
+        preload="auto"
+        tabIndex={-1}
         aria-hidden
-        className="pointer-events-none absolute bottom-[10%] left-1/2 h-10 w-[clamp(150px,22vw,320px)] -translate-x-1/2"
-        style={{
-          background:
-            "radial-gradient(50% 50% at 50% 50%, rgba(18,18,16,0.34) 0%, rgba(18,18,16,0.16) 42%, transparent 72%)",
-          filter: "blur(6px)",
-        }}
       />
 
-      {/* interactive 3D badge (drag to orbit) */}
-      <div className="relative z-10 aspect-square w-[clamp(300px,44vw,620px)] cursor-grab active:cursor-grabbing">
-        <Suspense fallback={<HeroLogoImage />}>
-          <HeroLogoModel />
-        </Suspense>
-      </div>
+      {/* Legibility scrims — darken the top (nav) and the bottom (copy). */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-ink/75 to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-ink via-ink/40 to-transparent"
+      />
 
-      {/* interaction hint */}
-      <span className="pointer-events-none absolute bottom-[5%] text-xs font-medium tracking-wide text-faint/80">
-        {hero.dragHint}
-      </span>
-    </div>
-  );
-}
-
-function ScrollCue() {
-  return (
-    <div className="flex items-center gap-3 text-faint">
-      <span className="text-xs font-medium tracking-[0.25em]">{hero.scroll}</span>
-      <span className="relative block h-12 w-px overflow-hidden bg-faint/40">
-        <span className="absolute inset-x-0 top-0 block h-1/2 animate-[scroll-line_1.8s_ease-in-out_infinite] bg-fg" />
-      </span>
-    </div>
-  );
-}
-
-export function Hero() {
-  return (
-    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden">
-      {/* 3D logo stage */}
-      <motion.div
-        initial={{ opacity: 1, y: 0 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
-        className="absolute inset-0"
-      >
-        <HeroStage />
-      </motion.div>
-
-      {/* Headline (start) + scroll cue (end), anchored to the bottom.
-          pointer-events-none so its tall padding zone doesn't swallow drags on the canvas. */}
-      <div className="container-x pointer-events-none relative z-10 mt-auto flex items-end justify-between gap-6 pb-12 pt-40 sm:pb-16">
+      {/* Content layer */}
+      <div className="container-x relative z-10 flex min-h-[100svh] flex-col pb-12 pt-32 sm:pb-16">
         <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-          className="max-w-2xl text-balance text-h1 font-extrabold leading-[1.02] text-fg"
+          {...rise(0.15)}
+          className="mt-[18vh] max-w-4xl text-balance text-[clamp(2.5rem,7.5vw,6.5rem)] font-light leading-[0.98] tracking-tight text-white sm:mt-[22vh]"
         >
           {hero.headline}
         </motion.h1>
 
-        <div className="hidden sm:block">
-          <ScrollCue />
+        {/* Bottom row: supporting paragraph (start) + discover card (end). */}
+        <div className="mt-auto flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
+          <motion.p
+            {...rise(0.3)}
+            className="max-w-md text-base leading-relaxed text-on-ink/85 sm:text-lg"
+          >
+            {hero.subcopy}
+          </motion.p>
+
+          <motion.a
+            {...rise(0.42)}
+            href={hero.discover.href}
+            className="group flex items-center gap-4 rounded-2xl border border-on-ink/15 bg-ink/40 p-3 pe-5 backdrop-blur-md transition-colors hover:bg-ink/55 sm:max-w-sm"
+          >
+            <div className="min-w-0">
+              <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-on-ink/70">
+                <span className="size-1.5 rounded-full bg-cyan" />
+                {hero.discover.eyebrow}
+              </span>
+              <p className="mt-1.5 text-sm leading-snug text-on-ink sm:text-[0.95rem]">
+                {hero.discover.title}
+              </p>
+            </div>
+            <span className="grid size-16 shrink-0 place-items-center overflow-hidden rounded-xl bg-ink-2 ring-1 ring-on-ink/10">
+              <img
+                src="/clix-logo-3d.webp"
+                alt=""
+                className="h-full w-full object-contain p-2"
+              />
+            </span>
+          </motion.a>
         </div>
       </div>
     </section>
