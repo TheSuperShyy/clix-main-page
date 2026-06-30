@@ -5,11 +5,10 @@
    on.energy-style: clean white · cool near-black type · blue→teal accent · Heebo (RTL)
    ============================================================ */
 @theme {
-  /* Fonts */
-  --font-sans: "Heebo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  /* Apple's UI type: real San Francisco on Apple devices, Inter (SF-Pro lookalike)
-     everywhere else, Heebo to catch Hebrew glyphs SF/Inter don't carry. */
-  --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", "Heebo", system-ui, sans-serif;
+  /* Fonts — Rubik (geometric sans, full Hebrew + Latin) across the whole site. */
+  --font-sans: "Rubik", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Kept as a token for the navbar/wordmark; now also Rubik so the bar matches. */
+  --font-apple: "Rubik", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   /* Surfaces — clean white page with cool off-white panels (on.energy) */
   --color-bg: #ffffff;
@@ -22,6 +21,11 @@
   --color-ink: #0d1117;
   --color-ink-2: #161b22;
   --color-on-ink: #eef2f7;
+
+  /* Graphite — cool charcoal for the on.energy-style gray statement/reveal bands
+     (clearly lighter than pure black so the panel reads as "gray"). */
+  --color-graphite: #20242b;
+  --color-graphite-2: #2a2f38;
 
   /* Lines */
   --color-border: rgba(13, 17, 23, 0.10);

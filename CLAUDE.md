@@ -50,7 +50,7 @@ See [`CONTEXT.md`](./CONTEXT.md) for the full content scrape, design notes, deci
 - **Motion** (Framer Motion) — `import { motion } from "motion/react"`
 - **GSAP** + `@gsap/react` (`useGSAP`) — registered in `src/lib/gsap.ts`
 - **Lenis** — global smooth scroll, synced to GSAP ScrollTrigger
-- **Font:** Heebo (Hebrew), loaded in `index.html`
+- **Font:** Rubik (Hebrew + Latin, whole site), loaded in `index.html`
 
 ## ▶️ Commands
 
