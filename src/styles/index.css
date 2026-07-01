@@ -10,38 +10,54 @@
   /* Kept as a token for the navbar/wordmark; now also Rubik so the bar matches. */
   --font-apple: "Rubik", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* Surfaces — clean white page with cool off-white panels (on.energy) */
-  --color-bg: #ffffff;
-  --color-bg-2: #f6f8fb;
-  --color-surface: #f2f5f9;
+  /* ===== Palette: "Deep Ink + Electric Blue" =====
+     Dark-first (premium) with white "Cloud" cards as the counterbalance,
+     one vivid electric-blue action color + a teal spark. ~70% neutrals /
+     ~25% text / ~5% accent. All fg/bg pairs meet WCAG AA. */
+
+  /* Light neutrals — white "balance" cards */
+  --color-bg: #ffffff;          /* pure white */
+  --color-bg-2: #f2f5fb;        /* fresh pastel base (was the "dirty" Cloud #f6f8fc) */
+  --color-surface: #ebeff6;     /* Mist — pills / inputs on light */
   --color-surface-2: #ffffff;
-  --color-surface-3: #e4e9f0;
+  --color-surface-3: #e1e7f0;
 
-  /* Ink — cool near-black for dark sections / the closing CTA band */
-  --color-ink: #0d1117;
-  --color-ink-2: #161b22;
-  --color-on-ink: #eef2f7;
+  /* ===== Pastel palette (secondary) — airy multi-hue wash from the reference
+     template. Replaces the flat "dirty white" light surface. Four soft corner
+     tints (mint / sky / blush / lavender) over the near-white base; use the
+     `pastel-wash` utility for the gradient, or the flat tints for cards. ===== */
+  --color-tint-mint: #e7f1ea;
+  --color-tint-sky: #e2edf8;
+  --color-tint-blush: #f6e9ea;
+  --color-tint-lavender: #ece8f6;
 
-  /* Graphite — cool charcoal for the on.energy-style gray statement/reveal bands
-     (clearly lighter than pure black so the panel reads as "gray"). */
-  --color-graphite: #20242b;
-  --color-graphite-2: #2a2f38;
+  /* Dark neutrals — deep-ink base + slate elevations */
+  --color-ink: #0b0e14;         /* Ink — page base / gutter */
+  --color-ink-2: #1e2530;       /* Slate-2 — raised chips on dark */
+  --color-on-ink: #e9eef6;      /* text on dark */
+
+  /* Slate — dark card surfaces (keeps the `graphite` token name) */
+  --color-graphite: #141922;    /* Slate */
+  --color-graphite-2: #1e2530;  /* Slate-2 */
 
   /* Lines */
-  --color-border: rgba(13, 17, 23, 0.10);
-  --color-border-strong: rgba(13, 17, 23, 0.22);
+  --color-border: rgba(11, 14, 20, 0.10);
+  --color-border-strong: rgba(11, 14, 20, 0.22);
 
-  /* Text */
-  --color-fg: #0d1117;
-  --color-muted: #515b68;
-  --color-faint: #8a93a1;
+  /* Text (on light surfaces) */
+  --color-fg: #0b0e14;
+  --color-muted: #57617a;
+  --color-faint: #8791a3;
 
-  /* Brand — on.energy blue → teal accent (tunable to the reference screenshot) */
-  --color-brand: #1a5cff;
-  --color-brand-600: #1147cf;
-  --color-brand-300: #6f9bff;
-  --color-cyan: #0fb5bd;
-  --color-cyan-300: #57d3d9;
+  /* Accents — electric blue (primary action) + teal (secondary spark) */
+  --color-brand: #2e5bff;
+  --color-brand-600: #1e44d6;
+  --color-brand-300: #7c9bff;
+  --color-cyan: #17c3ce;
+  --color-cyan-300: #5fdce4;
+
+  /* Semantic */
+  --color-success: #34d399;
 
   /* Radii */
   --radius-xs: 0.375rem;
@@ -51,13 +67,45 @@
   --radius-xl: 1.75rem;
   --radius-2xl: 2.5rem;
 
-  /* Fluid display sizes — SOHub scale: big, confident, heavy */
-  --text-display: clamp(3rem, 9vw, 8rem);
-  --text-display--line-height: 0.92;
-  --text-h1: clamp(2.5rem, 6vw, 5rem);
-  --text-h1--line-height: 1;
-  --text-h2: clamp(2rem, 4.6vw, 3.75rem);
-  --text-h2--line-height: 1.04;
+  /* ===== Global type scale — ONE system for the whole site =====
+     Each role bakes in size + line-height + tracking + weight, so a single
+     Tailwind utility (text-display / text-h1 / text-h2 / text-h3 /
+     text-statement / text-lead) sets size, leading, tracking AND weight at
+     once — no component hand-rolls its own clamp()/weight. Base body is
+     16px / weight 400 / line-height 1.6 (set on <body>); bare <h1>–<h3> tags
+     pick up the matching role via @layer base. */
+
+  /* Headings — heavy, tight */
+  --text-display: clamp(2.75rem, 6.5vw, 5.5rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 800;
+
+  --text-h1: clamp(2.25rem, 5vw, 4.5rem);
+  --text-h1--line-height: 1.04;
+  --text-h1--letter-spacing: -0.025em;
+  --text-h1--font-weight: 800;
+
+  --text-h2: clamp(1.75rem, 3.6vw, 3rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 800;
+
+  --text-h3: clamp(1.3rem, 2.3vw, 1.85rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.015em;
+  --text-h3--font-weight: 700;
+
+  /* Editorial statement — large but medium weight (the ZettaJoule look) */
+  --text-statement: clamp(1.6rem, 2.9vw, 2.7rem);
+  --text-statement--line-height: 1.24;
+  --text-statement--letter-spacing: -0.01em;
+  --text-statement--font-weight: 500;
+
+  /* Lead — prominent supporting paragraph */
+  --text-lead: clamp(1.0625rem, 1.4vw, 1.3125rem);
+  --text-lead--line-height: 1.55;
+  --text-lead--font-weight: 400;
 
   /* Easing + timing tokens */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -104,14 +152,27 @@
     scrollbar-width: none;
   }
 
+  html {
+    /* Refined dark page backdrop for the floating-card layout (cool near-black,
+       not harsh pure black) — also stops a white flash on overscroll. */
+    background-color: var(--color-ink);
+  }
+
   body {
-    background-color: var(--color-bg);
+    background-color: var(--color-ink);
     color: var(--color-fg);
     font-family: var(--font-sans);
-    font-weight: 400;
+    font-size: 1rem;        /* 16px base — global body size */
+    font-weight: 400;       /* global body weight */
+    line-height: 1.6;       /* global body leading */
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    overflow-x: hidden;
+    /* NOTE: do NOT set overflow-x here. `overflow-x: hidden` — and even
+       `overflow-x: clip` (which computes to hidden/auto when overflow-y is
+       visible) — makes <body> a scroll container, which breaks GSAP
+       ScrollTrigger `position: fixed` pinning and silently disables the pinned
+       scrub sections (#zoom zoom-to-fullscreen, #reveal frame-scrub). Keep body
+       overflow visible; the floating-card layout doesn't overflow horizontally. */
   }
 
   ::selection {
@@ -119,10 +180,26 @@
     color: var(--color-fg);
   }
 
-  /* Headings: tight tracking, heavy weight for the SOHub mood */
-  h1, h2, h3 {
+  /* Headings pick up their scale role by tag — size + leading + tracking +
+     weight all come from the type tokens above, so a bare <h1>/<h2>/<h3> is
+     already consistent even without a utility class. */
+  h1 {
+    font-size: var(--text-h1);
+    line-height: 1.04;
     letter-spacing: -0.025em;
     font-weight: 800;
+  }
+  h2 {
+    font-size: var(--text-h2);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+  h3 {
+    font-size: var(--text-h3);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    font-weight: 700;
   }
 
   /* Hide the native scrollbar (Chrome/Safari/Edge) — Lenis provides scrolling. */
@@ -152,7 +229,11 @@ html.lenis body { height: auto; }
   width: 100%;
   margin-inline: auto;
   max-width: 96rem; /* 1536px — wider so the left/right gaps (the centering margin) shrink */
-  padding-inline: 1rem;
+  /* Global content inset — ONE consistent right-side (RTL start) text gap for
+     every section, matched to the hero. Baked in here so all text lines up
+     (was a per-section `ps-*`). End stays 1rem; start grows 1rem→1.5rem. */
+  padding-inline-end: 1rem;
+  padding-inline-start: clamp(1.25rem, 1.8vw + 0.5rem, 2.25rem);
 }
 
 @utility text-gradient {
@@ -160,6 +241,18 @@ html.lenis body { height: auto; }
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Pastel wash — the reference template's airy light background: a near-white
+   base with four soft corner tints (mint TL · sky TR · blush BR · lavender BL).
+   The secondary light surface across the site (replaces the flat dirty-white). */
+@utility pastel-wash {
+  background-color: var(--color-bg-2);
+  background-image:
+    radial-gradient(55% 55% at 8% 4%, rgba(120, 190, 150, 0.24), transparent 62%),
+    radial-gradient(55% 55% at 94% 12%, rgba(135, 175, 235, 0.24), transparent 62%),
+    radial-gradient(52% 52% at 88% 90%, rgba(232, 165, 180, 0.20), transparent 62%),
+    radial-gradient(55% 55% at 12% 94%, rgba(170, 150, 220, 0.20), transparent 62%);
 }
 
 @utility surface-card {
@@ -186,6 +279,15 @@ html.lenis body { height: auto; }
   background-size: 44px 44px;
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+/* Eyebrow / kicker label — one consistent small-caps label across the site. */
+@utility eyebrow {
+  font-size: 0.6875rem; /* 11px */
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 /* Tabular figures for metrics/years */

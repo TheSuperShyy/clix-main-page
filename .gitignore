@@ -31,3 +31,6 @@ dist-ssr
 /clix-vid.mp4
 /hero-video/
 /storyboard-frames/matte/
+# 3D workflow render stills + source diagram (site uses public/workflow-montage.mp4).
+/workflow-3d/
+/workflow.png

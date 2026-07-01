@@ -2,19 +2,19 @@ import { motion, useReducedMotion } from "motion/react";
 import { valueProp } from "../data/content";
 
 /**
- * ValueProp — the bold statement section right after the hero
- * (on.energy's accent band). It's NOT full-bleed: a charcoal-gray rounded
- * card floats on a black backdrop with a small gap on every side, so the
- * black shows through the rounded corners and side margins. The navbar
- * detects this dark section (#intro) and keeps its tabs light over it.
+ * ValueProp — the bold statement section right after the hero. It's the WHITE
+ * balance card: an off-white rounded card (dark text) floating on the refined
+ * dark (ink) backdrop, so it pops as a bright break between the dark hero and
+ * the dark zoom section. The navbar uses its dark treatment over it (#intro is
+ * NOT in the navbar's DARK_SECTIONS anymore).
  */
 export function ValueProp() {
   const reduced = useReducedMotion();
 
   return (
-    <section id="intro" className="bg-black p-2 sm:p-2.5">
-      <div className="overflow-hidden rounded-[1.5rem] bg-graphite text-white">
-        <div className="container-x flex min-h-[80svh] flex-col justify-center py-[22vh] sm:py-[26vh] sm:ps-8 lg:ps-24">
+    <section id="intro" className="bg-ink p-2 sm:p-2.5">
+      <div className="overflow-hidden rounded-[1.5rem] bg-bg-2 text-fg">
+        <div className="container-x flex min-h-[calc(100svh-1.5rem)] flex-col justify-center py-[18vh] sm:py-[22vh] sm:ps-8 lg:ps-24">
           <motion.p
             initial={reduced ? false : { opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
