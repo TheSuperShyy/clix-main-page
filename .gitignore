@@ -34,3 +34,5 @@ dist-ssr
 # 3D workflow render stills + source diagram (site uses public/workflow-montage.mp4).
 /workflow-3d/
 /workflow.png
+# Voice-AI waveform working stills (site uses the extracted frames in public/voice/).
+/voice-tower/

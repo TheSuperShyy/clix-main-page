@@ -58,9 +58,9 @@ export function Hero() {
   });
 
   return (
-    <section id="top" className="bg-ink p-2 sm:p-2.5">
-      {/* Floating card — full-bleed video clipped to the rounded card. */}
-      <div className="relative flex min-h-[calc(100svh-1.5rem)] flex-col overflow-hidden rounded-[1.5rem] bg-ink text-on-ink">
+    <section id="top" className="bg-ink">
+      {/* Full-bleed hero — merged into the continuous page (no card gutter). */}
+      <div className="relative flex min-h-svh flex-col overflow-hidden bg-ink text-on-ink">
       {/* Full-bleed looping video — stitched montage (macrostar → macroarrow → lowhero → lockup).
           poster = a bright opening frame so the hero never paints black before/without playback
           (autoplay can be deferred or blocked); videoRef + onCanPlay nudge play() to be safe. */}

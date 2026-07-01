@@ -73,7 +73,7 @@ export const stack = {
     "אנחנו מחברים את כל המערכות שלכם לליבה אחת חכמה, שמבינה הקשר ופועלת אוטומטית.",
   ctas: [
     { label: "בואו נתחיל", href: "#contact", primary: true },
-    { label: "לכל היכולות שלנו", href: "#services", primary: false },
+    { label: "גלו את Clix לעומק", href: "#services", primary: false },
   ],
   // Tools Clix connects & automates. `tint` picks a pastel card color; `mono`
   // is the placeholder glyph until a real brand logo (/logos/*.svg) drops in.
@@ -135,6 +135,12 @@ export const voiceAI = {
   title: "סוכנים קוליים שמנהלים את כל השיחה.",
   body: "הסוכן עונה לשיחות נכנסות, מאמת לידים, קובע פגישות ומעביר שיחות לנציג אנושי כשצריך, בלי להחמיץ אף הזדמנות.",
   cta: { label: "בנו את הסוכן הקולי שלכם", href: "#contact" },
+  // ZettaJoule-style spec block flanking the scroll-scrub waveform (top · RTL end).
+  specs: [
+    { k: "סוג סוכן", v: "קולי · זמן־אמת" },
+    { k: "שפות", v: "עברית · אנגלית · ערבית" },
+    { k: "זמן תגובה", v: "עד 500ms" },
+  ],
   points: [
     "מענה אנושי וטבעי בעברית",
     "אינטגרציה ישירה ל-CRM וליומן",
