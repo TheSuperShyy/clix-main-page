@@ -107,11 +107,9 @@ export function ScrollReveal() {
   );
 
   return (
-    <section
-      ref={sectionRef}
-      id="reveal"
-      className="relative h-[100svh] overflow-hidden bg-graphite text-white"
-    >
+    <section ref={sectionRef} id="reveal" className="bg-black p-2 sm:p-2.5">
+      {/* Floating card — the scroll-scrubbed canvas clipped to the rounded card. */}
+      <div className="relative h-[calc(100svh-1.5rem)] overflow-hidden rounded-[1.5rem] bg-graphite text-white">
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-hidden />
 
       {/* Legibility scrims: darken the start side (text) and the top (navbar). */}
@@ -136,6 +134,7 @@ export function ScrollReveal() {
         <p className="mt-6 max-w-md text-base leading-relaxed text-white/70 sm:text-lg">
           {stack.subtitle}
         </p>
+      </div>
       </div>
     </section>
   );

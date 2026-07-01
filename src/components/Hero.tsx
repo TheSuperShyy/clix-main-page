@@ -1,7 +1,6 @@
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { hero } from "../data/content";
-import { gsap, ScrollTrigger, useGSAP } from "../lib/gsap";
 
 /**
  * Hero — on.energy-style full-bleed dark hero.
@@ -10,12 +9,10 @@ import { gsap, ScrollTrigger, useGSAP } from "../lib/gsap";
  *      large light headline (inline-start), supporting paragraph at the
  *      bottom-start corner, a "discover" glass card at the bottom-end corner.
  *  • Top + bottom scrims keep the navbar and copy legible over the footage.
- *  • framer-motion mount stagger; honours prefers-reduced-motion
- *    (the video does not autoplay/loop when reduced motion is requested).
+ *  • framer-motion mount stagger; honours prefers-reduced-motion.
  */
 export function Hero() {
   const reduced = useReducedMotion();
-  const fadeRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Reliable muted-autoplay. The ambient background loop is silent and always
@@ -53,27 +50,6 @@ export function Hero() {
     return cleanup;
   }, []);
 
-  // The bottom fade is hidden at the top of the hero and scrubs in as you
-  // scroll down (scroll-driven → GSAP ScrollTrigger, synced to Lenis).
-  useGSAP(() => {
-    const el = fadeRef.current;
-    if (!el) return;
-    if (reduced) {
-      gsap.set(el, { opacity: 0.85 }); // static fade when motion is reduced
-      return;
-    }
-    gsap.set(el, { opacity: 0 });
-    // Start the fade once you're ~25% into the hero and reach full black by the
-    // time the hero bottom clears the top — so the scroll-OUT reads clearly.
-    ScrollTrigger.create({
-      trigger: "#top",
-      start: "top top-=25%",
-      end: "bottom top",
-      scrub: true,
-      animation: gsap.to(el, { opacity: 1, ease: "none" }),
-    });
-  }, [reduced]);
-
   // Shared mount transition — entrance from below, expo-out.
   const rise = (delay: number) => ({
     initial: reduced ? false : { opacity: 0, y: 26 },
@@ -82,10 +58,9 @@ export function Hero() {
   });
 
   return (
-    <section
-      id="top"
-      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink text-on-ink"
-    >
+    <section id="top" className="bg-ink p-2 sm:p-2.5">
+      {/* Floating card — full-bleed video clipped to the rounded card. */}
+      <div className="relative flex min-h-[calc(100svh-1.5rem)] flex-col overflow-hidden rounded-[1.5rem] bg-ink text-on-ink">
       {/* Full-bleed looping video — stitched montage (macrostar → macroarrow → lowhero → lockup).
           poster = a bright opening frame so the hero never paints black before/without playback
           (autoplay can be deferred or blocked); videoRef + onCanPlay nudge play() to be safe. */}
@@ -108,25 +83,19 @@ export function Hero() {
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-ink/75 to-transparent"
       />
-      {/* Bottom fade — sits ABOVE the content (z-20) so it fades the video AND
-          the text into black toward the bottom, as one overlay over the page.
-          pointer-events-none keeps the discover card / links clickable. */}
+      {/* Always-on bottom edge scrim — fades the video's hard bottom edge into
+          solid black so the cutoff is never visible and it blends seamlessly into
+          the black backdrop of the value-prop band below. Sits below the content
+          layer (z-10) so the discover card + copy stay crisp. */}
       <div
-        ref={fadeRef}
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[90%]"
-        style={{
-          opacity: 0,
-          background:
-            "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 24%, rgba(0,0,0,0.82) 48%, rgba(0,0,0,0.45) 74%, transparent 100%)",
-        }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-ink via-ink/70 to-transparent"
       />
-
       {/* Content layer */}
-      <div className="container-x relative z-10 flex min-h-[100svh] flex-col pb-12 pt-32 sm:pb-16 sm:ps-8 lg:ps-24">
+      <div className="container-x relative z-10 flex flex-1 flex-col pb-5 pt-32 sm:pb-6">
         <motion.h1
           {...rise(0.15)}
-          className="mt-[18vh] max-w-3xl text-balance text-[clamp(2rem,5.5vw,4.5rem)] leading-[1.02] tracking-tight text-white sm:mt-[22vh]"
+          className="mt-[18vh] max-w-3xl text-balance text-h1 text-white sm:mt-[22vh]"
         >
           {hero.headline}
         </motion.h1>
@@ -135,7 +104,7 @@ export function Hero() {
         <div className="mt-auto flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
           <motion.p
             {...rise(0.3)}
-            className="max-w-md text-base leading-relaxed text-on-ink/85 sm:text-lg"
+            className="max-w-md text-lead text-on-ink/85"
           >
             {hero.subcopy}
           </motion.p>
@@ -146,7 +115,7 @@ export function Hero() {
             className="group flex items-center gap-4 rounded-[14px] border border-on-ink/15 bg-ink/40 p-3.5 backdrop-blur-md transition-colors hover:bg-ink/55 sm:max-w-[306px]"
           >
             <div className="min-w-0">
-              <span className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-on-ink/70">
+              <span className="eyebrow flex items-center gap-2 text-on-ink/70">
                 <span className="size-1.5 rounded-full bg-cyan" />
                 {hero.discover.eyebrow}
               </span>
@@ -163,6 +132,7 @@ export function Hero() {
             </span>
           </motion.a>
         </div>
+      </div>
       </div>
     </section>
   );

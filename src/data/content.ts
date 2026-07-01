@@ -65,24 +65,29 @@ export const valueProp = {
 
 export const stack = {
   eyebrow: "הסטאק",
-  title: "כל הכלים שאתם משתמשים בהם, מזינים מוח אחד",
+  index: "02",
+  // Split headline: base (near-black) + accent (blue) — like the reference.
+  title: "כל הכלים שאתם משתמשים בהם",
+  titleAccent: "מזינים מוח אחד.",
   subtitle:
     "אנחנו מחברים את כל המערכות שלכם לליבה אחת חכמה, שמבינה הקשר ופועלת אוטומטית.",
-  coreLabel: "Clix Core",
-  coreSub: "מוח אחד",
-  integrations: [
-    "OpenAI",
-    "Claude",
-    "Gemini",
-    "Vapi",
-    "n8n",
-    "Make",
-    "WhatsApp",
-    "Twilio",
-    "HubSpot",
-    "Slack",
-    "Notion",
-    "Zapier",
+  ctas: [
+    { label: "בואו נתחיל", href: "#contact", primary: true },
+    { label: "לכל היכולות שלנו", href: "#services", primary: false },
+  ],
+  // Tools Clix connects & automates. `tint` picks a pastel card color; `mono`
+  // is the placeholder glyph until a real brand logo (/logos/*.svg) drops in.
+  tools: [
+    { name: "OpenAI", mono: "O", tint: "mint" },
+    { name: "Claude", mono: "C", tint: "blush" },
+    { name: "Gemini", mono: "G", tint: "sky" },
+    { name: "Vapi", mono: "V", tint: "lavender" },
+    { name: "n8n", mono: "n8n", tint: "blush" },
+    { name: "Make", mono: "M", tint: "lavender" },
+    { name: "WhatsApp", mono: "W", tint: "mint" },
+    { name: "Google Calendar", mono: "31", tint: "sky" },
+    { name: "monday.com", mono: "m", tint: "blush" },
+    { name: "HubSpot", mono: "H", tint: "sky" },
   ],
 } as const;
 
@@ -126,13 +131,25 @@ export const services = {
 
 export const voiceAI = {
   eyebrow: "Voice AI",
-  title: "סוכנים קוליים שמנהלים את כל השיחה",
-  body: "Voice AI ברמת ייצור לצוותים מודרניים. הסוכן עונה לשיחות נכנסות, מאמת לידים, קובע פגישות ומעביר שיחות לנציג אנושי כשצריך, בלי להחמיץ אף הזדמנות.",
+  kicker: "Voice AI ברמת ייצור לצוותים מודרניים.",
+  title: "סוכנים קוליים שמנהלים את כל השיחה.",
+  body: "הסוכן עונה לשיחות נכנסות, מאמת לידים, קובע פגישות ומעביר שיחות לנציג אנושי כשצריך, בלי להחמיץ אף הזדמנות.",
+  cta: { label: "בנו את הסוכן הקולי שלכם", href: "#contact" },
   points: [
     "מענה אנושי וטבעי בעברית",
     "אינטגרציה ישירה ל-CRM וליומן",
     "תמלול וסיכום אוטומטי של כל שיחה",
   ],
+  // Labels for the phone-call demo mock.
+  demo: {
+    agent: "Clix · סוכן קולי",
+    status: "שיחה נכנסת · הכשרת לידים",
+    timer: "00:00",
+    timerLabel: "משך השיחה",
+    mute: "השתקה",
+    badge: "Voice AI · הדגמה בזמן אמת",
+    recommend: "מומלץ",
+  },
   panelTitle: "לוח בקרה · חי",
   metrics: [
     { value: 1200, display: "1.2k", label: "שיחות שנסגרו" },
@@ -140,6 +157,22 @@ export const voiceAI = {
     { value: 99.9, suffix: "%", label: "זמינות" },
     { value: 24, prefix: "+", suffix: "%", label: "שיעור סגירה" },
   ],
+} as const;
+
+// "AI-as-a-Service" editorial band, modeled on the ZettaJoule / on.energy
+// "24/7 Clean Energy as a Service" section: a light large statement heading +
+// two supporting paragraphs + an arrow-box → pill CTA on the text side, and a
+// big 3D isometric visual on the other side. RTL → the visual sits on the LEFT.
+export const managedAI = {
+  eyebrow: "AI as a Service",
+  title: "בינה מלאכותית כשירות, מסביב לשעון.",
+  body1:
+    "אנחנו מספקים ללקוחות שלנו מגוון יתרונות תפעוליים ועסקיים, כולל האפשרות פשוט ליהנות מהתוצאות, בלי לנהל את המערכת בעצמכם.",
+  body2:
+    "בגישת ה-AI-as-a-Service, אנחנו בונים, מתפעלים ומתחזקים את מערכות הבינה שלכם, ומשחררים אתכם מכל המורכבות של הפעלת AI ברמת ייצור.",
+  cta: { label: "דברו עם הצוות שלנו", href: "#contact" },
+  // Looping 3D workflow-montage render (public/workflow-montage.mp4).
+  video: { src: "/workflow-montage.mp4", alt: "מפת זרימת עבודה תלת-ממדית של מערכות Clix" },
 } as const;
 
 export const webMobile = {

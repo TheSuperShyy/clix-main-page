@@ -5,8 +5,9 @@ import { SectionHeading } from "./ui/SectionHeading";
 
 export function Testimonials() {
   return (
-    <section id="testimonials" className="relative scroll-mt-24 py-24 sm:py-32">
-      <div className="container-x">
+    <section id="testimonials" className="relative z-10 scroll-mt-24 bg-ink p-2 sm:p-2.5">
+      <div className="pastel-wash overflow-hidden rounded-[1.5rem]">
+      <div className="container-x py-24 sm:py-32">
         <SectionHeading
           align="center"
           eyebrow={testimonials.eyebrow}
@@ -46,6 +47,7 @@ export function Testimonials() {
             </motion.figure>
           ))}
         </motion.div>
+      </div>
       </div>
     </section>
   );

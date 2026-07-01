@@ -146,8 +146,9 @@ function NavTab({
   );
 }
 
-// Full-bleed dark sections (after the hero) where the bar must stay light.
-const DARK_SECTIONS = ["#intro", "#reveal"];
+// Full-bleed DARK sections (after the hero) where the bar must stay light.
+// (#intro is now a white card → the bar uses its dark treatment over it.)
+const DARK_SECTIONS = ["#zoom"];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
