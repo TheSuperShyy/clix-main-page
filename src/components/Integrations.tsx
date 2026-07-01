@@ -22,8 +22,10 @@ export function Integrations() {
   const reduced = useReducedMotion();
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Reliable muted autoplay (React doesn't set the muted *property*; autoplay
-  // may be deferred). Retry on canplay + first interaction.
+  // Reliable muted autoplay. React doesn't set the muted *property* and browsers
+  // often defer/block a play() fired before the element is on-screen — so we set
+  // muted imperatively, call play() when the video scrolls INTO view (Intersection
+  // Observer), and also retry on canplay + first user interaction.
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -31,16 +33,30 @@ export function Integrations() {
     v.defaultMuted = true;
     let started = false;
     const events = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"] as const;
-    const cleanup = () => {
-      v.removeEventListener("canplay", tryPlay);
-      events.forEach((e) => window.removeEventListener(e, tryPlay));
-    };
+
     const tryPlay = () => {
       if (started) return;
-      v.play().then(() => { started = true; cleanup(); }, () => {});
+      v.muted = true;
+      const p = v.play();
+      if (p) p.then(() => { started = true; cleanup(); }, () => {});
     };
+
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => e.isIntersecting && tryPlay()),
+      { threshold: 0.1 }
+    );
+    io.observe(v);
+
+    const cleanup = () => {
+      io.disconnect();
+      v.removeEventListener("canplay", tryPlay);
+      v.removeEventListener("loadeddata", tryPlay);
+      events.forEach((e) => window.removeEventListener(e, tryPlay));
+    };
+
     tryPlay();
     v.addEventListener("canplay", tryPlay);
+    v.addEventListener("loadeddata", tryPlay);
     events.forEach((e) => window.addEventListener(e, tryPlay, { passive: true }));
     return cleanup;
   }, []);
@@ -55,8 +71,8 @@ export function Integrations() {
   const explore = stack.ctas[1] ?? stack.ctas[0];
 
   return (
-    <section id="integrations" className="relative z-10 bg-ink p-2 sm:p-2.5">
-      <div className="relative overflow-hidden rounded-[1.5rem] bg-bg text-fg">
+    <section id="integrations" className="relative z-10 bg-ink">
+      <div className="relative overflow-hidden bg-bg text-fg">
         <div className="container-x py-20 sm:py-28 lg:py-32">
           {/* Top row — heading (start / right) · paragraph + CTA (end / left) */}
           <div className="grid gap-x-12 gap-y-8 lg:grid-cols-2 lg:items-start">
@@ -85,10 +101,11 @@ export function Integrations() {
             </div>
           </div>
 
-          {/* Full-width visual below (frosted-glass workflow-montage). */}
+          {/* Visual below (frosted-glass workflow-montage) — constrained, centered
+             so it reads as a contained figure rather than a full-bleed banner. */}
           <motion.div
             {...rise(0.1)}
-            className="mt-14 overflow-hidden rounded-2xl border border-border sm:mt-16"
+            className="mx-auto mt-14 max-w-4xl overflow-hidden border border-border sm:mt-16"
           >
             <video
               ref={videoRef}
