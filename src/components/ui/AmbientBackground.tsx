@@ -2,13 +2,19 @@
 export function AmbientBackground() {
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-bg">
+      {/* The voice-wave spectrum, exploded across the page: blue (top-right) →
+          teal (center) → green (bottom-left). */}
       <div
         className="absolute -top-[15%] right-[-12%] h-[58vh] w-[58vh] rounded-full opacity-30 blur-[130px]"
         style={{ background: "radial-gradient(circle, var(--color-brand), transparent 70%)" }}
       />
       <div
-        className="absolute bottom-[-18%] left-[-12%] h-[52vh] w-[52vh] rounded-full opacity-20 blur-[130px]"
+        className="absolute left-1/2 top-1/3 h-[46vh] w-[46vh] -translate-x-1/2 rounded-full opacity-[0.16] blur-[140px]"
         style={{ background: "radial-gradient(circle, var(--color-cyan), transparent 70%)" }}
+      />
+      <div
+        className="absolute bottom-[-18%] left-[-12%] h-[52vh] w-[52vh] rounded-full opacity-20 blur-[130px]"
+        style={{ background: "radial-gradient(circle, var(--color-green), transparent 70%)" }}
       />
       <div
         className="absolute inset-0 opacity-[0.04]"

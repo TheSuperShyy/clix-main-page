@@ -14,7 +14,7 @@ function DeviceMock() {
           <span className="ms-3 h-5 flex-1 rounded-md bg-bg/60" />
         </div>
         <div className="space-y-4 p-5">
-          <div className="h-28 rounded-xl bg-gradient-to-br from-brand/30 via-surface-2 to-cyan/20" />
+          <div className="h-28 rounded-xl bg-gradient-to-br from-brand/30 via-cyan/15 to-green/25" />
           <div className="grid grid-cols-3 gap-3">
             <div className="h-16 rounded-lg bg-surface-2" />
             <div className="h-16 rounded-lg bg-surface-2" />
@@ -28,7 +28,7 @@ function DeviceMock() {
       {/* phone overlap */}
       <div className="absolute -bottom-8 start-[-12px] hidden w-28 rounded-[1.6rem] border border-border-strong bg-bg p-1.5 shadow-2xl sm:block">
         <div className="overflow-hidden rounded-[1.2rem] bg-surface">
-          <div className="h-16 bg-gradient-to-br from-cyan/30 to-brand/30" />
+          <div className="h-16 bg-gradient-to-br from-green/30 via-cyan/25 to-brand/30" />
           <div className="space-y-2 p-3">
             <div className="h-2.5 w-full rounded-full bg-surface-3" />
             <div className="h-2.5 w-2/3 rounded-full bg-surface-3" />

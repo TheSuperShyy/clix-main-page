@@ -45,9 +45,18 @@ export const hero = {
   wordmark: "clix",
   // Lower-start headline (SOHub: "Your story builds our history.")
   headline: "מערכות AI מהונדסות לעסק שלכם.",
+  // Display split — the reference headline is two lines. `headline` stays the
+  // full accessible sentence (used as the h1 aria-label); these are the visual
+  // lines rendered in the hero.
+  headlineLines: ["מערכות AI מהונדסות", "לעסק שלכם."],
   // Bottom-corner supporting line (on.energy: "ON.energy builds and operates…")
   subcopy:
     "Clix בונה ומתפעלת מערכות AI מהונדסות, סוכנים קוליים, אוטומציות ומוצרים דיגיטליים שפותרים את האתגרים האמיתיים של העסק.",
+  // Bottom-end action cluster (AI-Finance reference: "Sign Up" + "Discover More").
+  ctas: [
+    { label: "בואו נדבר", href: "#contact", primary: true },
+    { label: "גלו עוד", href: "#services", primary: false },
+  ],
   // Bottom-corner "discover" card (on.energy: the DISCOVER AI UPS card)
   discover: {
     eyebrow: "AI קולי",
@@ -71,12 +80,41 @@ export const stack = {
   titleAccent: "מזינים מוח אחד.",
   subtitle:
     "אנחנו מחברים את כל המערכות שלכם לליבה אחת חכמה, שמבינה הקשר ופועלת אוטומטית.",
+  // Second paragraph for the static integration-showcase band (reference-style).
+  body:
+    "כל כלי מדבר עם האחרים דרך שכבת אוטומציה אחת — בלי העברות ידניות ובלי מידע שהולך לאיבוד. הליבה מבינה הקשר, מקבלת החלטות בזמן אמת, ומתעדכנת מעצמה ככל שהעסק גדל.",
+  // --- "One brain" orbit (Integrations section) — repositioned as the SERVICES
+  //     INTRO for #services. Self-contained copy: it renders `kicker` + the intro*
+  //     fields below, NOT the shared `title`/`subtitle` (those stay ZoomReveal's,
+  //     and `title`/`titleAccent` are also read by the parked Stack/ScrollReveal).
+  // Small-caps kicker above the heading on the light orbit band.
+  kicker: "השירותים שלנו · ליבה אחת",
+  // Split headline (base near-black + gradient accent) + lead. The subtitle
+  // previews the four service categories that orbit the core — the same four as
+  // the `pillars` ring and the Services section — so the band reads as the lead-in.
+  introTitle: "כל היכולות שהעסק שלכם צריך,",
+  introTitleAccent: "מהונדסות לליבה אחת.",
+  introSubtitle:
+    "סוכנים קוליים, אפליקציות ואתרים, אוטומציות ומערכות CRM — אנחנו מהנדסים את כל השירותים סביב ליבת AI אחת, שמבינה הקשר ופועלת אוטומטית.",
+  // The four capability pillars that orbit the central "one brain" core
+  // (the CyberCrest orbit-label analog). Short labels so the ring nodes stay tidy.
+  pillars: [
+    { label: "סוכנים קוליים", icon: "voice" },
+    { label: "אפליקציות ואתרים", icon: "code" },
+    { label: "אוטומציות", icon: "automation" },
+    { label: "CRM ו-WhatsApp", icon: "crm" },
+  ],
+  // Lead for the platform credential strip at the bottom (CyberCrest's badge row).
+  integratesLabel: "בנוי על ומחובר ל־",
+  // Alt text for the central 3D emblem (the "one brain" core).
+  emblemAlt: "הליבה החכמה של Clix — מוח אחד",
   ctas: [
     { label: "בואו נתחיל", href: "#contact", primary: true },
     { label: "גלו את Clix לעומק", href: "#services", primary: false },
   ],
-  // Tools Clix connects & automates. `tint` picks a pastel card color; `mono`
-  // is the placeholder glyph until a real brand logo (/logos/*.svg) drops in.
+  // Tools Clix connects & automates. The Integrations marquee renders real
+  // brand marks via <BrandMark> (simple-icons, keyed by `name`); `mono`/`tint`
+  // only feed the parked Stack.tsx cards.
   tools: [
     { name: "OpenAI", mono: "O", tint: "mint" },
     { name: "Claude", mono: "C", tint: "blush" },

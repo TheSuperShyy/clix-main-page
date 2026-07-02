@@ -36,7 +36,7 @@ export function Testimonials() {
               </span>
               <blockquote className="text-lg leading-relaxed text-fg/90">{t.quote}</blockquote>
               <figcaption className="mt-6 flex items-center gap-3 border-t border-border pt-5">
-                <span className="grid size-11 place-items-center rounded-full bg-gradient-to-br from-brand to-cyan text-sm font-bold text-bg">
+                <span className="brand-gradient grid size-11 place-items-center rounded-full text-sm font-bold text-bg">
                   {t.name.charAt(0)}
                 </span>
                 <span>

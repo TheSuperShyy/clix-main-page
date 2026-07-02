@@ -10,10 +10,11 @@
   /* Kept as a token for the navbar/wordmark; now also Rubik so the bar matches. */
   --font-apple: "Rubik", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* ===== Palette: "Deep Ink + Electric Blue" =====
-     Dark-first (premium) with white "Cloud" cards as the counterbalance,
-     one vivid electric-blue action color + a teal spark. ~70% neutrals /
-     ~25% text / ~5% accent. All fg/bg pairs meet WCAG AA. */
+  /* ===== Palette: "Deep Ink + Voice-Wave Spectrum" =====
+     Dark-first (premium) with white "Cloud" cards as the counterbalance.
+     The accent is the Clix voice-wave spectrum — electric blue → teal → green —
+     sampled from the brand waveform. ~70% neutrals / ~25% text / ~5% accent.
+     All fg/bg text pairs meet WCAG AA (teal/green stay decorative). */
 
   /* Light neutrals — white "balance" cards */
   --color-bg: #ffffff;          /* pure white */
@@ -49,12 +50,18 @@
   --color-muted: #57617a;
   --color-faint: #8791a3;
 
-  /* Accents — electric blue (primary action) + teal (secondary spark) */
-  --color-brand: #2e5bff;
-  --color-brand-600: #1e44d6;
-  --color-brand-300: #7c9bff;
-  --color-cyan: #17c3ce;
+  /* Accents — the brand "voice-wave" spectrum: electric blue → teal → green.
+     Sampled from the Clix waveform (deep blue left · teal center · green right).
+     Blue is the primary ACTION color; teal + green are the gradient spark.
+     Solo-on-white, only `brand`/`brand-600` meet AA for text — teal + green are
+     decorative (gradients, glows), exactly as teal was before. */
+  --color-brand: #2454f5;        /* electric blue — primary action */
+  --color-brand-600: #1a3ad6;    /* deeper blue — hover / press */
+  --color-brand-300: #7c9bff;    /* soft blue — tints / labels on dark */
+  --color-cyan: #13bcc8;         /* teal — spectrum midpoint */
   --color-cyan-300: #5fdce4;
+  --color-green: #21c46e;        /* green — spectrum end (waveform right) */
+  --color-green-300: #5cdd97;
 
   /* Semantic */
   --color-success: #34d399;
@@ -101,6 +108,13 @@
   --text-statement--line-height: 1.24;
   --text-statement--letter-spacing: -0.01em;
   --text-statement--font-weight: 500;
+
+  /* Hero statement — the editorial statement a notch larger, for the hero
+     headline only (tighter leading/tracking as larger display type wants). */
+  --text-hero-statement: clamp(2.1rem, 3.8vw, 3.75rem);
+  --text-hero-statement--line-height: 1.15;
+  --text-hero-statement--letter-spacing: -0.015em;
+  --text-hero-statement--font-weight: 500;
 
   /* Lead — prominent supporting paragraph */
   --text-lead: clamp(1.0625rem, 1.4vw, 1.3125rem);
@@ -238,10 +252,27 @@ html.lenis body { height: auto; }
 }
 
 @utility text-gradient {
-  background-image: linear-gradient(100deg, var(--color-brand), var(--color-cyan));
+  /* The full voice-wave sweep: electric blue → teal → green. */
+  background-image: linear-gradient(
+    100deg,
+    var(--color-brand),
+    var(--color-cyan) 52%,
+    var(--color-green)
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* The brand spectrum as a solid fill (chips, avatars, key bars) — the same
+   blue → teal → green sweep as `text-gradient`, one class. */
+@utility brand-gradient {
+  background-image: linear-gradient(
+    120deg,
+    var(--color-brand),
+    var(--color-cyan) 52%,
+    var(--color-green)
+  );
 }
 
 /* Pastel wash — the reference template's airy light background: a near-white

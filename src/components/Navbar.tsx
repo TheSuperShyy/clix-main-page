@@ -146,27 +146,20 @@ function NavTab({
   );
 }
 
-// Full-bleed DARK sections (after the hero) where the bar must stay light.
-// (#intro is now a white card → the bar uses its dark treatment over it.)
-const DARK_SECTIONS = ["#zoom"];
+// Full-bleed DARK bands where the bar must stay light. The hero is now a
+// WHITE sheet (podium-style logo-hole zoom), so the bar starts dark-on-light;
+// #hero-inside is the hero's own end-of-zoom marker (viewer "inside" the
+// dark video) and #zoom is the dark zoom-reveal section.
+const DARK_SECTIONS = ["#hero-inside", "#zoom"];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
-  // Has the hero scrolled past the navbar?
-  const [scrolled, setScrolled] = useState(false);
-  // Is the navbar currently over one of the dark sections (#intro / #reveal)?
+  // Is the navbar currently over one of the dark sections?
   const [onDark, setOnDark] = useState(false);
   const darkFlags = useRef<Record<string, boolean>>({});
   const reduced = useReducedMotion();
 
   useGSAP(() => {
-    // Past the hero → the navbar is over the light body.
-    const heroST = ScrollTrigger.create({
-      trigger: "#top",
-      start: "bottom top+=80",
-      onEnter: () => setScrolled(true),
-      onLeaveBack: () => setScrolled(false),
-    });
     // Over any dark section → keep the glass tabs light (don't switch to the
     // dark-on-light treatment). Track each, then OR them together.
     const darkSTs = DARK_SECTIONS.map((sel) =>
@@ -181,7 +174,6 @@ export function Navbar() {
       }),
     );
     return () => {
-      heroST.kill();
       darkSTs.forEach((st) => st.kill());
     };
   }, []);
@@ -193,9 +185,9 @@ export function Navbar() {
     };
   }, [open]);
 
-  // Tabs/menu use the dark (on-light-body) treatment only when NOT over the hero
-  // and NOT over a dark section — both of those keep the light glass treatment.
-  const darkNav = scrolled && !onDark;
+  // Tabs/menu use the dark (on-light-body) treatment everywhere except over
+  // the dark bands — the white hero sheet at the top included.
+  const darkNav = !onDark;
 
   // Mobile menu tile — same glass treatment, square.
   const menuTile = `ms-auto grid size-9 shrink-0 place-items-center rounded-[6px] backdrop-blur-md transition-colors duration-300 md:hidden ${
@@ -203,7 +195,13 @@ export function Navbar() {
   }`;
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 py-4 sm:py-5">
+    // `.hero-veil` (on <html>, managed by Hero.tsx) = the loading sequence is
+    // playing: the page shows ONLY the white sheet + logo hole, so the whole
+    // bar hides and fades back in when the auto-flight lands "inside" the
+    // hero (or the user takes over the scroll). `invisible` (not just
+    // opacity-0) so the hidden bar also leaves the a11y tree / tab order;
+    // visibility flips instantly on reveal while the opacity still fades.
+    <header className="fixed inset-x-0 top-0 z-50 py-4 transition-opacity duration-500 sm:py-5 [.hero-veil_&]:invisible [.hero-veil_&]:pointer-events-none [.hero-veil_&]:opacity-0">
       <motion.div
         initial={reduced ? false : { y: -22, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
