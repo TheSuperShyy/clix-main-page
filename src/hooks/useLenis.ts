@@ -2,6 +2,12 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger } from "../lib/gsap";
 
+// The live instance, for components that need programmatic scrolling through
+// the SAME smooth-scroll source (e.g. the hero auto-flight). Null when Lenis
+// is disabled (reduced motion) — callers must fall back to native/GSAP scroll.
+let instance: Lenis | null = null;
+export const getLenis = () => instance;
+
 /**
  * Global smooth scroll (Lenis) driven by the GSAP ticker so that
  * ScrollTrigger pinning/scrub stays perfectly in sync.
@@ -28,6 +34,7 @@ export function useLenis() {
     if (prefersReduced) return cleanupRefresh;
 
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    instance = lenis;
     lenis.on("scroll", ScrollTrigger.update);
 
     const raf = (time: number) => lenis.raf(time * 1000);
@@ -37,6 +44,7 @@ export function useLenis() {
     return () => {
       cleanupRefresh();
       gsap.ticker.remove(raf);
+      instance = null;
       lenis.destroy();
     };
   }, []);

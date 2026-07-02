@@ -54,7 +54,9 @@ export function Services() {
 
   return (
     <section id="services" className="relative z-10 scroll-mt-24 bg-ink">
-      <div className="overflow-hidden bg-bg">
+      {/* Full-height band (min-h-dvh, mobile-safe) — content vertically centered
+          on tall screens, flows naturally on short ones (min-height only). */}
+      <div className="flex min-h-dvh flex-col justify-center overflow-hidden bg-bg">
         <div className="container-x py-16 sm:py-20">
           {/* Header */}
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">

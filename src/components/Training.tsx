@@ -37,7 +37,7 @@ export function Training() {
                     key={p}
                     className="flex items-center gap-4 rounded-xl border border-border bg-bg/40 p-4"
                   >
-                    <span className="nums grid size-10 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-brand to-cyan text-sm font-bold text-bg">
+                    <span className="nums brand-gradient grid size-10 shrink-0 place-items-center rounded-lg text-sm font-bold text-bg">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span className="font-medium text-fg/90">{p}</span>

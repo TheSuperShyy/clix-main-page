@@ -22,9 +22,16 @@ import { voiceAI } from "../data/content";
  */
 const FRAME_COUNT = 121;
 const framePath = (i: number) => `/voice/frame-${String(i).padStart(4, "0")}.jpg`;
-// Fallback shown before the frames decode; cover-fill then paints the render's
-// own background edge-to-edge, so there's no seam against the page.
+// Fallback fill shown only until a frame decodes, and the mobile bottom-scrim
+// colour. Once frames are ready the canvas backdrop comes from the frames
+// themselves (see render's edge-clamp), so this exact value rarely shows.
 const CANVAS_BG = "#fbfcfe";
+// How large the waveform renders within the full-bleed canvas: 1 = cover-fill
+// (edge-to-edge), <1 shrinks it and centers it. The margin a shrink reveals is
+// filled by EDGE-CLAMPING the frame's own backdrop outward (see render), so the
+// section bg continues each frame's backdrop seamlessly — no visible rectangle,
+// even as the frames' backdrop drifts grey→white while the waveform assembles.
+const WAVE_SCALE = 0.5;
 
 function CheckIcon({ className = "" }: { className?: string }) {
   return (
@@ -47,40 +54,66 @@ export function VoiceAI() {
       if (!ctx) return;
       ctx.imageSmoothingQuality = "high";
 
-      // Preload every frame up front so scrubbing never waits on a decode.
+      const state = { frame: 0 };
+
+      // Preload every frame up front so scrubbing never waits on a decode;
+      // repaint once the current frame decodes (preload may finish post-mount).
       const images: HTMLImageElement[] = [];
       for (let i = 1; i <= FRAME_COUNT; i++) {
         const img = new Image();
+        const idx = i - 1;
+        img.onload = () => {
+          if (Math.round(state.frame) === idx) render();
+        };
         img.src = framePath(i);
         images.push(img);
       }
 
-      const state = { frame: 0 };
-
-      // COVER-fill the current frame so the render's own background reaches
-      // every edge of the section — no letterbox, so nothing to mismatch
-      // against the page. The waveform is centered, so cover crops only the
-      // empty margin, not the wave.
+      // Draw the frame at WAVE_SCALE of its COVER fit, centered, then EDGE-CLAMP
+      // the frame's own backdrop out to every canvas edge — the margins become
+      // the frame's edge pixels stretched, so the section bg continues each
+      // frame's (subtly-graded, grey→white across the scrub) backdrop with no
+      // visible rectangle. The frame's border is pure backdrop (the waveform is
+      // inset), so stretching its edge rows/cols streaks nothing, and using the
+      // FULL edge row/col reproduces any along-edge gradient — matching the
+      // seam continuously, not just at one sampled corner.
       const render = () => {
-        const img = images[Math.round(state.frame)];
-        if (!img || !img.complete || !img.naturalWidth) return;
         const cw = canvas.width;
         const ch = canvas.height;
-        const ir = img.naturalWidth / img.naturalHeight;
+        const i = Math.round(state.frame);
+        const img = images[i];
+        if (!img || !img.complete || !img.naturalWidth) {
+          ctx.fillStyle = CANVAS_BG;
+          ctx.fillRect(0, 0, cw, ch);
+          return;
+        }
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+        const ir = iw / ih;
         const cr = cw / ch;
-        let dw: number, dh: number, dx: number, dy: number;
+        let dw: number, dh: number;
         if (cr > ir) {
           dw = cw;
           dh = cw / ir;
-          dx = 0;
-          dy = (ch - dh) / 2;
         } else {
           dh = ch;
           dw = ch * ir;
-          dy = 0;
-          dx = (cw - dw) / 2;
         }
+        dw *= WAVE_SCALE;
+        dh *= WAVE_SCALE;
+        const dx = (cw - dw) / 2;
+        const dy = (ch - dh) / 2;
+        const rM = cw - dx - dw; // right margin
+        const bM = ch - dy - dh; // bottom margin
         ctx.clearRect(0, 0, cw, ch);
+        // Edge-clamp the frame's backdrop into the margins. Guard each side so a
+        // cropped/overflowing edge (margin ≤ 0) never draws a negative-size,
+        // flipped strip. Top/bottom span full width, left/right full height —
+        // left/right, drawn last, own the corners with the frame's own corner tone.
+        if (dy > 0) ctx.drawImage(img, 0, 0, iw, 1, 0, 0, cw, dy);
+        if (bM > 0) ctx.drawImage(img, 0, ih - 1, iw, 1, 0, dy + dh, cw, bM);
+        if (dx > 0) ctx.drawImage(img, 0, 0, 1, ih, 0, 0, dx, ch);
+        if (rM > 0) ctx.drawImage(img, iw - 1, 0, 1, ih, dx + dw, 0, rM, ch);
         ctx.drawImage(img, dx, dy, dw, dh);
       };
 
@@ -178,7 +211,7 @@ export function VoiceAI() {
               <motion.div {...slide(60, 0.16)} className="mt-8">
                 <a
                   href={voiceAI.cta.href}
-                  className="inline-flex items-center rounded-xl bg-brand px-5 py-3 text-[15px] font-semibold text-on-ink shadow-[0_12px_30px_-12px_rgba(46,91,255,0.65)] transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fbfcfe]"
+                  className="inline-flex items-center rounded-xl bg-brand px-5 py-3 text-[15px] font-semibold text-on-ink shadow-[0_12px_30px_-12px_rgba(36,84,245,0.6)] transition-transform hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#fbfcfe]"
                 >
                   {voiceAI.cta.label}
                 </a>

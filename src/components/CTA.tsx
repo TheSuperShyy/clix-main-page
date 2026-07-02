@@ -4,11 +4,16 @@ import { Reveal } from "./ui/Reveal";
 export function CTA() {
   return (
     <section className="relative overflow-hidden rounded-t-[2.5rem] bg-ink py-28 text-on-ink sm:py-40">
-      {/* soft brand glow */}
+      {/* soft brand-spectrum glow — blue core with a green companion so the CTA
+          band carries the same blue→green sweep as the rest of the site */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div
-          className="absolute left-1/2 top-1/2 size-[80vw] max-w-3xl -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[120px]"
+          className="absolute left-[38%] top-1/2 size-[70vw] max-w-3xl -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-[120px]"
           style={{ background: "radial-gradient(circle, var(--color-brand), transparent 65%)" }}
+        />
+        <div
+          className="absolute left-[64%] top-1/2 size-[52vw] max-w-2xl -translate-x-1/2 -translate-y-1/2 rounded-full opacity-25 blur-[120px]"
+          style={{ background: "radial-gradient(circle, var(--color-green), transparent 65%)" }}
         />
       </div>
 
