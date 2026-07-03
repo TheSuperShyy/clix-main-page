@@ -3,30 +3,18 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { brand, contact, nav } from "../data/content";
 import { ScrollTrigger, useGSAP } from "../lib/gsap";
 
-/** Brand logo tile — brand-blue square with the Clix mark masked into it
-    (on.energy-style: a solid chip at the start of the bar). */
-function LogoTile({ className = "" }: { className?: string }) {
+/** Small forward arrow for the CTA badge — points to the RTL "forward" (left). */
+function NavArrow({ className = "" }: { className?: string }) {
   return (
-    <a
-      href="#top"
-      aria-label={brand.full}
-      className={`grid shrink-0 place-items-center rounded-[6px] bg-brand transition-colors duration-300 hover:bg-brand-600 ${className}`}
-    >
-      <span
-        aria-hidden
-        className="block h-[78%] w-[78%] bg-white"
-        style={{
-          WebkitMaskImage: "url(/clix-logo.svg)",
-          maskImage: "url(/clix-logo.svg)",
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-          WebkitMaskPosition: "center",
-          maskPosition: "center",
-          WebkitMaskSize: "contain",
-          maskSize: "contain",
-        }}
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden className={className}>
+      <path
+        d="M14 6l-6 6 6 6"
+        stroke="currentColor"
+        strokeWidth={2.4}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
-    </a>
+    </svg>
   );
 }
 
@@ -69,35 +57,22 @@ function Caret({ className = "" }: { className?: string }) {
 
 /** A segmented glass nav tab. If the item has a `menu`, it gets a caret and a
     dropdown panel that opens on hover/focus (on.energy-style submenus). */
-function NavTab({
-  item,
-  darkNav,
-}: {
-  item: (typeof nav.items)[number];
-  darkNav: boolean;
-}) {
+function NavTab({ item }: { item: (typeof nav.items)[number] }) {
   const [open, setOpen] = useState(false);
   const menu = "menu" in item ? item.menu : undefined;
 
-  const tabClass = `group flex h-9 w-full items-center gap-2 rounded-[6px] px-4 text-start text-[14px] font-medium backdrop-blur-md transition-colors duration-300 ${
-    darkNav
-      ? "bg-ink/[0.05] text-fg hover:bg-ink/[0.09]"
-      : "bg-on-ink/[0.08] text-on-ink/90 hover:bg-on-ink/[0.16]"
-  }`;
-  const panelClass = `absolute inset-x-0 top-full z-50 mt-1.5 flex flex-col gap-1 rounded-[8px] p-1.5 backdrop-blur-md ${
-    darkNav
-      ? "border border-ink/10 bg-surface-2 shadow-[0_20px_40px_-24px_rgba(18,18,16,0.4)]"
-      : "border border-on-ink/10 bg-ink/80"
-  }`;
-  const rowClass = `rounded-[6px] px-3.5 py-2 text-sm transition-colors ${
-    darkNav
-      ? "text-muted hover:bg-ink/[0.05] hover:text-fg"
-      : "text-on-ink/80 hover:bg-on-ink/10 hover:text-on-ink"
-  }`;
+  // Plain text links inside the shared glass bar (ref: one nav container, not
+  // per-item pills). The whole site is dark, so both treatments read light.
+  const tabClass =
+    "group flex h-9 items-center gap-1.5 rounded-full px-4 text-[14px] font-medium text-on-ink/70 transition-colors duration-300 hover:bg-white/[0.06] hover:text-on-ink";
+  const panelClass =
+    "absolute inset-x-0 top-full z-50 mt-2 flex min-w-[220px] flex-col gap-1 rounded-[12px] border border-white/10 bg-[#0b1020]/95 p-1.5 backdrop-blur-md shadow-[0_24px_50px_-24px_rgba(0,0,0,0.8)]";
+  const rowClass =
+    "rounded-[8px] px-3.5 py-2 text-sm text-on-ink/75 transition-colors hover:bg-white/[0.06] hover:text-on-ink";
 
   return (
     <div
-      className="relative flex-1"
+      className="relative"
       onMouseEnter={() => menu && setOpen(true)}
       onMouseLeave={() => setOpen(false)}
       onFocus={() => menu && setOpen(true)}
@@ -150,7 +125,7 @@ function NavTab({
 // WHITE sheet (podium-style logo-hole zoom), so the bar starts dark-on-light;
 // #hero-inside is the hero's own end-of-zoom marker (viewer "inside" the
 // dark video) and #zoom is the dark zoom-reveal section.
-const DARK_SECTIONS = ["#hero-inside", "#zoom"];
+const DARK_SECTIONS = ["#hero-inside", "#solutions", "#zoom"];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -206,26 +181,32 @@ export function Navbar() {
         initial={reduced ? false : { y: -22, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
-        className="container-x flex items-center gap-2 font-apple sm:gap-2.5"
+        className="container-x flex items-center justify-between gap-3 font-apple"
       >
-        {/* Logo tile — start (right in RTL) */}
-        <LogoTile className="size-9" />
+        {/* Wordmark — start (right in RTL) */}
+        <Wordmark className="text-[1.6rem] text-on-ink" />
 
-        {/* Segmented glass nav — desktop, fills the width */}
-        <nav className="hidden flex-1 items-center gap-1.5 md:flex">
-          {nav.items.map((item) => (
-            <NavTab key={item.href} item={item} darkNav={darkNav} />
-          ))}
-        </nav>
+        {/* Desktop nav group — one glass bar (text links) with the dark CTA pill
+            attached at its end (ref: nav container + Get Started button). */}
+        <div className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] p-1.5 ps-4 backdrop-blur-md md:flex">
+          <nav className="flex items-center gap-0.5">
+            {nav.items.map((item) => (
+              <NavTab key={item.href} item={item} />
+            ))}
+          </nav>
 
-        {/* Solid accent CTA — desktop, end (left in RTL). Inverts to white over the band. */}
-        <motion.a
-          {...pillMotion}
-          href={nav.cta.href}
-          className="hidden h-9 shrink-0 items-center rounded-[6px] bg-brand px-5 text-[14px] font-bold text-white transition-colors duration-300 hover:bg-brand-600 md:inline-flex"
-        >
-          {nav.cta.label}
-        </motion.a>
+          {/* Dark CTA pill with a white circular arrow badge — end (left in RTL). */}
+          <motion.a
+            {...pillMotion}
+            href={nav.cta.href}
+            className="inline-flex h-10 items-center gap-2.5 rounded-full bg-ink ps-5 pe-1.5 text-[14px] font-bold text-on-ink ring-1 ring-white/10 transition-colors hover:bg-ink-2"
+          >
+            {nav.cta.label}
+            <span className="grid size-7 place-items-center rounded-full bg-on-ink text-ink">
+              <NavArrow className="size-4" />
+            </span>
+          </motion.a>
+        </div>
 
         {/* Mobile — menu tile that opens the full-screen overlay */}
         <motion.button

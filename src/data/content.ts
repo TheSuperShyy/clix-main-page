@@ -41,30 +41,83 @@ export const nav = {
 } as const;
 
 export const hero = {
-  // The huge wordmark behind the render (SOHub: "sohub")
-  wordmark: "clix",
-  // Lower-start headline (SOHub: "Your story builds our history.")
+  // Full accessible sentence — used as the h1 aria-label / for SEO.
   headline: "מערכות AI מהונדסות לעסק שלכם.",
-  // Display split — the reference headline is two lines. `headline` stays the
-  // full accessible sentence (used as the h1 aria-label); these are the visual
-  // lines rendered in the hero.
+  // Visual display lines — the big bottom-start headline (ref: "The future of /
+  // AI Finance."), rendered in pure white to match the reference.
   headlineLines: ["מערכות AI מהונדסות", "לעסק שלכם."],
-  // Bottom-corner supporting line (on.energy: "ON.energy builds and operates…")
+  // Small tagline under the headline (ref: "Banking of Tomorrow.").
+  tagline: "העסק של מחר, כבר היום.",
+  // Short supporting paragraph in the bottom-end corner (ref: the lead sentence).
   subcopy:
-    "Clix בונה ומתפעלת מערכות AI מהונדסות, סוכנים קוליים, אוטומציות ומוצרים דיגיטליים שפותרים את האתגרים האמיתיים של העסק.",
-  // Bottom-end action cluster (AI-Finance reference: "Sign Up" + "Discover More").
+    "אנחנו מתמחים בהנדסת מערכות AI שמשנות את הדרך שבה העסק שלכם פועל ומקבל החלטות.",
+  // Bottom-end action cluster: white primary pill + dark ghost (ref: "Sign Up" /
+  // "Discover More").
   ctas: [
     { label: "בואו נדבר", href: "#contact", primary: true },
     { label: "גלו עוד", href: "#services", primary: false },
   ],
-  // Bottom-corner "discover" card (on.energy: the DISCOVER AI UPS card)
-  discover: {
-    eyebrow: "AI קולי",
-    title: "סוכנים קוליים שמנהלים את כל השיחה, מקצה לקצה.",
-    href: "#services",
+} as const;
+
+// Solutions — the floating glass panel that slides in over the hero's scrubbed
+// scene (ref: SOLUTIONS · "Revolutionize your financial workflows." + the
+// dashboard mock). Clix mapping: our AI solutions overview + an ops dashboard.
+export const solutions = {
+  eyebrow: "פתרונות",
+  // Full sentence for a11y; visual two-line lockup below.
+  title: "מהפכה בתהליכי העבודה שלכם.",
+  titleLines: ["מהפכה בתהליכי", "העבודה שלכם."],
+  body: "פתרונות ה-AI שלנו הופכים תהליכים עסקיים מורכבים לאוטומטיים, מצמצמים טעויות ידניות ומחדדים את קבלת ההחלטות בכל הארגון.",
+  ctas: [
+    { label: "בואו נתחיל", href: "#contact", primary: true },
+    { label: "צפו בדמו", href: "#work", primary: false },
+  ],
+  // Hebrew UI strings for the placeholder ops dashboard (swappable mock —
+  // don't hardwire real data; ref: the trading "Main Dashboard").
+  dashboard: {
+    breadcrumb: "סוכני AI / לוח בקרה",
+    title: "לוח בקרה ראשי",
+    searchPlaceholder: "חיפוש",
+    nav: [
+      { label: "לוח בקרה", active: true },
+      { label: "שיחות", active: false },
+      { label: "לידים", active: false, badge: "חדש" },
+      { label: "אוטומציות", active: false },
+    ],
+    navSecondary: ["פרופיל", "הגדרות", "תמיכה"],
+    unlock: "שדרוג ל-Clix Pro",
+    kpi: {
+      label: "שיחות שטופלו",
+      value: "22,193",
+      delta: "+47.3%",
+      // Range pills, active last (ref: 1D · 7D · 1M · [1Y]).
+      ranges: ["יום", "שבוע", "חודש", "שנה"],
+    },
+    quick: {
+      title: "מבט מהיר",
+      rows: [
+        { value: "181", label: "לידים חדשים השבוע" },
+        { value: "64", label: "פגישות שנקבעו" },
+      ],
+      cta: "צפו בפירוט",
+    },
+    channels: {
+      title: "ערוצים",
+      cols: ["ערוץ", "שיחות", "המרה", "מגמה"],
+      rows: [
+        { name: "סוכן קולי", calls: "12,634", conv: "38%", delta: "+13,581", up: true },
+        { name: "וואטסאפ", calls: "7,319", conv: "24%", delta: "+2,716", up: true },
+        { name: "אתר", calls: "2,240", conv: "9%", delta: "-500", up: false },
+      ],
+    },
+    repartition: {
+      title: "התפלגות",
+      legend: ["סוכן קולי", "וואטסאפ", "אתר"],
+    },
+    // Faded, clipped teaser row at the panel base (ref: Recent transactions /
+    // Market / Articles peeking out).
+    ghostRow: ["פעילות אחרונה", "תובנות", "מאמרים"],
   },
-  scroll: "גלול",
-  dragHint: "גררו כדי לסובב",
 } as const;
 
 // Full-bleed accent band right after the hero (on.energy's bold yellow statement).
