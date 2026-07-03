@@ -37,11 +37,36 @@ Guidance for Claude Code when working in this repository. Read this first, every
 
 ## 📦 Project Overview
 
-Marketing website for **Clix Solutions** — a Tel Aviv AI-engineering agency. Hebrew, **RTL**, single long-scroll landing page. **Clean, light, corporate-tech aesthetic inspired by [on.energy](https://www.on.energy/)** — white space, cool near-black type, a restrained **blue/teal** accent, photography-forward, minimal motion. Rebuilt with Clix's real content from [clixsolutions.info](https://www.clixsolutions.info/). Redesign lives in the **clix-main-page** repo (the prior SOHub version is archived in `clixsolutions`).
+Marketing website for **Clix Solutions** — a Tel Aviv AI-engineering agency. Hebrew, **RTL**, single long-scroll landing page. **Dark, premium AI-fintech aesthetic — new reference [futureoffinance.peachweb.io](https://futureoffinance.peachweb.io/) ("AI Finance")** — a near-black canvas with deep indigo/navy undertones, large fluid display type, a warm **orange** primary accent over soft **sky / mint / gold** pastel glows, hairline white borders, and a WebGL hero scene + scroll-driven motion. _(Supersedes the prior light on.energy direction; full spec in **🎨 Design Reference** below.)_ Built from Clix's real content at [clixsolutions.info](https://www.clixsolutions.info/) — adopt the reference's **look, layout & motion**, keep Clix's **Hebrew RTL** copy (don't import the fintech wording). Redesign lives in the **clix-main-page** repo (the prior SOHub version is archived in `clixsolutions`).
 
 **Repo (origin):** [`clix-main-page`](https://github.com/TheSuperShyy/clix-main-page) — the active repo for this redesign. The prior SOHub build is archived at [`clixsolutions`](https://github.com/TheSuperShyy/clixsolutions).
 
 See [`CONTEXT.md`](./CONTEXT.md) for the full content scrape, design notes, decisions, and build status.
+
+## 🎨 Design Reference — "AI Finance" (dark)
+
+New visual language for the landing page, reconstructed from **[futureoffinance.peachweb.io](https://futureoffinance.peachweb.io/)**. Adopt its *look, layout & motion*; keep Clix's own **Hebrew RTL** copy and section meaning — **don't import the fintech wording**. Map Clix's existing sections onto this skeleton rather than inventing new content.
+
+**Aesthetic:** dark, premium, editorial AI-fintech — confident black canvas, big quiet display type, one warm accent, soft pastel light.
+
+**Palette**
+- Base: `#000000` black · `#1a1a1a` raised surface · deep undertones `#000735` navy / `#10004a` indigo
+- Text on dark: `#ffffff` → `#ffffffb3` 70% → `#ffffff80` 50% → `#ffffff66` 40%; hairline borders `#ffffff1a` 10% / fills `#ffffff0f` 6%
+- Accent: **`#ff7600` orange** (primary CTA / highlight); pastels `#aad4f6` sky · `#a5edee` mint · `#ffe08c` gold (soft glows / hero aurora)
+- Inverted-card neutrals (optional): `#f8f5ff` `#f2eeee` `#ebe9e5` `#d9d9d9`
+
+**Type**
+- Display / headings: Helvetica Now Display / **DM Sans**, medium weight, **tight −0.03em** tracking, fluid size (`~5dvw`, ~48–56px cap)
+- Body / UI: **Inter**, 16–18px
+- Eyebrows: 11–12px **UPPERCASE, +0.3em** tracking (SOLUTIONS · FEATURES · SERVICES)
+- Scale in use: 11 / 12 / 14 / 16 / 18 / 20 / 24 / 28 / 30 / 32 / 36 / 40 / 48 / 56
+- ⚠️ Those are Latin faces (no Hebrew). For Clix keep a **Hebrew-capable** display face — Rubik today, or a tighter grotesque (Heebo / Assistant) tuned to the same big-tight-display feel. *(Open decision — flag before switching fonts.)*
+
+**Shape & layout:** 8px card radius (12px large), **pill (999px) buttons**; roomy dark sections; per-section rhythm = small-caps eyebrow → large statement headline → short body → CTA pair (solid orange + ghost).
+
+**Sections (reference order):** Navbar (logo · Solutions/Features/Services/Pricing · Get Started) → Hero (WebGL/canvas scene, split "The future of / …" headline, 2 CTAs) → Solutions → Partners logo strip → Features (3 cards) → Key Features (numbered **01–03** scroll sequence) → Services (4) → Benefits stat block (+48% / −21% / 10K% / 21%) → Testimonials (3) → Pricing (3 tiers) → closing CTA → Footer. A **scroll-progress %** readout rides along.
+
+**Motion:** WebGL/canvas hero, scroll-progress indicator, scroll reveals, and a pinned numbered feature sequence → **GSAP ScrollTrigger + Lenis** (already in stack); framer-motion for component state. Respect `prefers-reduced-motion` (note the standing exception for ambient/flight motion the client reviews on a reduced-motion machine).
 
 ## 🛠 Tech Stack
 

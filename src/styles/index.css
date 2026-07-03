@@ -2,123 +2,130 @@
 
 /* ============================================================
    Clix Solutions — Design Tokens (Tailwind v4 @theme)
-   on.energy-style: clean white · cool near-black type · blue→teal accent · Heebo (RTL)
+   "AI Finance" dark: near-black canvas · deep indigo/navy undertones ·
+   warm ORANGE accent + sky/mint/gold pastels · white text ladder · Heebo (RTL)
+   Reference: https://futureoffinance.peachweb.io/  (see CLAUDE.md → Design Reference)
    ============================================================ */
 @theme {
-  /* Fonts — Rubik (geometric sans, full Hebrew + Latin) across the whole site. */
-  --font-sans: "Rubik", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  /* Kept as a token for the navbar/wordmark; now also Rubik so the bar matches. */
-  --font-apple: "Rubik", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Fonts — Heebo (neo-grotesque, full Hebrew + Latin) across the whole site:
+     a tight, clean face, the closest free match to the reference's
+     Helvetica Now Display feel. One family covers both scripts. */
+  --font-sans: "Heebo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Kept as a token for the navbar/wordmark — same face so the bar matches. */
+  --font-apple: "Heebo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  /* ===== Palette: "Deep Ink + Voice-Wave Spectrum" =====
-     Dark-first (premium) with white "Cloud" cards as the counterbalance.
-     The accent is the Clix voice-wave spectrum — electric blue → teal → green —
-     sampled from the brand waveform. ~70% neutrals / ~25% text / ~5% accent.
-     All fg/bg text pairs meet WCAG AA (teal/green stay decorative). */
+  /* ===== Palette: "AI Finance" dark =====
+     Dark, premium AI-fintech. Near-black canvas with deep indigo/navy
+     undertones, a warm ORANGE primary accent over soft sky/mint/gold pastels,
+     white opacity-ladder text + hairline white borders. ~75% dark / ~20% text /
+     ~5% accent. Body text (white ladder) on black meets WCAG AA; pastels are
+     decorative (glows, gradient sparks). */
 
-  /* Light neutrals — white "balance" cards */
-  --color-bg: #ffffff;          /* pure white */
-  --color-bg-2: #f2f5fb;        /* fresh pastel base (was the "dirty" Cloud #f6f8fc) */
-  --color-surface: #ebeff6;     /* Mist — pills / inputs on light */
-  --color-surface-2: #ffffff;
-  --color-surface-3: #e1e7f0;
+  /* Dark base + card surfaces */
+  --color-bg: #000000;          /* page base — true black (ref theme-color) */
+  --color-bg-2: #08090f;        /* raised base, faint navy undertone */
+  --color-surface: #14151a;     /* card / chip surface on dark */
+  --color-surface-2: #1a1b22;   /* raised card */
+  --color-surface-3: #23242c;   /* higher elevation */
 
-  /* ===== Pastel palette (secondary) — airy multi-hue wash from the reference
-     template. Replaces the flat "dirty white" light surface. Four soft corner
-     tints (mint / sky / blush / lavender) over the near-white base; use the
-     `pastel-wash` utility for the gradient, or the flat tints for cards. ===== */
-  --color-tint-mint: #e7f1ea;
-  --color-tint-sky: #e2edf8;
-  --color-tint-blush: #f6e9ea;
-  --color-tint-lavender: #ece8f6;
+  /* Deep brand undertones — for gradient glows / the hero aurora */
+  --color-navy: #000735;
+  --color-indigo: #10004a;
 
-  /* Dark neutrals — deep-ink base + slate elevations */
-  --color-ink: #0b0e14;         /* Ink — page base / gutter */
-  --color-ink-2: #1e2530;       /* Slate-2 — raised chips on dark */
-  --color-on-ink: #e9eef6;      /* text on dark */
+  /* Ink-band tokens kept (the whole site is dark now, so these = the base) */
+  --color-ink: #000000;
+  --color-ink-2: #14151a;
+  --color-on-ink: #ffffff;
 
-  /* Slate — dark card surfaces (keeps the `graphite` token name) */
-  --color-graphite: #141922;    /* Slate */
-  --color-graphite-2: #1e2530;  /* Slate-2 */
+  /* Graphite (legacy name) → dark card surfaces */
+  --color-graphite: #14151a;
+  --color-graphite-2: #1a1b22;
 
-  /* Lines */
-  --color-border: rgba(11, 14, 20, 0.10);
-  --color-border-strong: rgba(11, 14, 20, 0.22);
+  /* Lines — hairline white */
+  --color-border: rgba(255, 255, 255, 0.10);
+  --color-border-strong: rgba(255, 255, 255, 0.18);
 
-  /* Text (on light surfaces) */
-  --color-fg: #0b0e14;
-  --color-muted: #57617a;
-  --color-faint: #8791a3;
+  /* Text — white opacity ladder (on dark) */
+  --color-fg: #ffffff;                       /* primary text */
+  --color-muted: rgba(255, 255, 255, 0.70);  /* secondary (#ffffffb3) */
+  --color-faint: rgba(255, 255, 255, 0.45);  /* tertiary / captions */
 
-  /* Accents — the brand "voice-wave" spectrum: electric blue → teal → green.
-     Sampled from the Clix waveform (deep blue left · teal center · green right).
-     Blue is the primary ACTION color; teal + green are the gradient spark.
-     Solo-on-white, only `brand`/`brand-600` meet AA for text — teal + green are
-     decorative (gradients, glows), exactly as teal was before. */
-  --color-brand: #2454f5;        /* electric blue — primary action */
-  --color-brand-600: #1a3ad6;    /* deeper blue — hover / press */
-  --color-brand-300: #7c9bff;    /* soft blue — tints / labels on dark */
-  --color-cyan: #13bcc8;         /* teal — spectrum midpoint */
-  --color-cyan-300: #5fdce4;
-  --color-green: #21c46e;        /* green — spectrum end (waveform right) */
-  --color-green-300: #5cdd97;
+  /* Accent — warm ORANGE primary + soft pastels */
+  --color-brand: #ff7600;        /* orange — primary action / highlight */
+  --color-brand-600: #e96700;    /* deeper orange — hover / press */
+  --color-brand-300: #ffb066;    /* soft orange — tints / labels on dark */
+  /* Pastels — soft glows, gradient sparks, accent text */
+  --color-sky: #aad4f6;
+  --color-mint: #a5edee;
+  --color-gold: #ffe08c;
+  /* Legacy spectrum names remapped to pastels so existing gradient/glow
+     utilities keep rendering during the section-by-section rebuild. */
+  --color-cyan: #a5edee;
+  --color-cyan-300: #c8f4f5;
+  --color-green: #aad4f6;
+  --color-green-300: #cfe6fb;
 
   /* Semantic */
-  --color-success: #34d399;
+  --color-success: #4ade80;
 
-  /* Radii */
-  --radius-xs: 0.375rem;
-  --radius-sm: 0.625rem;
-  --radius-md: 0.875rem;
-  --radius-lg: 1.25rem;
-  --radius-xl: 1.75rem;
-  --radius-2xl: 2.5rem;
+  /* Pastel tints (kept token names) — now the vivid pastels for accent chips. */
+  --color-tint-mint: #a5edee;
+  --color-tint-sky: #aad4f6;
+  --color-tint-blush: #ffe08c;
+  --color-tint-lavender: #f8f5ff;
+
+  /* Radii — restrained: 8px workhorse, pill buttons via rounded-full/999px */
+  --radius-xs: 0.375rem;   /* 6px */
+  --radius-sm: 0.5rem;     /* 8px — cards, chips, inputs (the reference default) */
+  --radius-md: 0.625rem;   /* 10px */
+  --radius-lg: 0.75rem;    /* 12px — large cards */
+  --radius-xl: 1rem;       /* 16px */
+  --radius-2xl: 1.5rem;    /* 24px */
 
   /* ===== Global type scale — ONE system for the whole site =====
-     Each role bakes in size + line-height + tracking + weight, so a single
-     Tailwind utility (text-display / text-h1 / text-h2 / text-h3 /
-     text-statement / text-lead) sets size, leading, tracking AND weight at
-     once — no component hand-rolls its own clamp()/weight. Base body is
-     16px / weight 400 / line-height 1.6 (set on <body>); bare <h1>–<h3> tags
-     pick up the matching role via @layer base. */
+     Big, quiet DISPLAY type: medium weight (~500, not bold) + tight tracking,
+     matching the reference (Helvetica Now Display / DM Sans). Each role bakes
+     size + line-height + tracking + weight, so one utility (text-display /
+     text-h1..h3 / text-statement / text-lead) sets all four. Base body is
+     16px / weight 400 / line-height 1.6 (on <body>); bare <h1>–<h3> pick up the
+     matching role via @layer base. Eyebrows are UPPERCASE +0.3em (see utility). */
 
-  /* Headings — heavy, tight */
-  --text-display: clamp(2.75rem, 6.5vw, 5.5rem);
-  --text-display--line-height: 1;
+  /* Headings — large, medium weight, tight tracking */
+  --text-display: clamp(2.75rem, 6.5vw, 5.25rem);
+  --text-display--line-height: 1.02;
   --text-display--letter-spacing: -0.03em;
-  --text-display--font-weight: 800;
+  --text-display--font-weight: 500;
 
-  --text-h1: clamp(2.25rem, 5vw, 4.5rem);
-  --text-h1--line-height: 1.04;
-  --text-h1--letter-spacing: -0.025em;
-  --text-h1--font-weight: 800;
+  --text-h1: clamp(2.25rem, 4.6vw, 3.5rem);
+  --text-h1--line-height: 1.06;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h1--font-weight: 500;
 
-  --text-h2: clamp(1.75rem, 3.6vw, 3rem);
+  --text-h2: clamp(1.75rem, 3.2vw, 2.5rem);
   --text-h2--line-height: 1.1;
-  --text-h2--letter-spacing: -0.02em;
-  --text-h2--font-weight: 800;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h2--font-weight: 500;
 
-  --text-h3: clamp(1.3rem, 2.3vw, 1.85rem);
-  --text-h3--line-height: 1.2;
-  --text-h3--letter-spacing: -0.015em;
-  --text-h3--font-weight: 700;
+  --text-h3: clamp(1.3rem, 2vw, 1.65rem);
+  --text-h3--line-height: 1.22;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h3--font-weight: 500;
 
-  /* Editorial statement — large but medium weight (the ZettaJoule look) */
-  --text-statement: clamp(1.6rem, 2.9vw, 2.7rem);
-  --text-statement--line-height: 1.24;
-  --text-statement--letter-spacing: -0.01em;
+  /* Editorial statement — large, medium weight */
+  --text-statement: clamp(1.6rem, 2.9vw, 2.5rem);
+  --text-statement--line-height: 1.2;
+  --text-statement--letter-spacing: -0.025em;
   --text-statement--font-weight: 500;
 
-  /* Hero statement — the editorial statement a notch larger, for the hero
-     headline only (tighter leading/tracking as larger display type wants). */
-  --text-hero-statement: clamp(2.1rem, 3.8vw, 3.75rem);
-  --text-hero-statement--line-height: 1.15;
-  --text-hero-statement--letter-spacing: -0.015em;
+  /* Hero statement — kept for the current Hero until it's rebuilt to text-display. */
+  --text-hero-statement: clamp(2.5rem, 5.5vw, 4.5rem);
+  --text-hero-statement--line-height: 1.03;
+  --text-hero-statement--letter-spacing: -0.03em;
   --text-hero-statement--font-weight: 500;
 
   /* Lead — prominent supporting paragraph */
-  --text-lead: clamp(1.0625rem, 1.4vw, 1.3125rem);
-  --text-lead--line-height: 1.55;
+  --text-lead: clamp(1.0625rem, 1.4vw, 1.25rem);
+  --text-lead--line-height: 1.6;
   --text-lead--font-weight: 400;
 
   /* Easing + timing tokens */
@@ -161,19 +168,19 @@
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-    /* Hide the native scrollbar — Lenis drives the smooth scroll, and a white
-       track would otherwise show as a strip over the dark hero. (Firefox) */
+    /* Hide the native scrollbar — Lenis drives the smooth scroll, and a light
+       track would otherwise show as a strip over the dark page. (Firefox) */
     scrollbar-width: none;
   }
 
   html {
-    /* Refined dark page backdrop for the floating-card layout (cool near-black,
-       not harsh pure black) — also stops a white flash on overscroll. */
-    background-color: var(--color-ink);
+    /* True-black page backdrop (matches the reference); also stops a flash on
+       overscroll. */
+    background-color: var(--color-bg);
   }
 
   body {
-    background-color: var(--color-ink);
+    background-color: var(--color-bg);
     color: var(--color-fg);
     font-family: var(--font-sans);
     font-size: 1rem;        /* 16px base — global body size */
@@ -185,42 +192,41 @@
        `overflow-x: clip` (which computes to hidden/auto when overflow-y is
        visible) — makes <body> a scroll container, which breaks GSAP
        ScrollTrigger `position: fixed` pinning and silently disables the pinned
-       scrub sections (#zoom zoom-to-fullscreen, #reveal frame-scrub). Keep body
-       overflow visible; the floating-card layout doesn't overflow horizontally. */
+       scrub sections. Keep body overflow visible. */
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-brand) 22%, transparent);
+    background: color-mix(in oklab, var(--color-brand) 30%, transparent);
     color: var(--color-fg);
   }
 
   /* Headings pick up their scale role by tag — size + leading + tracking +
-     weight all come from the type tokens above, so a bare <h1>/<h2>/<h3> is
-     already consistent even without a utility class. */
+     weight all from the type tokens above, so a bare <h1>/<h2>/<h3> is already
+     consistent (medium weight, tight tracking) without a utility class. */
   h1 {
     font-size: var(--text-h1);
-    line-height: 1.04;
-    letter-spacing: -0.025em;
-    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    font-weight: 500;
   }
   h2 {
     font-size: var(--text-h2);
     line-height: 1.1;
-    letter-spacing: -0.02em;
-    font-weight: 800;
+    letter-spacing: -0.025em;
+    font-weight: 500;
   }
   h3 {
     font-size: var(--text-h3);
-    line-height: 1.2;
-    letter-spacing: -0.015em;
-    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+    font-weight: 500;
   }
 
   /* Hide the native scrollbar (Chrome/Safari/Edge) — Lenis provides scrolling. */
   ::-webkit-scrollbar { width: 0; height: 0; }
 
   :focus-visible {
-    outline: 2px solid var(--color-ink);
+    outline: 2px solid var(--color-brand);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -242,87 +248,88 @@ html.lenis body { height: auto; }
 @utility container-x {
   width: 100%;
   margin-inline: auto;
-  max-width: 96rem; /* 1536px — wider so the left/right gaps (the centering margin) shrink */
-  /* Global content inset — ONE consistent text gap on BOTH sides for every
-     section, matched to the hero. Baked in here so all text lines up (was a
-     per-section `ps-*`). Symmetric: start (RTL right) AND end (RTL left) share
-     the same clamp so the content block is evenly inset. */
+  max-width: 96rem; /* 1536px */
+  /* Global content inset — ONE consistent gap on BOTH sides for every section.
+     Symmetric: start (RTL right) AND end (RTL left) share the same clamp. */
   padding-inline-start: clamp(1.25rem, 1.8vw + 0.5rem, 2.25rem);
   padding-inline-end: clamp(1.25rem, 1.8vw + 0.5rem, 2.25rem);
 }
 
+/* Accent gradient for headline words / sparks — a soft pastel aurora sweep
+   (sky → mint → gold) that reads premium on black. */
 @utility text-gradient {
-  /* The full voice-wave sweep: electric blue → teal → green. */
   background-image: linear-gradient(
     100deg,
-    var(--color-brand),
-    var(--color-cyan) 52%,
-    var(--color-green)
+    var(--color-sky),
+    var(--color-mint) 52%,
+    var(--color-gold)
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* The brand spectrum as a solid fill (chips, avatars, key bars) — the same
-   blue → teal → green sweep as `text-gradient`, one class. */
+/* Warm accent as a solid fill (chips, badges, key bars) — orange → gold. */
 @utility brand-gradient {
   background-image: linear-gradient(
     120deg,
     var(--color-brand),
-    var(--color-cyan) 52%,
-    var(--color-green)
+    var(--color-gold)
   );
 }
 
-/* Pastel wash — the reference template's airy light background: a near-white
-   base with four soft corner tints (mint TL · sky TR · blush BR · lavender BL).
-   The secondary light surface across the site (replaces the flat dirty-white). */
+/* Dark aurora — near-black base washed with deep indigo/navy glows plus faint
+   orange + sky sparks. The signature dark section/hero backdrop. */
 @utility pastel-wash {
-  background-color: var(--color-bg-2);
+  background-color: var(--color-bg);
   background-image:
-    radial-gradient(55% 55% at 8% 4%, rgba(120, 190, 150, 0.24), transparent 62%),
-    radial-gradient(55% 55% at 94% 12%, rgba(135, 175, 235, 0.24), transparent 62%),
-    radial-gradient(52% 52% at 88% 90%, rgba(232, 165, 180, 0.20), transparent 62%),
-    radial-gradient(55% 55% at 12% 94%, rgba(170, 150, 220, 0.20), transparent 62%);
+    radial-gradient(60% 60% at 15% 0%, rgba(16, 0, 74, 0.55), transparent 60%),
+    radial-gradient(55% 55% at 92% 8%, rgba(0, 7, 53, 0.60), transparent 60%),
+    radial-gradient(48% 48% at 82% 100%, rgba(255, 118, 0, 0.10), transparent 62%),
+    radial-gradient(60% 60% at 8% 96%, rgba(170, 212, 246, 0.08), transparent 62%);
 }
 
 @utility surface-card {
-  background: var(--color-surface-2);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  box-shadow: 0 1px 2px rgba(18, 18, 16, 0.04), 0 24px 50px -34px rgba(18, 18, 16, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 24px 50px -30px rgba(0, 0, 0, 0.85);
 }
 
 @utility glass {
-  background: color-mix(in oklab, var(--color-bg) 72%, transparent);
+  background: color-mix(in oklab, var(--color-surface) 60%, transparent);
   backdrop-filter: blur(16px) saturate(140%);
   border: 1px solid var(--color-border);
 }
 
 @utility ring-glow {
-  box-shadow: 0 1px 2px rgba(18, 18, 16, 0.05), 0 30px 60px -32px rgba(18, 18, 16, 0.28);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 30px 60px -32px rgba(0, 0, 0, 0.85);
 }
 
 @utility grid-fade {
   background-image:
-    linear-gradient(to right, rgba(18, 18, 16, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(18, 18, 16, 0.06) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 44px 44px;
   -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
 }
 
-/* Eyebrow / kicker label — one consistent small-caps label across the site. */
+/* Eyebrow / kicker — one consistent small-caps label; UPPERCASE +0.3em to
+   match the reference (SOLUTIONS · FEATURES · SERVICES). */
 @utility eyebrow {
   font-size: 0.6875rem; /* 11px */
   line-height: 1;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
 }
 
-/* Tabular figures for metrics/years */
+/* Tabular figures for metrics/years/prices */
 @utility nums {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";

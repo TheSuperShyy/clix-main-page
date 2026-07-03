@@ -1,6 +1,7 @@
 import { useLenis } from "./hooks/useLenis";
 import { Navbar } from "./components/Navbar";
 import { Hero } from "./components/Hero";
+import { Solutions } from "./components/Solutions";
 import { Integrations } from "./components/Integrations";
 import { ZoomReveal } from "./components/ZoomReveal";
 import { Services } from "./components/Services";
@@ -19,7 +20,11 @@ export default function App() {
     <div className="bg-ink">
       <Navbar />
       <main>
-        <Hero />
+        {/* Solutions floats INSIDE the hero's scene region — the glass panel
+            rides over the sticky scrubbed scene with scene-gaps around it. */}
+        <Hero>
+          <Solutions />
+        </Hero>
         <Integrations />
         <ZoomReveal />
         <Services />

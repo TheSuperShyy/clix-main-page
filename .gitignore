@@ -37,3 +37,9 @@ dist-ssr
 /workflow.png
 # Voice-AI waveform working stills (site uses the extracted frames in public/voice/).
 /voice-tower/
+
+# Verbatim local mirror of the futureoffinance.peachweb.io reference (Peachworlds
+# export — third-party copyright, incl. Prada/Disney logos). Reference only; never
+# ship or commit. Run with: node clone-serve.mjs
+/clone/
+/clone-serve.mjs
