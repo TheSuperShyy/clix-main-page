@@ -21,20 +21,14 @@ export const brand = {
   location: "תל אביב",
 } as const;
 
+// Ref navbar skeleton: Solutions · Features · Services · Pricing · CTA —
+// plain links (no dropdowns), labels mirror the section eyebrows below.
 export const nav = {
   items: [
-    { label: "עבודות", href: "#work" },
-    {
-      label: "שירותים",
-      href: "#services",
-      menu: [
-        { label: "סוכני AI קוליים", href: "#services" },
-        { label: "אפליקציות ואתרים", href: "#services" },
-        { label: "אוטומציות ואינטגרציות", href: "#services" },
-        { label: "CRM ואוטומציית WhatsApp", href: "#services" },
-      ],
-    },
-    { label: "צרו קשר", href: "#contact" },
+    { label: "פתרונות", href: "#solutions" },
+    { label: "יכולות", href: "#features" },
+    { label: "שירותים", href: "#services" },
+    { label: "הרצאות", href: "#training" },
   ],
   cta: { label: "בואו נדבר", href: "#contact" },
   menuLabel: "תפריט",
@@ -143,21 +137,24 @@ export const features = {
   title: "העתיד של העסק שלכם כבר כאן.",
   titleLines: ["העתיד של העסק שלכם", "כבר כאן."],
   subcopy: "אנחנו מספקים כלי AI מתקדמים שמייעלים את הביצועים של העסק שלכם.",
+  // Card art = client-supplied globe renders (uploaded as feature-1/2/3.png,
+  // mapped to the cards in numerical order; optimized webp copies live in
+  // /public/features, raw PNGs parked in gitignored /assets-src/features).
   items: [
     {
       title: "סוכנים קוליים חכמים",
       desc: "מענה אנושי לכל שיחה, 24/7.",
-      art: "horizon" as const,
+      img: "/features/feature-1.webp",
     },
     {
       title: "אוטומציות חכמות",
       desc: "תהליכים שרצים מעצמם, בלי טעויות.",
-      art: "orb" as const,
+      img: "/features/feature-2.webp",
     },
     {
       title: "תובנות בזמן אמת",
       desc: "החלטות מבוססות נתונים, בכל רגע.",
-      art: "closeup" as const,
+      img: "/features/feature-3.webp",
     },
   ],
 } as const;
@@ -172,27 +169,32 @@ export const keyFeatures = {
   eyebrow: "על הפתרונות שלנו",
   title: "יכולות מרכזיות",
   subcopy: "הצצה ליכולות הליבה שמניעות את הצמיחה והיעילות של העסק שלכם.",
+  // Row art = client-supplied renders (uploaded as solution-1/2/3.png, mapped
+  // to rows 01–03 in numerical order; webp copies in /public/key-features, raw
+  // PNGs parked in gitignored /assets-src/key-features). The baked-in corner
+  // numbers were cropped out of the assets — the component's own 01/02/03
+  // overlay does the numbering (RTL-correct at every viewport).
   items: [
     {
       eyebrow: "יכולת 1",
       title: "סוכן קולי שלא מפספס שיחה.",
       body: "סוכן AI קולי שעונה בעברית טבעית, מתאם פגישות ומטפל בלקוחות — בכל שעה, גם כשאתם עסוקים.",
       number: "01",
-      art: "wave" as const,
+      img: "/key-features/solution-1.webp",
     },
     {
       eyebrow: "יכולת 2",
       title: "אוטומציה שמריצה את העסק.",
       body: "תהליכים שלמים — ממעקב לידים ועד חשבוניות — רצים מעצמם, מסונכרנים בין כל המערכות שלכם.",
       number: "02",
-      art: "planet" as const,
+      img: "/key-features/solution-2.webp",
     },
     {
       eyebrow: "יכולת 3",
       title: "תובנות שמניעות החלטות.",
       body: "כל הנתונים של העסק במקום אחד, מנותחים בזמן אמת — כדי שתדעו בדיוק מה עובד ומה הצעד הבא.",
       number: "03",
-      art: "field" as const,
+      img: "/key-features/solution-3.webp",
     },
   ],
   cta: { label: "בואו נדבר", href: "#contact" },
@@ -262,6 +264,8 @@ export const stack = {
 
 // Services — the sticky-header + glass-cards band (ref: SERVICES · "Tailored
 // for every…"). Header start-side, 4 tall glass cards scrolling past it.
+// `art` picks the redrawn ref vignette: tiles (lit tile + cursor) · prompt
+// (bottom prompt-bar UI, text at top) · none (bare) · nodes (branch diagram).
 export const services = {
   eyebrow: "שירותים",
   title: "פתרון מותאם לכל עסק.",
@@ -276,17 +280,17 @@ export const services = {
     {
       title: "אפליקציות ואתרים",
       body: "מוצרי Full-stack מהונדסים כמערכות — ממערכות CRM ופורטלי לקוחות ועד אפליקציות מובייל נייטיב ואתרים ייעודיים.",
-      art: "orbit" as const,
+      art: "prompt" as const,
     },
     {
       title: "אוטומציות ואינטגרציות",
       body: "מחברים את הכלים שכבר יש לכם לזרימת עבודה אחת, עם Vapi, n8n, Make, OpenAI ו-Claude.",
-      art: "glow" as const,
+      art: "none" as const,
     },
     {
       title: "CRM ואוטומציית WhatsApp",
       body: "אוטומציות WhatsApp ומערכות CRM מותאמות אישית שמלוות את הלקוח מהליד הראשון ועד הסגירה.",
-      art: "waves" as const,
+      art: "nodes" as const,
     },
   ],
 } as const;
@@ -411,11 +415,43 @@ export const methodology = {
   ],
 } as const;
 
-// Testimonials — centered header + 3 quote columns (ref: TESTIMONIALS · "What
-// our clients say."). Real client quotes carried over from the previous build.
+// Testimonials — centered header + 4 client VIDEO cards (real phone-shot
+// clips from /client-testimonials; compressed web copies + posters live in
+// /public/testimonials). The videos replaced the ref's text-quote columns.
 export const testimonials = {
   eyebrow: "המלצות",
   title: "מה הלקוחות שלנו אומרים.",
+  playLabel: "נגן המלצה של",
+  pauseLabel: "השהה את ההמלצה של",
+  // ⚠️ נבו's role is a PLACEHOLDER — confirm the real title with the client.
+  videos: [
+    {
+      name: "אסף פרץ",
+      role: "מייסד, SalesIQ",
+      src: "/testimonials/asaf-peretz.mp4",
+      poster: "/testimonials/asaf-peretz-poster.jpg",
+    },
+    {
+      name: "אדיר פרץ",
+      role: "בעלים, סטודיו צילום ווידאו",
+      src: "/testimonials/adir-peretz.mp4",
+      poster: "/testimonials/adir-peretz-poster.jpg",
+    },
+    {
+      name: "נועם תובי",
+      role: "בעלים, השקעות",
+      src: "/testimonials/noam-tovi.mp4",
+      poster: "/testimonials/noam-tovi-poster.jpg",
+    },
+    {
+      name: "נבו יהלומן",
+      role: "לקוח Clix",
+      src: "/testimonials/nevo-yahaloman.mp4",
+      poster: "/testimonials/nevo-yahaloman-poster.jpg",
+    },
+  ],
+  // Text quotes — superseded by the video cards; kept for reuse (captions /
+  // a future press band).
   items: [
     {
       quote:
@@ -507,7 +543,7 @@ export const closing = {
       { label: "פתרונות", href: "#solutions" },
       { label: "יכולות", href: "#features" },
       { label: "שירותים", href: "#services" },
-      { label: "תמחור", href: "#pricing" },
+      { label: "הרצאות", href: "#training" },
     ],
     connectHeading: "בואו נתחבר",
     connect: [
@@ -518,10 +554,24 @@ export const closing = {
   },
 } as const;
 
+// Training / lectures — REPLACES the placeholder Pricing band (client call):
+// copy block opposite an autoplaying muted stage-clip card (real footage from
+// /ido-talk; web copy + poster in /public/training). Format follows the old
+// site's lectures section, restyled onto the current dark palette.
 export const training = {
   eyebrow: "הרצאות והדרכות",
-  title: "מביאים את צוות המומחים אל החדר שלכם",
+  title: "מביאים את צוות המומחים אל החדר שלכם.",
   body: "הרצאות, הדרכות וייעוץ לארגונים שרוצים לפעול עם AI, לא רק לדבר עליו. נשאיר את הצוות שלכם עם כלים שאפשר להפעיל כבר מחר בבוקר.",
+  cta: { label: "קבעו מפגש", href: "#contact" },
+  video: {
+    src: "/training/lecture-preview.mp4",
+    poster: "/training/lecture-preview-poster.jpg",
+    badge: "ON STAGE",
+    caption: "RECENT · Q3 KEYNOTE",
+    ariaLabel: "הצצה מהרצאה על הבמה",
+  },
+  // Legacy bullet list from the old card layout — unused in the video band,
+  // kept for reuse.
   points: ["הרצאות והכשרות", "ייעוץ אסטרטגי", "ליווי יישום בארגון"],
 } as const;
 

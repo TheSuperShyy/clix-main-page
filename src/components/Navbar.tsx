@@ -37,87 +37,17 @@ const pillMotion = {
   transition: { type: "spring", stiffness: 420, damping: 26 },
 } as const;
 
-/** Chevron-down — the dropdown affordance on nav tabs that have a submenu. */
-function Caret({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={2.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-      className={className}
-    >
-      <path d="m6 9 6 6 6-6" />
-    </svg>
-  );
-}
-
-/** A segmented glass nav tab. If the item has a `menu`, it gets a caret and a
-    dropdown panel that opens on hover/focus (on.energy-style submenus). */
+/** A plain text link inside the shared glass bar (ref navbar: Solutions ·
+    Features · Services · Pricing — no dropdowns, near-white labels). */
 function NavTab({ item }: { item: (typeof nav.items)[number] }) {
-  const [open, setOpen] = useState(false);
-  const menu = "menu" in item ? item.menu : undefined;
-
-  // Plain text links inside the shared glass bar (ref: one nav container, not
-  // per-item pills). The whole site is dark, so both treatments read light.
-  const tabClass =
-    "group flex h-11 items-center gap-1.5 rounded-md px-5 text-[16px] font-medium text-on-ink/70 transition-colors duration-300 hover:bg-white/[0.06] hover:text-on-ink";
-  const panelClass =
-    "absolute inset-x-0 top-full z-50 mt-2 flex min-w-[220px] flex-col gap-1 rounded-[12px] border border-white/10 bg-[#0b1020]/95 p-1.5 backdrop-blur-md shadow-[0_24px_50px_-24px_rgba(0,0,0,0.8)]";
-  const rowClass =
-    "rounded-[8px] px-3.5 py-2 text-sm text-on-ink/75 transition-colors hover:bg-white/[0.06] hover:text-on-ink";
-
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => menu && setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onFocus={() => menu && setOpen(true)}
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node)) setOpen(false);
-      }}
+    <motion.a
+      {...pillMotion}
+      href={item.href}
+      className="flex h-11 items-center rounded-md px-5 text-[16px] font-medium text-on-ink/90 transition-colors duration-300 hover:bg-white/[0.06] hover:text-on-ink"
     >
-      <motion.a
-        {...pillMotion}
-        href={item.href}
-        className={tabClass}
-        aria-haspopup={menu ? "menu" : undefined}
-        aria-expanded={menu ? open : undefined}
-      >
-        <span>{item.label}</span>
-        {menu && (
-          <Caret
-            className={`ms-auto size-4 opacity-60 transition-transform duration-200 ${
-              open ? "rotate-180" : ""
-            }`}
-          />
-        )}
-      </motion.a>
-
-      {menu && (
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              role="menu"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 6 }}
-              transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-              className={panelClass}
-            >
-              {menu.map((sub) => (
-                <a key={sub.label} href={sub.href} role="menuitem" className={rowClass}>
-                  {sub.label}
-                </a>
-              ))}
-            </motion.div>
-          )}
-        </AnimatePresence>
-      )}
-    </div>
+      {item.label}
+    </motion.a>
   );
 }
 
@@ -132,7 +62,7 @@ const DARK_SECTIONS = [
   "#services",
   "#benefits",
   "#testimonials",
-  "#pricing",
+  "#training",
   "#contact",
 ];
 
