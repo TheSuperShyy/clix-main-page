@@ -37,9 +37,23 @@ dist-ssr
 /workflow.png
 # Voice-AI waveform working stills (site uses the extracted frames in public/voice/).
 /voice-tower/
+# Higgsfield raw hero-scene sources (24.9MB raw mp4 + 6MB 2K still; site uses the
+# compressed public/hero-scene-web.mp4 + hero-scene-poster.webp — CDN URLs in CONTEXT.md).
+/assets-src/
 
 # Verbatim local mirror of the futureoffinance.peachweb.io reference (Peachworlds
 # export — third-party copyright, incl. Prada/Disney logos). Reference only; never
 # ship or commit. Run with: node clone-serve.mjs
 /clone/
 /clone-serve.mjs
+# Lab scene data + GLBs are copies of the same third-party reference content
+# (Peachworlds scene-state JSON incl. their GLSL, and their GLB models) — local
+# experimentation only, never commit/ship. Lab code itself (lab/*.ts) is ours.
+/lab/assets/
+/lab/data/
+# Storyboard captures of the reference site (third-party visuals) — reference only.
+/new-storyboard/
+# Superseded v6.15 Higgsfield hero-video assets (replaced by the WebGL scene in
+# v6.17; unused by the site — CDN job URLs in CONTEXT.md). Kept local only.
+/public/hero-scene-web.mp4
+/public/hero-scene-poster.webp

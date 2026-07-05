@@ -1,4 +1,3 @@
-import { motion } from "motion/react";
 import { solutions } from "../data/content";
 
 /**
@@ -28,33 +27,19 @@ const d = solutions.dashboard;
 export function Solutions() {
   return (
     <section id="solutions" className="relative">
-      <div className="relative mx-4 overflow-hidden rounded-[14px] border border-white/10 bg-[#0d1430]/45 shadow-[0_60px_120px_-60px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:mx-10 lg:mx-24">
+      <div className="gutter-x relative overflow-hidden rounded-[14px] border border-white/10 bg-[#0d1430]/45 shadow-[0_60px_120px_-60px_rgba(0,0,0,0.9)] backdrop-blur-2xl">
         {/* Soft top sheen so the glass reads as a lit surface. */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/[0.05] to-transparent"
         />
 
-        <div className="relative px-5 pt-6 sm:px-8 sm:pt-7 lg:px-12 lg:pt-8">
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="eyebrow text-fg/80"
-          >
-            {solutions.eyebrow}
-          </motion.p>
+        <div className="relative px-6 pt-8 sm:px-10 sm:pt-10 lg:px-14 lg:pt-12">
+          <p className="eyebrow text-fg/80">{solutions.eyebrow}</p>
 
           {/* Headline + CTAs (start) · paragraph (end, baseline-aligned). */}
-          <div className="mt-6 flex flex-col gap-6 lg:mt-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-            <motion.div
-              initial={{ opacity: 0, y: 26 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-xl"
-            >
+          <div className="mt-7 flex flex-col gap-7 lg:mt-10 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+            <div className="max-w-xl">
               <h2
                 aria-label={solutions.title}
                 className="font-medium leading-[1.12] tracking-[-0.03em] text-fg text-[clamp(1.85rem,2.9vw,3.15rem)]"
@@ -93,31 +78,19 @@ export function Solutions() {
                   ),
                 )}
               </div>
-            </motion.div>
+            </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 26 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="max-w-md text-[clamp(0.95rem,1vw,1.125rem)] leading-normal text-fg/90 lg:pb-1"
-            >
+            <p className="max-w-md text-[clamp(0.95rem,1vw,1.125rem)] leading-normal text-fg/90 lg:pb-1">
               {solutions.body}
-            </motion.p>
+            </p>
           </div>
         </div>
 
         {/* Dashboard mock — its own rounded edge, with a thin glass strip of
             panel visible beneath it (ref). */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-8%" }}
-          transition={{ duration: 0.8, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
-          className="relative mt-7 px-4 pb-4 sm:px-6 sm:pb-5 lg:mt-8 lg:px-8 lg:pb-6"
-        >
+        <div className="relative mt-9 px-5 pb-5 sm:px-7 sm:pb-6 lg:mt-11 lg:px-9 lg:pb-8">
           <DashboardMock />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

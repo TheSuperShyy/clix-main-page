@@ -120,6 +120,84 @@ export const solutions = {
   },
 } as const;
 
+// Partners logo strip — floats over the hero's scrubbed scene after Solutions
+// (ref: OUR PARTNERS · "Trusted by leading financial institutions." + a row of
+// glass logo tiles). Clix mapping: the platforms we build on and connect to.
+export const partners = {
+  eyebrow: "השותפים שלנו",
+  // Full sentence for a11y; visual two-line lockup below.
+  title: "עובדים עם הטכנולוגיות המובילות בעולם.",
+  titleLines: ["עובדים עם הטכנולוגיות", "המובילות בעולם."],
+  // Rendered via <BrandMark> (simple-icons; wordmark fallback for OpenAI/Vapi).
+  logos: ["OpenAI", "Claude", "Gemini", "Vapi", "n8n", "Make", "WhatsApp", "HubSpot"],
+} as const;
+
+// Features — the solid dark section right after the hero scene region (ref:
+// FEATURES · "The future of finance is here." + 3 cards, each a glass panel
+// with a rendered globe image, a title and a one-line description). Clix
+// mapping: the three core capabilities. Card art is a procedural placeholder
+// (swap for real renders later).
+export const features = {
+  eyebrow: "יכולות",
+  // Full sentence for a11y; visual two-line lockup below.
+  title: "העתיד של העסק שלכם כבר כאן.",
+  titleLines: ["העתיד של העסק שלכם", "כבר כאן."],
+  subcopy: "אנחנו מספקים כלי AI מתקדמים שמייעלים את הביצועים של העסק שלכם.",
+  items: [
+    {
+      title: "סוכנים קוליים חכמים",
+      desc: "מענה אנושי לכל שיחה, 24/7.",
+      art: "horizon" as const,
+    },
+    {
+      title: "אוטומציות חכמות",
+      desc: "תהליכים שרצים מעצמם, בלי טעויות.",
+      art: "orb" as const,
+    },
+    {
+      title: "תובנות בזמן אמת",
+      desc: "החלטות מבוססות נתונים, בכל רגע.",
+      art: "closeup" as const,
+    },
+  ],
+} as const;
+
+// Key Features — the numbered 01–03 sequence after Features (ref: "ABOUT OUR
+// SOLUTIONS · Key Features" header, then three ~70vh alternating rows — text
+// beside a large numbered image — each with its own eyebrow, statement
+// headline, body and a small dark CTA). Clix mapping: each row goes one level
+// deeper into a core capability. Row art is a procedural placeholder (swap
+// for real renders later).
+export const keyFeatures = {
+  eyebrow: "על הפתרונות שלנו",
+  title: "יכולות מרכזיות",
+  subcopy: "הצצה ליכולות הליבה שמניעות את הצמיחה והיעילות של העסק שלכם.",
+  items: [
+    {
+      eyebrow: "יכולת 1",
+      title: "סוכן קולי שלא מפספס שיחה.",
+      body: "סוכן AI קולי שעונה בעברית טבעית, מתאם פגישות ומטפל בלקוחות — בכל שעה, גם כשאתם עסוקים.",
+      number: "01",
+      art: "wave" as const,
+    },
+    {
+      eyebrow: "יכולת 2",
+      title: "אוטומציה שמריצה את העסק.",
+      body: "תהליכים שלמים — ממעקב לידים ועד חשבוניות — רצים מעצמם, מסונכרנים בין כל המערכות שלכם.",
+      number: "02",
+      art: "planet" as const,
+    },
+    {
+      eyebrow: "יכולת 3",
+      title: "תובנות שמניעות החלטות.",
+      body: "כל הנתונים של העסק במקום אחד, מנותחים בזמן אמת — כדי שתדעו בדיוק מה עובד ומה הצעד הבא.",
+      number: "03",
+      art: "field" as const,
+    },
+  ],
+  cta: { label: "בואו נדבר", href: "#contact" },
+} as const;
+
 // Full-bleed accent band right after the hero (on.energy's bold yellow statement).
 export const valueProp = {
   body: "Clix בונה ומתפעלת מערכות AI מהונדסות שפותרות את האתגרים האמיתיים של העסק. מסוכנים קוליים ואוטומציות ועד אפליקציות ומערכות CRM, אנחנו מספקים פתרונות מותאמים אישית, מהונדסים לאמינות, למהירות ולצמיחה, שעובדים מהיום הראשון.",
@@ -182,41 +260,51 @@ export const stack = {
   ],
 } as const;
 
+// Services — the sticky-header + glass-cards band (ref: SERVICES · "Tailored
+// for every…"). Header start-side, 4 tall glass cards scrolling past it.
 export const services = {
   eyebrow: "שירותים",
-  title: "מה אנחנו בונים",
-  intro:
-    "אנחנו לא עוד סוכנות. אנחנו צוות הנדסה שהופך את החזון שלכם למערכת AI שעובדת, מהיום הראשון.",
-  subtitle: "תוכנה שעובדת, תוצאות שמדברות.",
+  title: "פתרון מותאם לכל עסק.",
+  subcopy:
+    "צוות הנדסה שהופך את החזון שלכם למערכת AI שעובדת — מותאמת לגודל, לתחום ולקצב של העסק שלכם.",
   items: [
     {
-      index: "01",
-      icon: "voice" as IconName,
       title: "סוכני AI קוליים",
-      desc: "Voice AI ברמת ייצור: עונה לשיחות נכנסות, מאמת לידים, קובע פגישות ומעביר לנציג אנושי בדיוק כשצריך.",
-      points: ["מענה 24/7", "אימות לידים", "קביעת פגישות", "העברה חכמה"],
+      body: "Voice AI ברמת ייצור: עונה לשיחות נכנסות, מאמת לידים, קובע פגישות ומעביר לנציג אנושי בדיוק כשצריך.",
+      art: "tiles" as const,
     },
     {
-      index: "02",
-      icon: "code" as IconName,
       title: "אפליקציות ואתרים",
-      desc: "מוצרי Full-stack מהונדסים כמערכות, ממערכות CRM ופורטלי לקוחות ועד אפליקציות מובייל נייטיב ואתרים ייעודיים.",
-      points: ["מערכות CRM", "פורטלי לקוחות", "iOS / Android", "אתרי תדמית"],
+      body: "מוצרי Full-stack מהונדסים כמערכות — ממערכות CRM ופורטלי לקוחות ועד אפליקציות מובייל נייטיב ואתרים ייעודיים.",
+      art: "orbit" as const,
     },
     {
-      index: "03",
-      icon: "automation" as IconName,
       title: "אוטומציות ואינטגרציות",
-      desc: "מחברים את הכלים שכבר יש לכם לזרימת עבודה אחת, עם Vapi, n8n, Make, OpenAI ו-Claude.",
-      points: ["זרימות עבודה", "אינטגרציות API", "סנכרון נתונים", "ניטור חכם"],
+      body: "מחברים את הכלים שכבר יש לכם לזרימת עבודה אחת, עם Vapi, n8n, Make, OpenAI ו-Claude.",
+      art: "glow" as const,
     },
     {
-      index: "04",
-      icon: "crm" as IconName,
       title: "CRM ואוטומציית WhatsApp",
-      desc: "אוטומציות WhatsApp ומערכות CRM מותאמות אישית שמלוות את הלקוח מהליד הראשון ועד הסגירה.",
-      points: ["WhatsApp Business", "ניהול לידים", "פולו-אפ אוטומטי", "דשבורד מכירות"],
+      body: "אוטומציות WhatsApp ומערכות CRM מותאמות אישית שמלוות את הלקוח מהליד הראשון ועד הסגירה.",
+      art: "waves" as const,
     },
+  ],
+} as const;
+
+// Benefits — the sticky-header + stat-cards band (ref: BENEFITS · +48%/−21%/…).
+// First card inverted white, the rest glass.
+// ⚠️ Stat values are PLACEHOLDER marketing numbers — confirm real figures
+// with the client before launch.
+export const benefits = {
+  eyebrow: "יתרונות",
+  // Full sentence for a11y; visual two-line lockup below.
+  title: "חכם. מאובטח. גדל איתכם. ברוכים הבאים ל-Clix.",
+  titleLines: ["חכם. מאובטח. גדל איתכם.", "ברוכים הבאים ל-Clix."],
+  stats: [
+    { value: "+40%", label: "יותר פגישות ביומן" },
+    { value: "24/7", label: "מענה לכל שיחה, בלי להחמיץ ליד" },
+    { value: "-65%", label: "פחות עבודה ידנית על תהליכים" },
+    { value: "x3", label: "טיפול מהיר יותר בלידים חדשים" },
   ],
 } as const;
 
@@ -323,9 +411,11 @@ export const methodology = {
   ],
 } as const;
 
+// Testimonials — centered header + 3 quote columns (ref: TESTIMONIALS · "What
+// our clients say."). Real client quotes carried over from the previous build.
 export const testimonials = {
   eyebrow: "המלצות",
-  title: "שמעו את זה ישירות מהאנשים שהעבודה שלהם השתנתה",
+  title: "מה הלקוחות שלנו אומרים.",
   items: [
     {
       quote:
@@ -341,17 +431,91 @@ export const testimonials = {
     },
     {
       quote:
-        "המקצועיות והמהירות מטורפות. תוך שבועות היה לנו מוצר עובד, לא מצגת יפה.",
-      name: "נבו יהלומן",
-      role: "מייסד",
-    },
-    {
-      quote:
         "האוטומציות חסכו לנו שעות עבודה כל יום. הצוות של Clix פשוט מבין עסקים.",
       name: "נועם תובי",
       role: "בעלים, השקעות",
     },
   ],
+} as const;
+
+// Pricing — 3 tiers (ref: PRICING · "Plans for every scale."), middle tier
+// featured: raised black card with a white CTA.
+// ⚠️ Tiers, features and prices are PLACEHOLDER — Clix has no published
+// pricing; confirm real packages and figures with the client before launch.
+export const pricing = {
+  eyebrow: "תמחור",
+  title: "מסלול לכל שלב.",
+  perMonth: "/לחודש",
+  ctaHref: "#contact",
+  tiers: [
+    {
+      name: "בסיס",
+      desc: "לעסקים קטנים שעושים צעד ראשון עם AI.",
+      price: "₪1,490",
+      features: [
+        "סוכן קולי אחד",
+        "אוטומציה לתהליך מרכזי אחד",
+        "הטמעה והדרכה לצוות",
+        "תמיכה בשעות העבודה",
+      ],
+      cta: "בואו נתחיל",
+      featured: false,
+    },
+    {
+      name: "מקצועי",
+      desc: "לעסקים צומחים שרוצים מערכת שלמה.",
+      price: "₪3,900",
+      features: [
+        "עד 3 סוכני AI",
+        "אוטומציות ואינטגרציות ללא הגבלה",
+        "CRM ואוטומציית WhatsApp",
+        "תמיכה בעדיפות גבוהה",
+      ],
+      cta: "דברו איתנו",
+      featured: true,
+    },
+    {
+      name: "ארגוני",
+      desc: "לארגונים גדולים עם צרכים מורכבים.",
+      price: "₪7,900",
+      features: [
+        "סוכנים ומשתמשים ללא הגבלה",
+        "פיתוח מותאם אישית",
+        "אבטחה ותאימות ארגונית",
+        "מנהל לקוח ייעודי",
+      ],
+      cta: "דברו איתנו",
+      featured: false,
+    },
+  ],
+} as const;
+
+// Closing band — full-viewport CTA + footer in ONE section (ref: the last
+// scene band). id="contact", so every "דברו איתנו"/#contact link lands here.
+// ⚠️ LinkedIn / WhatsApp links are placeholders — swap for the real profiles.
+export const closing = {
+  // Full sentence for a11y; visual two-line lockup below.
+  title: "צומחים עם Clix. מתחילים את המסע עוד היום.",
+  titleLines: ["צומחים עם Clix.", "מתחילים את המסע עוד היום."],
+  ctas: [
+    { label: "דברו איתנו", href: "mailto:info@clixsolution.com", primary: true },
+    { label: "למידע נוסף", href: "#solutions", primary: false },
+  ],
+  footer: {
+    menuHeading: "תפריט",
+    menu: [
+      { label: "פתרונות", href: "#solutions" },
+      { label: "יכולות", href: "#features" },
+      { label: "שירותים", href: "#services" },
+      { label: "תמחור", href: "#pricing" },
+    ],
+    connectHeading: "בואו נתחבר",
+    connect: [
+      { label: "Instagram", href: "https://instagram.com/clix_solution" },
+      { label: "LinkedIn", href: "#" },
+      { label: "WhatsApp", href: "#" },
+    ],
+  },
 } as const;
 
 export const training = {
