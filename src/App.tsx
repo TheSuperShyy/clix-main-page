@@ -9,7 +9,7 @@ import { KeyFeatures } from "./components/KeyFeatures";
 import { Services } from "./components/Services";
 import { Benefits } from "./components/Benefits";
 import { Testimonials } from "./components/Testimonials";
-import { Pricing } from "./components/Pricing";
+import { Training } from "./components/Training";
 import { Closing } from "./components/Closing";
 
 // Flow (AI Finance clone, built section by section): Hero → Solutions →
@@ -53,8 +53,10 @@ export default function App() {
         <Benefits />
         {/* Centered header + 3 quote columns (ref: TESTIMONIALS). */}
         <Testimonials />
-        {/* 3 tier cards, middle one raised black + white CTA (ref: PRICING). */}
-        <Pricing />
+        {/* Lectures & workshops — copy block + autoplaying stage clip. This
+            REPLACED the placeholder Pricing band (client call); Pricing.tsx
+            stays parked on disk — re-import to restore. */}
+        <Training />
         {/* Full-viewport closing CTA + footer, id="contact" (ref: last band). */}
         <Closing />
       </main>

@@ -14,9 +14,13 @@ import { keyFeatures } from "../data/content";
  * black fill, 20px arrow, 28px top margin. Rows alternate text/image sides;
  * on mobile every row stacks image-first.
  *
- * The row art is a PROCEDURAL placeholder (layered CSS gradients in the hero
- * scene's navy/sky language — no reference assets); swap each <KeyFeatureArt>
- * for a real render/webp later. Static section — no scroll reveal, matching
+ * Row art = client-supplied renders (webp copies in /public/key-features,
+ * mapped to rows 01–03 in numerical order; raw PNGs parked in gitignored
+ * /assets-src/key-features). The renders had 01/02/03 baked into their top
+ * corner — that strip is cropped out of the assets so the component's own
+ * number overlay (which mirrors correctly in RTL and survives object-cover
+ * at every viewport) stays the single source of numbering. Decorative art —
+ * alt="" + lazy. Static section — no scroll reveal, matching
  * Solutions/Partners/Features.
  */
 
@@ -32,104 +36,6 @@ function CtaArrow({ className = "" }: { className?: string }) {
         strokeLinejoin="round"
       />
     </svg>
-  );
-}
-
-/** Placeholder row art — deep-space compositions from CSS gradients, matching
-    the hero canvas palette. Three framings: a particle-wave horizon with a
-    small crescent moon, a large rim-lit planet, and a glowing energy field. */
-function KeyFeatureArt({ variant }: { variant: "wave" | "planet" | "field" }) {
-  const body =
-    "radial-gradient(circle at 38% 30%, #0d1846 0%, #060d28 55%, #03071c 100%)";
-  const sphere = (rim: string) => ({ backgroundImage: `${rim}, ${body}` });
-
-  return (
-    <div
-      aria-hidden
-      className="relative h-full w-full overflow-hidden rounded-[8px] bg-[#04081f]"
-    >
-      {/* Ambient indigo wash. */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(90% 90% at 50% 105%, rgba(30,42,110,0.45), transparent 65%)",
-        }}
-      />
-
-      {variant === "wave" && (
-        <>
-          {/* Luminous wave band sweeping across the lower half. */}
-          <div
-            className="absolute inset-x-[-20%] bottom-[-10%] h-[70%] -rotate-6"
-            style={{
-              background:
-                "radial-gradient(70% 45% at 50% 55%, rgba(90,140,220,0.5), rgba(50,80,170,0.18) 55%, transparent 75%)",
-              filter: "blur(2px)",
-            }}
-          />
-          <div
-            className="absolute inset-x-[-10%] bottom-[6%] h-[38%] -rotate-3"
-            style={{
-              background:
-                "radial-gradient(60% 40% at 45% 50%, rgba(150,205,240,0.4), transparent 70%)",
-            }}
-          />
-          {/* Small crescent moon in the upper corner. */}
-          <div
-            className="absolute end-[8%] top-[10%] aspect-square w-[18%] rounded-full"
-            style={sphere(
-              "radial-gradient(70% 70% at 80% 35%, rgba(150,205,240,0.65), rgba(110,170,225,0.15) 45%, transparent 68%)",
-            )}
-          />
-          {/* Scattered particle specks. */}
-          <span className="absolute start-[18%] top-[38%] size-1 rounded-full bg-sky/50" />
-          <span className="absolute start-[42%] top-[30%] size-0.5 rounded-full bg-sky/40" />
-          <span className="absolute end-[30%] top-[52%] size-1 rounded-full bg-mint/40" />
-        </>
-      )}
-
-      {variant === "planet" && (
-        <>
-          {/* Large planet rising from the end edge, rim-lit from above. */}
-          <div
-            className="absolute -end-[25%] top-[12%] aspect-square w-[90%] rounded-full"
-            style={sphere(
-              "radial-gradient(80% 55% at 30% 2%, rgba(150,205,240,0.55), rgba(110,170,225,0.12) 45%, transparent 70%)",
-            )}
-          />
-          {/* Wide orbital ring crossing behind it. */}
-          <div className="absolute -end-[45%] top-[2%] aspect-square w-[130%] rounded-full border border-sky/12" />
-          <span className="absolute start-[14%] top-[24%] size-1 rounded-full bg-sky/50" />
-          <span className="absolute start-[30%] bottom-[20%] size-1.5 rounded-full bg-gold/30" />
-        </>
-      )}
-
-      {variant === "field" && (
-        <>
-          {/* Rising energy field — layered glow arcs from the bottom. */}
-          <div
-            className="absolute start-1/2 top-[68%] aspect-square w-[150%] -translate-x-1/2 rounded-full rtl:translate-x-1/2"
-            style={sphere(
-              "radial-gradient(85% 40% at 50% -4%, rgba(150,205,240,0.5), rgba(110,170,225,0.1) 48%, transparent 72%)",
-            )}
-          />
-          <div className="absolute start-1/2 top-[58%] aspect-square w-[165%] -translate-x-1/2 rounded-full border border-sky/15 rtl:translate-x-1/2" />
-          <div className="absolute start-1/2 top-[48%] aspect-square w-[180%] -translate-x-1/2 rounded-full border border-sky/[0.07] rtl:translate-x-1/2" />
-          <span className="absolute start-[24%] top-[22%] size-1 rounded-full bg-sky/50" />
-          <span className="absolute end-[20%] top-[34%] size-1 rounded-full bg-mint/40" />
-        </>
-      )}
-
-      {/* Corner vignette so every framing sinks into the card. */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(120% 100% at 50% 40%, transparent 45%, rgba(2,4,14,0.55) 100%)",
-        }}
-      />
-    </div>
   );
 }
 
@@ -162,7 +68,14 @@ export function KeyFeatures() {
             >
               {/* Image half — number badge pinned to the top/start corner. */}
               <div className="relative h-[300px] w-full sm:h-[46vh] md:h-full md:w-1/2">
-                <KeyFeatureArt variant={item.art} />
+                <img
+                  src={item.img}
+                  alt=""
+                  loading="lazy"
+                  width={2048}
+                  height={1374}
+                  className="h-full w-full rounded-[8px] bg-[#04081f] object-cover"
+                />
                 <p
                   aria-hidden
                   className="absolute start-6 top-6 z-[2] text-[16px] text-fg/70"

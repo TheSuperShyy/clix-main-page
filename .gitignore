@@ -40,6 +40,10 @@ dist-ssr
 # Higgsfield raw hero-scene sources (24.9MB raw mp4 + 6MB 2K still; site uses the
 # compressed public/hero-scene-web.mp4 + hero-scene-poster.webp — CDN URLs in CONTEXT.md).
 /assets-src/
+# Raw client uploads (source videos, 14–35MB each) — the site ships the compressed
+# copies in public/testimonials/ and public/training/.
+/client-testimonials/
+/ido-talk/
 
 # Verbatim local mirror of the futureoffinance.peachweb.io reference (Peachworlds
 # export — third-party copyright, incl. Prada/Disney logos). Reference only; never
