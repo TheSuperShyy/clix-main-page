@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scene Lab — AI Finance hero rebuild</title>
+    <link rel="icon" href="data:," />
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html { scrollbar-gutter: stable; }
+      body { background: #000735; font-family: system-ui, sans-serif; }
+      #scene {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        display: block;
+      }
+      /* Tall scroll runway — the timeline is scrubbed 0→1 across it. */
+      #runway { height: 800vh; }
+      #hud {
+        position: fixed;
+        top: 12px;
+        right: 16px;
+        z-index: 10;
+        color: #fff;
+        text-align: right;
+        font-size: 12px;
+        opacity: 0.85;
+        user-select: none;
+      }
+      #progress {
+        font-size: 22px;
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+      }
+      #jumps {
+        position: fixed;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        justify-content: center;
+        max-width: 90vw;
+      }
+      #jumps button {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #fff;
+        font-size: 11px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      #jumps button:hover { background: rgba(255, 255, 255, 0.2); }
+      #status {
+        position: fixed;
+        top: 12px;
+        left: 16px;
+        z-index: 10;
+        color: #9fb3ff;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="scene"></canvas>
+    <div id="runway"></div>
+    <div id="hud">
+      <div id="progress">0.0%</div>
+      <div>scroll to scrub</div>
+    </div>
+    <div id="jumps"></div>
+    <div id="status">loading scene…</div>
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>

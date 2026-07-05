@@ -64,7 +64,7 @@ function NavTab({ item }: { item: (typeof nav.items)[number] }) {
   // Plain text links inside the shared glass bar (ref: one nav container, not
   // per-item pills). The whole site is dark, so both treatments read light.
   const tabClass =
-    "group flex h-9 items-center gap-1.5 rounded-full px-4 text-[14px] font-medium text-on-ink/70 transition-colors duration-300 hover:bg-white/[0.06] hover:text-on-ink";
+    "group flex h-11 items-center gap-1.5 rounded-md px-5 text-[16px] font-medium text-on-ink/70 transition-colors duration-300 hover:bg-white/[0.06] hover:text-on-ink";
   const panelClass =
     "absolute inset-x-0 top-full z-50 mt-2 flex min-w-[220px] flex-col gap-1 rounded-[12px] border border-white/10 bg-[#0b1020]/95 p-1.5 backdrop-blur-md shadow-[0_24px_50px_-24px_rgba(0,0,0,0.8)]";
   const rowClass =
@@ -121,11 +121,20 @@ function NavTab({ item }: { item: (typeof nav.items)[number] }) {
   );
 }
 
-// Full-bleed DARK bands where the bar must stay light. The hero is now a
-// WHITE sheet (podium-style logo-hole zoom), so the bar starts dark-on-light;
-// #hero-inside is the hero's own end-of-zoom marker (viewer "inside" the
-// dark video) and #zoom is the dark zoom-reveal section.
-const DARK_SECTIONS = ["#hero-inside", "#solutions", "#zoom"];
+// Full-bleed DARK bands where the bar must stay light. With the old light
+// sections removed, the page is currently all-dark (hero scene region +
+// Solutions); new clone sections join this list only if they're dark bands.
+const DARK_SECTIONS = [
+  "#hero-inside",
+  "#solutions",
+  "#features",
+  "#key-features",
+  "#services",
+  "#benefits",
+  "#testimonials",
+  "#pricing",
+  "#contact",
+];
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -188,7 +197,7 @@ export function Navbar() {
 
         {/* Desktop nav group — one glass bar (text links) with the dark CTA pill
             attached at its end (ref: nav container + Get Started button). */}
-        <div className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.05] p-1.5 ps-4 backdrop-blur-md md:flex">
+        <div className="hidden items-center gap-2 rounded-lg border border-white/10 bg-white/[0.05] p-1.5 ps-5 backdrop-blur-md md:flex">
           <nav className="flex items-center gap-0.5">
             {nav.items.map((item) => (
               <NavTab key={item.href} item={item} />
@@ -199,11 +208,11 @@ export function Navbar() {
           <motion.a
             {...pillMotion}
             href={nav.cta.href}
-            className="inline-flex h-10 items-center gap-2.5 rounded-full bg-ink ps-5 pe-1.5 text-[14px] font-bold text-on-ink ring-1 ring-white/10 transition-colors hover:bg-ink-2"
+            className="inline-flex h-14 items-center gap-3 rounded-md bg-ink ps-6 pe-2.5 text-[16px] font-bold text-on-ink ring-1 ring-white/10 transition-colors hover:bg-ink-2"
           >
             {nav.cta.label}
-            <span className="grid size-7 place-items-center rounded-full bg-on-ink text-ink">
-              <NavArrow className="size-4" />
+            <span className="grid size-9 place-items-center rounded-full bg-on-ink text-ink">
+              <NavArrow className="size-5" />
             </span>
           </motion.a>
         </div>
