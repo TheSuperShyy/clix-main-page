@@ -106,8 +106,14 @@ export function createHeroScene(
   let w = width;
   let h = height;
   const applyQuality = (q: Quality) => {
-    const dpr =
-      q === "low" ? 0.65 : q === "med" ? 1 : Math.min(window.devicePixelRatio || 1, 1.5);
+    // dpr scales with the device's PHYSICAL pixel ratio (capped per tier), not
+    // an absolute value. A phone at devicePixelRatio 2–3 previously rendered
+    // the scene at dpr 1 (~⅓ of its real resolution) then upscaled it → the
+    // ball/glass looked pixelated. Now high-DPR screens render near their true
+    // resolution like the desktop does; the caps + adaptive downgrade keep the
+    // (expensive) transmission glass affordable. Desktop (dpr 1) is unchanged.
+    const cap = q === "low" ? 1 : q === "med" ? 1.5 : 2;
+    const dpr = Math.min(window.devicePixelRatio || 1, cap);
     renderer.setPixelRatio(dpr);
     composer.setSize(w, h);
     for (const m of built.materials) m.dispersion = q === "high" ? 1 : 0;
