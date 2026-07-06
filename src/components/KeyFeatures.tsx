@@ -95,12 +95,18 @@ export function KeyFeatures() {
                 <p className="max-w-[500px] text-[16px] leading-relaxed text-fg/70 sm:text-[17px]">
                   {item.body}
                 </p>
+                {/* Only row 2 (i === 1) gets the ref's full-column block button;
+                    rows 1 & 3 keep the compact content-width pill. */}
                 <a
                   href={keyFeatures.cta.href}
-                  className="mt-7 inline-flex h-12 items-center gap-2 rounded-[8px] bg-black ps-6 pe-4 text-[16px] font-light tracking-[-0.03em] text-fg ring-1 ring-white/10 transition-colors hover:bg-white/[0.06]"
+                  className={`group mt-7 h-12 items-center gap-3 rounded-[8px] bg-black text-[16px] font-light tracking-[-0.03em] text-fg ring-1 ring-white/10 transition-colors hover:bg-white/[0.06] ${
+                    i === 1 ? "flex w-full justify-center px-6" : "inline-flex ps-6 pe-2"
+                  }`}
                 >
                   {keyFeatures.cta.label}
-                  <CtaArrow className="size-5" />
+                  <span className="grid size-8 place-items-center rounded-full bg-on-ink text-ink transition-transform duration-200 group-hover:-translate-x-0.5">
+                    <CtaArrow className="size-4" />
+                  </span>
                 </a>
               </div>
             </article>

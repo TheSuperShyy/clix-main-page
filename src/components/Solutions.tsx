@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { solutions } from "../data/content";
 
 /**
@@ -37,59 +38,60 @@ export function Solutions() {
         <div className="relative px-6 pt-8 sm:px-10 sm:pt-10 lg:px-14 lg:pt-12">
           <p className="eyebrow text-fg/80">{solutions.eyebrow}</p>
 
-          {/* Headline + CTAs (start) · paragraph (end, baseline-aligned). */}
-          <div className="mt-7 flex flex-col gap-7 lg:mt-10 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
-            <div className="max-w-xl">
-              <h2
-                aria-label={solutions.title}
-                className="font-medium leading-[1.12] tracking-[-0.03em] text-fg text-[clamp(1.85rem,2.9vw,3.15rem)]"
-              >
-                {solutions.titleLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </h2>
+          {/* Desktop (ref): headline + CTAs on the START side, paragraph on the
+              END side (bottom-aligned). Mobile (ref): headline → body → CTAs so
+              the buttons sit flush above the dashboard — one DOM order (h2, p,
+              CTAs) placed explicitly on a 2-col grid for the desktop split. */}
+          <div className="mt-7 grid gap-6 lg:mt-10 lg:grid-cols-2 lg:items-start lg:gap-12">
+            <h2
+              aria-label={solutions.title}
+              className="max-w-xl font-medium leading-[1.12] tracking-[-0.03em] text-fg text-[clamp(1.85rem,2.9vw,3.15rem)] lg:col-start-1 lg:row-start-1"
+            >
+              {solutions.titleLines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </h2>
 
-              {/* Ref: unlike the hero pills, the Solutions CTAs are ROUNDED
-                  RECTANGLES — white rect w/ circular arrow badge + flat grey
-                  rect (no border). */}
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                {solutions.ctas.map((c) =>
-                  c.primary ? (
-                    <a
-                      key={c.href}
-                      href={c.href}
-                      className="group inline-flex h-11 items-center gap-2.5 rounded-[12px] bg-white ps-5 pe-2 text-[14px] font-bold text-ink transition-colors hover:bg-white/90"
-                    >
-                      {c.label}
-                      <span className="grid size-7 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5">
-                        <ArrowIcon />
-                      </span>
-                    </a>
-                  ) : (
-                    <a
-                      key={c.href}
-                      href={c.href}
-                      className="inline-flex h-11 items-center rounded-[12px] bg-white/[0.16] px-5 text-[14px] font-bold text-fg backdrop-blur-sm transition-colors hover:bg-white/25"
-                    >
-                      {c.label}
-                    </a>
-                  ),
-                )}
-              </div>
-            </div>
-
-            <p className="max-w-md text-[clamp(0.95rem,1vw,1.125rem)] leading-normal text-fg/90 lg:pb-1">
+            <p className="max-w-md text-[clamp(0.95rem,1vw,1.125rem)] leading-normal text-fg/90 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-end lg:pb-1">
               {solutions.body}
             </p>
+
+            {/* Ref: unlike the hero pills, the Solutions CTAs are ROUNDED
+                RECTANGLES — white rect w/ circular arrow badge + flat grey
+                rect (no border). */}
+            <div className="flex flex-wrap items-center gap-3 lg:col-start-1 lg:row-start-2">
+              {solutions.ctas.map((c) =>
+                c.primary ? (
+                  <a
+                    key={c.href}
+                    href={c.href}
+                    className="group inline-flex h-11 items-center gap-2.5 rounded-[12px] bg-white ps-5 pe-2 text-[14px] font-bold text-ink transition-colors hover:bg-white/90"
+                  >
+                    {c.label}
+                    <span className="grid size-7 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5">
+                      <ArrowIcon />
+                    </span>
+                  </a>
+                ) : (
+                  <a
+                    key={c.href}
+                    href={c.href}
+                    className="inline-flex h-11 items-center rounded-[12px] bg-white/[0.16] px-5 text-[14px] font-bold text-fg backdrop-blur-sm transition-colors hover:bg-white/25"
+                  >
+                    {c.label}
+                  </a>
+                ),
+              )}
+            </div>
           </div>
         </div>
 
         {/* Dashboard mock — its own rounded edge, with a thin glass strip of
             panel visible beneath it (ref). */}
         <div className="relative mt-9 px-5 pb-5 sm:px-7 sm:pb-6 lg:mt-11 lg:px-9 lg:pb-8">
-          <DashboardMock />
+          <DashboardFrame />
         </div>
       </div>
     </section>
@@ -98,12 +100,74 @@ export function Solutions() {
 
 /* ────────────────────────── Dashboard mock ────────────────────────── */
 
+/**
+ * DashboardFrame — on a phone the full dashboard would reflow into a very tall
+ * column; the reference keeps it a small landscape "screenshot" instead. So
+ * below lg we render the dashboard at its fixed desktop design width and SCALE
+ * it down with a transform to fit the card (origin top-right for RTL), sizing
+ * the wrapper to the scaled height so it occupies no extra space. On lg+ the
+ * transform is cleared and it renders naturally at full width (unchanged).
+ */
+const DESIGN_W = 940;
+
+function DashboardFrame() {
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const inner = innerRef.current;
+    if (!wrap || !inner) return;
+    const desktop = window.matchMedia("(min-width: 1024px)");
+
+    const apply = () => {
+      if (desktop.matches) {
+        // Full-width desktop dashboard — no scaling.
+        inner.style.transform = "";
+        inner.style.transformOrigin = "";
+        wrap.style.height = "";
+        return;
+      }
+      // offsetHeight is the layout height at DESIGN_W (CSS `w-[940px]`) and is
+      // independent of the transform, so read it before scaling.
+      inner.style.transformOrigin = "top right";
+      const h = inner.offsetHeight;
+      const s = wrap.clientWidth / DESIGN_W;
+      inner.style.transform = `scale(${s})`;
+      wrap.style.height = `${h * s}px`;
+    };
+
+    const ro = new ResizeObserver(apply);
+    ro.observe(wrap);
+    apply();
+    desktop.addEventListener("change", apply);
+    // Re-measure once fonts land (they change the mock's height).
+    document.fonts?.ready.then(apply).catch(() => {});
+    return () => {
+      ro.disconnect();
+      desktop.removeEventListener("change", apply);
+    };
+  }, []);
+
+  return (
+    <div ref={wrapRef} className="overflow-hidden">
+      {/* Fixed design width on mobile so the internal desktop layout renders,
+          then scaled by the effect; full width from lg up. */}
+      <div ref={innerRef} className="w-[940px] lg:w-full">
+        <DashboardMock />
+      </div>
+    </div>
+  );
+}
+
 function DashboardMock() {
   return (
     <div className="overflow-hidden rounded-[10px] border border-white/10 bg-[#08090f]/95 shadow-[0_40px_80px_-40px_rgba(0,0,0,0.8)]">
       <div className="flex">
-        {/* Sidebar — START (RTL right; ref LTR left), full height. */}
-        <aside className="hidden w-[180px] shrink-0 flex-col justify-between border-e border-white/[0.06] p-3 lg:flex">
+        {/* Sidebar — START (RTL right; ref LTR left), full height. Always shown:
+            the frame renders at a fixed desktop width (scaled on mobile), so the
+            sidebar must not depend on the viewport breakpoint. */}
+        <aside className="flex w-[180px] shrink-0 flex-col justify-between border-e border-white/[0.06] p-3">
           <nav className="flex flex-col gap-1">
             {d.nav.map((item) => (
               <span
@@ -146,14 +210,14 @@ function DashboardMock() {
             </div>
             <div className="flex items-center gap-3">
               <BellIcon className="size-4 text-fg/50" />
-              <div className="hidden h-8 w-40 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 text-[12px] text-fg/35 sm:flex lg:w-48">
+              <div className="flex h-8 w-48 items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 text-[12px] text-fg/35">
                 <SearchIcon className="size-3" />
                 {d.searchPlaceholder}
               </div>
             </div>
           </div>
 
-          <div className="grid gap-3 p-3 xl:grid-cols-[1fr_250px]">
+          <div className="grid grid-cols-[1fr_250px] gap-3 p-3">
             {/* Center: KPI chart + channels table. */}
             <div className="flex min-w-0 flex-col gap-3">
               <KpiCard />

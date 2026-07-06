@@ -548,7 +548,6 @@ export const closing = {
     connectHeading: "בואו נתחבר",
     connect: [
       { label: "Instagram", href: "https://instagram.com/clix_solution" },
-      { label: "LinkedIn", href: "#" },
       { label: "WhatsApp", href: "#" },
     ],
   },

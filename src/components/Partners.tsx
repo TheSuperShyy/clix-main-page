@@ -34,12 +34,13 @@ export function Partners() {
           ))}
         </h2>
 
-        {/* Glass logo tiles — single row on wide screens (ref: 8 across). */}
-        <ul className="mt-12 grid grid-cols-2 gap-2.5 sm:mt-16 sm:grid-cols-4 xl:grid-cols-8">
+        {/* Glass logo tiles — roomy landscape cards, 2 rows of 4 on desktop
+            (wider than the ref's 8-across so the marks breathe). */}
+        <ul className="mt-12 grid grid-cols-2 gap-3 sm:mt-16 sm:gap-4 md:grid-cols-4">
           {partners.logos.map((name) => (
             <li
               key={name}
-              className="group grid aspect-[4/3] place-items-center rounded-[10px] bg-white/[0.08] px-3 text-fg/90 backdrop-blur-md transition-colors duration-300 hover:bg-white/[0.14] xl:aspect-square"
+              className="group grid aspect-[3/2] place-items-center rounded-[14px] bg-white/[0.08] px-5 text-fg/90 backdrop-blur-md transition-colors duration-300 hover:bg-white/[0.14] md:aspect-[16/9]"
             >
               <BrandMark name={name} />
             </li>
