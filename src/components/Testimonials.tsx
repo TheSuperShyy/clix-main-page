@@ -107,14 +107,20 @@ export function Testimonials() {
                   ref={(el) => {
                     videoRefs.current[i] = el;
                   }}
-                  src={t.src}
                   poster={t.poster}
                   preload="metadata"
                   playsInline
                   onEnded={() => setPlaying((p) => (p === i ? null : p))}
                   onPause={() => setPlaying((p) => (p === i ? null : p))}
                   className="size-full object-cover"
-                />
+                >
+                  {/* AV1 first (~⅓ smaller, visually identical) with an
+                      explicit codec string so non-AV1 browsers report they
+                      can't play it and fall through to the H.264/MP4 (which is
+                      +faststart, so it starts before it's fully downloaded). */}
+                  <source src={t.srcAv1} type='video/mp4; codecs="av01.0.08M.08"' />
+                  <source src={t.src} type="video/mp4" />
+                </video>
 
                 {/* Bottom scrim so the caption stays readable over any frame. */}
                 <div
@@ -134,33 +140,43 @@ export function Testimonials() {
                 </figcaption>
 
                 {/* Full-card play/pause control — the whole card is the tap
-                    target; the visible circle is just the affordance. */}
+                    target; the visible circle sits in the bottom-END corner so
+                    it never covers the person's face (it used to sit dead-center
+                    over the poster). Name caption is on the start side, so the
+                    two never collide. */}
                 <button
                   type="button"
                   onClick={() => toggle(i)}
                   aria-label={`${isPlaying ? testimonials.pauseLabel : testimonials.playLabel} ${t.name}`}
-                  className="absolute inset-0 grid cursor-pointer place-items-center outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-inset"
+                  className="absolute inset-0 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-inset"
                 >
-                  <AnimatePresence initial={false}>
-                    {!isPlaying && (
-                      <motion.span
-                        initial={{ opacity: 0, scale: 0.85 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.85 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="grid size-14 place-items-center rounded-full bg-white/15 text-fg ring-1 ring-white/25 backdrop-blur-[20px] transition-transform duration-200 group-hover:scale-105 sm:size-16"
-                      >
-                        <PlayIcon className="size-6 translate-x-[1px] sm:size-7" />
-                      </motion.span>
-                    )}
-                  </AnimatePresence>
-                  {/* Pause affordance only surfaces on hover/focus while playing —
-                      keeps the video unobstructed. */}
-                  {isPlaying && (
-                    <span className="grid size-14 place-items-center rounded-full bg-black/40 text-fg opacity-0 ring-1 ring-white/20 backdrop-blur-[12px] transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100 sm:size-16">
-                      <PauseIcon className="size-6 sm:size-7" />
-                    </span>
-                  )}
+                  <span className="pointer-events-none absolute bottom-4 end-4 sm:bottom-5 sm:end-5">
+                    <AnimatePresence initial={false}>
+                      {!isPlaying ? (
+                        <motion.span
+                          key="play"
+                          initial={{ opacity: 0, scale: 0.85 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.85 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="grid size-11 place-items-center rounded-full bg-white/15 text-fg ring-1 ring-white/25 backdrop-blur-[20px] transition-transform duration-200 group-hover:scale-105"
+                        >
+                          <PlayIcon className="size-5 translate-x-[1px]" />
+                        </motion.span>
+                      ) : (
+                        <motion.span
+                          key="pause"
+                          initial={{ opacity: 0, scale: 0.85 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.85 }}
+                          transition={{ duration: 0.2, ease: "easeOut" }}
+                          className="grid size-11 place-items-center rounded-full bg-black/45 text-fg opacity-0 ring-1 ring-white/20 backdrop-blur-[12px] transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100"
+                        >
+                          <PauseIcon className="size-5" />
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </span>
                 </button>
               </figure>
             );

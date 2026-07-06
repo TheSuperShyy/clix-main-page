@@ -119,15 +119,19 @@ export function Closing() {
                 <p className="mb-3 text-[18px] font-light tracking-[-0.03em] text-fg sm:text-[20px]">
                   {col.heading}
                 </p>
-                {col.links.map((link) => (
+                {col.links.map((link) => {
+                  const external = link.href.startsWith("http");
+                  return (
                   <a
                     key={link.label}
                     href={link.href}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="text-[14px] font-light tracking-[-0.03em] text-fg/80 transition-colors hover:text-fg sm:text-[16px]"
                   >
                     {link.label}
                   </a>
-                ))}
+                  );
+                })}
               </nav>
             ))}
           </div>

@@ -428,24 +428,28 @@ export const testimonials = {
     {
       name: "אסף פרץ",
       role: "מייסד, SalesIQ",
+      srcAv1: "/testimonials/asaf-peretz.av1.mp4",
       src: "/testimonials/asaf-peretz.mp4",
       poster: "/testimonials/asaf-peretz-poster.jpg",
     },
     {
       name: "אדיר פרץ",
       role: "בעלים, סטודיו צילום ווידאו",
+      srcAv1: "/testimonials/adir-peretz.av1.mp4",
       src: "/testimonials/adir-peretz.mp4",
       poster: "/testimonials/adir-peretz-poster.jpg",
     },
     {
       name: "נועם תובי",
       role: "בעלים, השקעות",
+      srcAv1: "/testimonials/noam-tovi.av1.mp4",
       src: "/testimonials/noam-tovi.mp4",
       poster: "/testimonials/noam-tovi-poster.jpg",
     },
     {
       name: "נבו יהלומן",
       role: "לקוח Clix",
+      srcAv1: "/testimonials/nevo-yahaloman.av1.mp4",
       src: "/testimonials/nevo-yahaloman.mp4",
       poster: "/testimonials/nevo-yahaloman-poster.jpg",
     },
@@ -548,6 +552,7 @@ export const closing = {
     connectHeading: "בואו נתחבר",
     connect: [
       { label: "Instagram", href: "https://instagram.com/clix_solution" },
+      { label: "LinkedIn", href: "https://www.linkedin.com/company/clix-solution/" },
       { label: "WhatsApp", href: "#" },
     ],
   },
@@ -596,7 +601,7 @@ export const footer = {
   blurb: "סוכנות הנדסת AI שבונה מערכות שעובדות, מהונדסות לצמיחה.",
   socials: [
     { label: "Instagram", href: "https://instagram.com/clix_solution" },
-    { label: "LinkedIn", href: "#" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/company/clix-solution/" },
     { label: "WhatsApp", href: "#" },
   ],
   legal: ["מדיניות פרטיות", "תנאי שימוש", "הצהרת נגישות"],
