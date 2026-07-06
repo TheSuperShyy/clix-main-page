@@ -1,4 +1,5 @@
 import { brand, closing, contact } from "../data/content";
+import { ClixMark } from "./ui/ClixMark";
 
 /**
  * Closing — the last band: closing CTA + footer in ONE full-viewport section
@@ -96,8 +97,11 @@ export function Closing() {
             <a
               href="#top"
               aria-label={brand.full}
-              className="font-apple text-[1.6rem] font-medium uppercase leading-none text-fg transition-opacity hover:opacity-70"
+              className="inline-flex items-center gap-[0.4em] font-apple text-[1.6rem] font-medium uppercase leading-none text-fg transition-opacity hover:opacity-70"
             >
+              {/* Same logomark + wordmark lockup as the navbar — currentColor
+                  (text-fg = white) tints the inlined mark to match. */}
+              <ClixMark className="h-[1.1em] w-auto shrink-0" />
               {brand.name}
             </a>
             <a
