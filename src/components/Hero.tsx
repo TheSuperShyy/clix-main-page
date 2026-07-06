@@ -146,26 +146,6 @@ export function Hero({ children }: { children?: ReactNode }) {
                 <motion.p variants={item} className="mt-5 text-[1.25rem] font-normal text-fg/90">
                   {hero.tagline}
                 </motion.p>
-
-                {/* Avatar cluster — real team photos as social proof (ref: 4 photos). */}
-                <motion.div variants={item} className="mt-3 flex items-center -space-x-1.5">
-                  {[
-                    "/avatars/team-maayan.webp",
-                    "/avatars/team-matan.webp",
-                    "/avatars/team-yarin.webp",
-                    "/avatars/founder.webp",
-                  ].map((src, i) => (
-                    <img
-                      key={i}
-                      src={src}
-                      alt=""
-                      aria-hidden
-                      width={32}
-                      height={32}
-                      className="size-8 rounded-full object-cover ring-2 ring-[#000735]"
-                    />
-                  ))}
-                </motion.div>
               </div>
 
               {/* END column (RTL left): supporting paragraph + CTAs. */}

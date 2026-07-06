@@ -83,10 +83,19 @@ export class FlutedGlassEffect extends Effect {
     this.progressUniform.value = p;
   }
 
-  /** Density is per aspect-corrected unit — flutes keep their physical width. */
+  /**
+   * Density is per aspect-corrected unit — flutes keep their physical width on
+   * wide screens. But a raw aspect scale collapses to only a handful of very
+   * WIDE flutes on a narrow / portrait phone (aspect ≈ 0.46), which read as
+   * "too large" and slice the sphere into coarse, distorted ribbons as it
+   * passes. Floor the aspect so portrait keeps a fine reeded density (more,
+   * narrower flutes) like the desktop; landscape/desktop (aspect ≥ 1.2) is
+   * unchanged.
+   */
   override setSize(width: number, height: number) {
+    const aspect = Math.max(width / height, 1.2);
     (this.uniforms.get("uDensity") as THREE.Uniform<number>).value =
-      this.baseDensity * (width / height) * this.coverage;
+      this.baseDensity * aspect * this.coverage;
   }
 
   override update(_renderer: THREE.WebGLRenderer, inputBuffer: THREE.WebGLRenderTarget) {
