@@ -61,3 +61,9 @@ dist-ssr
 # v6.17; unused by the site — CDN job URLs in CONTEXT.md). Kept local only.
 /public/hero-scene-web.mp4
 /public/hero-scene-poster.webp
+# Source team photos — the site ships the derived public/avatars/*.webp (v6.18.0,
+# ~10 KB total); these ~1 MB originals are kept local for re-processing only.
+/public/founder.jpeg
+/public/team-maayan.jpeg
+/public/team-matan.jpeg
+/public/team-yarin.jpeg

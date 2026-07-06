@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { training } from "../data/content";
 
 /**
@@ -26,6 +27,45 @@ function CtaArrow({ className = "" }: { className?: string }) {
         strokeLinejoin="round"
       />
     </svg>
+  );
+}
+
+/**
+ * StageClip — the ambient muted loop, gated to the viewport. `preload="none"`
+ * keeps the 1.2 MB clip off the initial load (the poster shows meanwhile); an
+ * IntersectionObserver starts playback only when the card scrolls in and pauses
+ * it when it leaves, so the video never decodes off-screen (CPU/battery win).
+ */
+function StageClip() {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.muted = true;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) void el.play().catch(() => {});
+        else el.pause();
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      src={training.video.src}
+      poster={training.video.poster}
+      muted
+      loop
+      playsInline
+      preload="none"
+      aria-label={training.video.ariaLabel}
+      className="aspect-video w-full object-cover"
+    />
   );
 }
 
@@ -82,26 +122,7 @@ export function Training() {
             under the card (ref format: "ON STAGE" + "RECENT · Q3 KEYNOTE"). */}
         <figure className="flex w-full flex-col gap-3">
           <div className="relative overflow-hidden rounded-[12px] bg-white/[0.04] ring-1 ring-white/10">
-            <video
-              // React can skip writing the `muted` ATTRIBUTE (it only sets the
-              // property), and browsers block autoplay unless the element is
-              // muted when playback starts — force both, then kick play()
-              // ourselves (autoplay attr alone silently fails in that state).
-              ref={(el) => {
-                if (!el) return;
-                el.muted = true;
-                void el.play().catch(() => {});
-              }}
-              src={training.video.src}
-              poster={training.video.poster}
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="auto"
-              aria-label={training.video.ariaLabel}
-              className="aspect-video w-full object-cover"
-            />
+            <StageClip />
             {/* Live-style badge — Latin small caps, so pinned LTR. */}
             <span
               dir="ltr"

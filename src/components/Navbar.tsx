@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { brand, contact, nav } from "../data/content";
+import { brand, nav } from "../data/content";
 import { ScrollTrigger, useGSAP } from "../lib/gsap";
 
 /** Small forward arrow for the CTA badge — points to the RTL "forward" (left). */
@@ -18,12 +18,21 @@ function NavArrow({ className = "" }: { className?: string }) {
   );
 }
 
+/** Close (×) glyph for the mobile menu card. */
+function CloseIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden className={className}>
+      <path d="M6 6l12 12M18 6 6 18" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" />
+    </svg>
+  );
+}
+
 function Wordmark({ className = "" }: { className?: string }) {
   return (
     <a
       href="#top"
       aria-label={brand.full}
-      className={`font-apple font-black uppercase leading-none tracking-tight transition-opacity hover:opacity-70 ${className}`}
+      className={`font-apple font-medium uppercase leading-none transition-opacity hover:opacity-70 ${className}`}
     >
       {brand.name}
     </a>
@@ -103,8 +112,9 @@ export function Navbar() {
   // the dark bands — the white hero sheet at the top included.
   const darkNav = !onDark;
 
-  // Mobile menu tile — same glass treatment, square.
-  const menuTile = `ms-auto grid size-9 shrink-0 place-items-center rounded-[6px] backdrop-blur-md transition-colors duration-300 md:hidden ${
+  // Mobile menu tile — rounded-square hamburger button (ref: dark tile, three
+  // lines). size-11 = 44px, meeting the 44×44 min touch target (was 36px).
+  const menuTile = `ms-auto grid size-11 shrink-0 place-items-center rounded-[12px] backdrop-blur-md transition-colors duration-300 md:hidden ${
     darkNav ? "bg-ink text-on-ink hover:bg-ink-2" : "bg-on-ink/[0.12] text-on-ink hover:bg-on-ink/20"
   }`;
 
@@ -156,71 +166,83 @@ export function Navbar() {
           aria-expanded={open}
           className={menuTile}
         >
-          <span className="flex items-center gap-1.5">
-            <span className="size-2 rounded-full bg-on-ink" />
-            <span className="size-2 rounded-full bg-on-ink" />
+          {/* Hamburger — three hairline bars (ref navbar icon). */}
+          <span aria-hidden className="flex flex-col items-center justify-center gap-[5px]">
+            <span className="h-[2px] w-[19px] rounded-full bg-current" />
+            <span className="h-[2px] w-[19px] rounded-full bg-current" />
+            <span className="h-[2px] w-[19px] rounded-full bg-current" />
           </span>
         </motion.button>
       </motion.div>
 
-      {/* Full-screen ink menu overlay */}
+      {/* Mobile menu — a WHITE dropdown card at the top (ref): dark wordmark +
+          black close tile, a start-aligned link list and the Get Started CTA,
+          over a dimmed tap-to-close backdrop that shows the page beneath. */}
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-50 bg-ink text-on-ink"
+            className="fixed inset-0 z-50 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="container-x flex h-full flex-col py-4 font-apple sm:py-5">
-              <div className="flex items-center justify-between gap-4">
-                <Wordmark className="text-[2rem] text-on-ink" />
-                {/* Close button mirrors the tab anatomy: label + trailing circle. */}
-                <motion.button
-                  {...pillMotion}
-                  onClick={() => setOpen(false)}
-                  aria-label="סגרו תפריט"
-                  className="group inline-flex items-center gap-4 rounded-full bg-on-ink/10 py-2.5 pe-2.5 ps-7 text-on-ink transition-colors hover:bg-on-ink/15"
-                >
-                  <span className="text-lg font-semibold tracking-tight">סגירה</span>
-                  <span className="grid size-12 place-items-center rounded-full bg-on-ink/15 text-3xl leading-none transition-colors group-hover:bg-on-ink/25">
-                    ×
-                  </span>
-                </motion.button>
-              </div>
+            {/* Dimmed, tap-to-close backdrop. */}
+            <button
+              aria-label="סגירת תפריט"
+              onClick={() => setOpen(false)}
+              className="absolute inset-0 bg-black/45 backdrop-blur-[2px]"
+            />
 
-              <nav className="flex flex-1 flex-col justify-center">
-                <ul className="flex flex-col gap-2">
-                  {nav.items.map((item, i) => (
-                    <motion.li
+            {/* White sheet — aligned to the bar, drops from the top. */}
+            <motion.div
+              initial={reduced ? { opacity: 0 } : { opacity: 0, y: -14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduced ? { opacity: 0 } : { opacity: 0, y: -14 }}
+              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="container-x relative pt-4 font-apple"
+            >
+              <div className="rounded-[18px] bg-white p-5 shadow-[0_30px_70px_-24px_rgba(0,0,0,0.55)]">
+                {/* Header — wordmark (start) + close tile (end), mirroring the bar. */}
+                <div className="flex items-center justify-between gap-4">
+                  <Wordmark className="text-[1.6rem] text-ink" />
+                  <motion.button
+                    {...pillMotion}
+                    onClick={() => setOpen(false)}
+                    aria-label="סגירת תפריט"
+                    className="grid size-11 shrink-0 place-items-center rounded-[12px] bg-ink text-white transition-colors hover:bg-ink-2"
+                  >
+                    <CloseIcon className="size-5" />
+                  </motion.button>
+                </div>
+
+                {/* Links — start-aligned, dark. */}
+                <nav className="mt-4 flex flex-col">
+                  {nav.items.map((item) => (
+                    <a
                       key={item.href}
-                      initial={{ opacity: 0, y: 24 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 + i * 0.07, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className="py-3 text-start text-[15px] font-medium text-ink/70 transition-colors hover:text-ink"
                     >
-                      <a
-                        href={item.href}
-                        onClick={() => setOpen(false)}
-                        className="inline-block py-1 text-5xl font-black text-on-ink/70 transition-colors hover:text-on-ink sm:text-7xl"
-                      >
-                        {item.label}
-                      </a>
-                    </motion.li>
+                      {item.label}
+                    </a>
                   ))}
-                </ul>
-              </nav>
+                </nav>
 
-              <div className="flex flex-col gap-2 border-t border-on-ink/15 pt-6 text-sm text-on-ink/60 sm:flex-row sm:items-center sm:justify-between">
-                <a href={`mailto:${contact.email}`} className="transition-colors hover:text-on-ink">
-                  {contact.email}
-                </a>
-                <span>{contact.locationLine}</span>
-                <a href={contact.instagramUrl} className="transition-colors hover:text-on-ink">
-                  {contact.instagramHandle}
+                {/* Get Started CTA — dark rounded button + white arrow badge. */}
+                <a
+                  href={nav.cta.href}
+                  onClick={() => setOpen(false)}
+                  className="group mt-3 inline-flex h-12 items-center gap-2.5 rounded-[10px] bg-ink ps-5 pe-2.5 text-[14px] font-bold text-white transition-colors hover:bg-ink-2"
+                >
+                  {nav.cta.label}
+                  <span className="grid size-7 place-items-center rounded-full bg-white text-ink transition-transform duration-200 group-hover:-translate-x-0.5">
+                    <NavArrow className="size-4" />
+                  </span>
                 </a>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -64,7 +64,9 @@ export function Closing() {
             ))}
           </h2>
 
-          <div className="flex w-full flex-col gap-1 sm:w-auto sm:flex-row">
+          {/* Ref: the two CTAs sit SIDE BY SIDE (content width), on mobile too —
+              not stacked full-width. */}
+          <div className="flex flex-row items-center gap-2">
             {closing.ctas.map((cta) =>
               cta.primary ? (
                 <a
@@ -94,7 +96,7 @@ export function Closing() {
             <a
               href="#top"
               aria-label={brand.full}
-              className="font-apple text-[1.6rem] font-black uppercase leading-none tracking-tight text-fg transition-opacity hover:opacity-70"
+              className="font-apple text-[1.6rem] font-medium uppercase leading-none text-fg transition-opacity hover:opacity-70"
             >
               {brand.name}
             </a>

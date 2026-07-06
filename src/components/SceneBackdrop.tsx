@@ -1,7 +1,14 @@
-import { useRef } from "react";
+import { Suspense, lazy, useRef } from "react";
 import { ScrollTrigger, useGSAP } from "../lib/gsap";
-import { HeroScene } from "./hero-scene/HeroScene";
 import { SEQ_END } from "./hero-scene/createHeroScene";
+
+// Defer the WebGL scene (three.js + @react-three, the bulk of the JS) out of
+// the initial bundle — it downloads/parses on its own chunk after first paint.
+// The scroll-anchor logic below stays eager, so the sequence is wired up
+// immediately; only the canvas mounts late, behind the poster fallback.
+const HeroScene = lazy(() =>
+  import("./hero-scene/HeroScene").then((m) => ({ default: m.HeroScene })),
+);
 
 /**
  * SceneBackdrop — the WebGL scene as a FIXED background behind the whole page
@@ -89,7 +96,18 @@ export function SceneBackdrop() {
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
-      <HeroScene progressRef={progressRef} />
+      <Suspense
+        fallback={
+          // Poster of the scene's first beat — holds the frame until the WebGL
+          // chunk loads, so there's no flash of empty background.
+          <div
+            className="absolute inset-0 bg-[#04081f] bg-cover bg-center"
+            style={{ backgroundImage: "url(/hero-scene-poster.webp)" }}
+          />
+        }
+      >
+        <HeroScene progressRef={progressRef} />
+      </Suspense>
     </div>
   );
 }
