@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { brand, nav } from "../data/content";
 import { ScrollTrigger, useGSAP } from "../lib/gsap";
+import { ClixMark } from "./ui/ClixMark";
 
 /** Small forward arrow for the CTA badge — points to the RTL "forward" (left). */
 function NavArrow({ className = "" }: { className?: string }) {
@@ -32,8 +33,12 @@ function Wordmark({ className = "" }: { className?: string }) {
     <a
       href="#top"
       aria-label={brand.full}
-      className={`font-apple font-medium uppercase leading-none transition-opacity hover:opacity-70 ${className}`}
+      className={`inline-flex items-center gap-[0.4em] font-apple font-medium uppercase leading-none transition-opacity hover:opacity-70 ${className}`}
     >
+      {/* Logomark + wordmark lockup — mark sits at the reading start (right in
+          RTL), CLIX to its inline-end. currentColor: white on the dark bar,
+          dark in the white mobile menu. */}
+      <ClixMark className="h-[1.1em] w-auto shrink-0" />
       {brand.name}
     </a>
   );
