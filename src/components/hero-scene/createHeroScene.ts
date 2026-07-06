@@ -32,7 +32,6 @@ export const SEQ_END = 0.52;
 // at full canvas resolution, so pixel ratio is the #1 cost lever. Dispersion
 // triples the transmission taps — only enabled on the high tier.
 type Quality = "low" | "med" | "high";
-const TIERS: Quality[] = ["high", "med", "low"];
 
 export interface HeroSceneHandle {
   /** Render one frame at scroll progress 0–1 (dt in seconds). */
@@ -119,22 +118,11 @@ export function createHeroScene(
     for (const m of built.materials) m.dispersion = q === "high" ? 1 : 0;
   };
 
-  // Adaptive quality: start mid, step DOWN if the active frame rate stays low
-  // (integrated GPUs). Never steps back up — no oscillation.
-  let tier = 1;
-  applyQuality(TIERS[tier]);
-  let fpsAccum = 0;
-  let fpsCount = 0;
-  const maybeDowngrade = (dt: number) => {
-    if (tier >= TIERS.length - 1 || dt <= 0) return;
-    fpsAccum += 1 / dt;
-    fpsCount++;
-    if (fpsCount >= 90) {
-      if (fpsAccum / fpsCount < 28) applyQuality(TIERS[++tier]);
-      fpsAccum = 0;
-      fpsCount = 0;
-    }
-  };
+  // Full quality on every device (per user): always the TOP tier — dispersion
+  // on, dpr up to 2 — and NO adaptive downgrade, so mobile renders the same as
+  // the PC instead of dropping to a lower tier when the frame rate dips. (The
+  // idle throttle in render() still rests the GPU when nothing is moving.)
+  applyQuality("high");
 
   // Subtle camera tilt toward the pointer (±1°, eased) — layered on top of the
   // keyframed camera state each frame.
@@ -166,7 +154,6 @@ export function createHeroScene(
       camera.rotation.x += (tiltTarget.x - camera.rotation.x) * Math.min(1, dt * 3);
       camera.rotation.y += (tiltTarget.y - camera.rotation.y) * Math.min(1, dt * 3);
       composer.render(dt);
-      if (idleFor === 0) maybeDowngrade(dt);
     },
 
     setSize(width, height) {
