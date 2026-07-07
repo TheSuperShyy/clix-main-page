@@ -11,6 +11,7 @@ import { Benefits } from "./components/Benefits";
 import { Testimonials } from "./components/Testimonials";
 import { Training } from "./components/Training";
 import { Closing } from "./components/Closing";
+import { CookieConsent } from "./components/CookieConsent";
 
 // Flow (AI Finance clone, built section by section): Hero → Solutions →
 // Partners → Features → Key Features → Services → Benefits → Testimonials →
@@ -60,6 +61,8 @@ export default function App() {
         {/* Full-viewport closing CTA + footer, id="contact" (ref: last band). */}
         <Closing />
       </main>
+      {/* Cookie-consent card — first visit only, rises after the hero lands. */}
+      <CookieConsent />
     </div>
   );
 }
