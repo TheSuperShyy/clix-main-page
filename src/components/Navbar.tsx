@@ -137,8 +137,9 @@ export function Navbar() {
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
         className="container-x flex items-center justify-between gap-3 font-apple"
       >
-        {/* Wordmark — start (right in RTL) */}
-        <Wordmark className="text-[1.6rem] text-on-ink" />
+        {/* Wordmark — start (right in RTL). Sized up per client call (2026-07-08);
+            the ClixMark scales with it (h-[1.1em]). */}
+        <Wordmark className="text-[1.9rem] text-on-ink sm:text-[2.1rem]" />
 
         {/* Desktop nav group — one glass bar (text links) with the dark CTA pill
             attached at its end (ref: nav container + Get Started button). */}
@@ -210,7 +211,7 @@ export function Navbar() {
               <div className="rounded-[18px] bg-white p-5 shadow-[0_30px_70px_-24px_rgba(0,0,0,0.55)]">
                 {/* Header — wordmark (start) + close tile (end), mirroring the bar. */}
                 <div className="flex items-center justify-between gap-4">
-                  <Wordmark className="text-[1.6rem] text-ink" />
+                  <Wordmark className="text-[1.9rem] text-ink" />
                   <motion.button
                     {...pillMotion}
                     onClick={() => setOpen(false)}

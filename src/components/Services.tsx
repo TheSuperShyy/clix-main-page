@@ -1,4 +1,7 @@
-import { services } from "../data/content";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion } from "motion/react";
+import { services, servicesChat } from "../data/content";
+import { EASE_OUT } from "../lib/motion";
 
 /**
  * Services — the sticky-header + glass-cards band (ref: "SERVICES · Tailored
@@ -22,15 +25,21 @@ import { services } from "../data/content";
  *     "+") with a cursor arrow at its corner; title top / body bottom.
  *  2. `prompt` — big pill prompt-bar UI anchored bottom-center (small pill
  *     above it); TEXT AT TOP (title + body together, ref gap 8px).
- *  3. `none`   — bare glass; title top / body bottom.
- *  4. `nodes`  — faint branching node diagram on the end side; title top /
- *     body bottom.
+ *  3. `flow`   — n8n-style workflow canvas (user request, 2026-07-07): dotted
+ *     node-canvas backdrop, trigger → AI step → branch to two outputs, dashes
+ *     streaming along the connectors; title top / body bottom.
+ *  4. `chat`   — WhatsApp-style conversation mock (user mock, 2026-07-07):
+ *     inbound lead bubble → bot booking reply → mint "saved to CRM" status;
+ *     title top / body bottom.
  *
  * Static section — no scroll reveal (the ref has none; sticky is pure CSS),
- * matching Solutions/Partners/Features/KeyFeatures.
+ * matching Solutions/Partners/Features/KeyFeatures. Two exceptions, both
+ * motion-meaning and gated on prefers-reduced-motion: the chat card's bubbles
+ * pop in sequentially (messages arriving) and the flow card's nodes pop in
+ * flow-order while connector dashes stream (data moving through the pipeline).
  */
 
-type ArtVariant = "tiles" | "prompt" | "none" | "nodes";
+type ArtVariant = "tiles" | "prompt" | "none" | "flow" | "chat";
 
 /** Cursor pointer glyph (ref card 1: the "click" arrow at the lit tile's
     corner). Default Lucide pointer aims up-start; flipped where placed so it
@@ -128,70 +137,268 @@ function ServiceCardArt({ variant }: { variant: ArtVariant }) {
         </div>
       )}
 
-      {variant === "nodes" && (
-        // Ref card 4: circuit-trace node diagram spanning the WHOLE card —
-        // side nodes bleed off the edges, "+" hub dead center behind the text.
-        <div className="absolute inset-0">
-          <NodesDiagram className="h-full w-full" />
+      {variant === "flow" && (
+        // Card 3 (user request): n8n-style workflow strip centered between
+        // the title and body — trigger fires, AI processes, two outputs.
+        <div className="absolute inset-x-5 top-1/2 -translate-y-1/2 sm:inset-x-8">
+          <FlowVignette />
+        </div>
+      )}
+
+      {variant === "chat" && (
+        // Card 4 (user mock): WhatsApp-style exchange centered between the
+        // title and body — lead writes in, the bot books, CRM logs it.
+        // (Mobile sits at 47% — the 2-line title above is taller than the
+        // status line below, so dead-center reads bottom-heavy there.)
+        <div className="absolute inset-x-5 top-[47%] -translate-y-1/2 sm:inset-x-8 sm:top-1/2">
+          <ChatVignette />
         </div>
       )}
     </div>
   );
 }
 
-/** Circuit-trace node network (ref frame.png). Geometry transcribed from the
-    ref crop and PRE-MIRRORED for RTL (ref: text top-left, diagram weighted
-    right → ours: text top-start/right, diagram weighted end/left): small
-    portrait nodes (one clipped off the end edge), rounded-elbow traces, and
-    vertical traces running off the top/bottom edges on the text side, all
-    converging on a raised "+" hub. */
-function NodesDiagram({ className = "" }: { className?: string }) {
-  const stroke = "rgba(255,255,255,0.12)";
-  const box = "rgba(255,255,255,0.04)";
-  // Portrait side nodes 88×100 r22: end-top / end-mid (clipped) / end-bottom
-  // / start-mid.
-  const nodes: Array<[number, number]> = [
-    [62, 128],
-    [-34, 208],
-    [62, 302],
-    [495, 210],
-  ];
-  const traces = [
-    // End-top node → elbow down → into the hub's end side (upper).
-    "M150 178 H206 Q230 178 230 202 V216 Q230 240 254 240 H268",
-    // End-mid (clipped) node → straight into the hub.
-    "M54 258 H268",
-    // End-bottom node → elbow up → hub end side (lower).
-    "M150 352 H206 Q230 352 230 328 V304 Q230 280 254 280 H268",
-    // Start-mid node → straight into the hub.
-    "M368 258 H495",
-    // Vertical from the top edge → bends into the hub's start side (upper).
-    "M452 30 V190 Q452 214 428 214 H368",
-    // Vertical from the bottom edge → bends into the hub's start side (lower).
-    "M430 470 V330 Q430 306 406 306 H368",
-    // Short stubs tying the corner nodes to the top/bottom edges (ref).
-    "M106 30 V128",
-    "M106 402 V470",
-  ];
+/** n8n-style workflow mini-canvas (user request, 2026-07-07): a dotted node
+    canvas with a trigger node firing into an AI step that branches to two
+    outputs (send + save). Flow runs in the reading direction — the site is
+    RTL-only, so connector paths are drawn entry-on-the-right → exit-on-the-
+    left and the dash stream animates toward each path's end. Nodes pop in
+    in flow order on first view; both effects skip under reduced motion. */
+function FlowVignette() {
+  const reduce = useReducedMotion();
+  const rootRef = useRef<HTMLDivElement>(null);
+  // Run the infinite dash stream only while the card is on screen — framer
+  // keeps repeat:Infinity tweens ticking off-screen, and these SVG-stroke
+  // repaints through the card glass measurably drag the whole page's FPS.
+  const inView = useInView(rootRef, { amount: 0.15 });
+  const run = !reduce && inView;
+  const nodeIn = reduce
+    ? undefined
+    : {
+        initial: { opacity: 0, scale: 0.85 },
+        whileInView: { opacity: 1, scale: 1 },
+        viewport: { once: true, amount: 0.8 },
+      };
+  const pop = (d: number) =>
+    reduce ? undefined : { duration: 0.35, ease: EASE_OUT, delay: d };
+  // Marching dashes = data streaming through the pipeline. −20 = two dash
+  // periods (4+6), so each infinite cycle loops seamlessly.
+  const dash = run
+    ? {
+        animate: { strokeDashoffset: -20 },
+        transition: { duration: 1.6, ease: "linear" as const, repeat: Infinity },
+      }
+    : {};
+  const node =
+    "relative grid shrink-0 place-items-center rounded-[12px] bg-white/[0.07] ring-1 ring-white/[0.12]";
+  const successDot = (
+    <span className="absolute -top-1 -end-1 size-2 rounded-full bg-mint/90 shadow-[0_0_8px_rgba(165,237,238,0.7)]" />
+  );
+
   return (
-    <svg viewBox="0 0 860 500" preserveAspectRatio="xMidYMid slice" aria-hidden className={className}>
-      {traces.map((d) => (
-        <path key={d} d={d} fill="none" stroke={stroke} strokeWidth={1.5} />
-      ))}
-      {nodes.map(([x, y]) => (
-        <rect key={`${x}-${y}`} x={x} y={y} width={88} height={100} rx={22} fill={box} stroke={stroke} strokeWidth={1.5} />
-      ))}
-      {/* Hub — raised double-ring tile with the ref's rounded "+". */}
-      <rect x={260} y={197} width={116} height={126} rx={30} fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" />
-      <rect x={268} y={205} width={100} height={110} rx={26} fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.25)" strokeWidth={1.5} />
-      <rect x={278} y={215} width={80} height={90} rx={20} fill="none" stroke="rgba(255,255,255,0.1)" />
-      <path
-        d="M318 240v40M298 260h40"
-        stroke="rgba(255,255,255,0.4)"
-        strokeWidth={7}
-        strokeLinecap="round"
+    <div ref={rootRef} className="relative flex items-center justify-center">
+      {/* Dotted node-canvas backdrop (the n8n editor grid), faded at the edges. */}
+      <div
+        aria-hidden
+        className="absolute -inset-x-6 -inset-y-10"
+        style={{
+          backgroundImage:
+            "radial-gradient(rgba(255,255,255,0.13) 1px, transparent 1.5px)",
+          backgroundSize: "14px 14px",
+          maskImage:
+            "radial-gradient(ellipse 62% 75% at 50% 50%, black, transparent 78%)",
+        }}
       />
-    </svg>
+
+      {/* Trigger node — lightning, mint-lit like card 1's active tile. */}
+      <motion.span
+        {...nodeIn}
+        transition={pop(0)}
+        className={`${node} size-12 text-mint/85 ring-mint/40 shadow-[0_0_36px_rgba(165,237,238,0.22)] sm:size-14`}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden
+          className="size-5 sm:size-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          strokeLinejoin="round"
+        >
+          <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+        </svg>
+      </motion.span>
+
+      {/* Connector: trigger → AI step. */}
+      <motion.svg
+        {...nodeIn}
+        transition={pop(0.15)}
+        viewBox="0 0 36 12"
+        aria-hidden
+        className="w-7 shrink-0 sm:w-9"
+      >
+        <motion.path
+          d="M36 6H0"
+          {...dash}
+          fill="none"
+          stroke="rgba(255,255,255,0.35)"
+          strokeWidth={1.5}
+          strokeDasharray="4 6"
+          strokeLinecap="round"
+        />
+      </motion.svg>
+
+      {/* AI step — spark asterisk (the model doing the work). */}
+      <motion.span
+        {...nodeIn}
+        transition={pop(0.25)}
+        className={`${node} size-12 text-fg/85 sm:size-14`}
+      >
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden
+          className="size-5 sm:size-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+        >
+          <path d="M12 5v14M6 8.5l12 7M18 8.5l-12 7" />
+        </svg>
+      </motion.span>
+
+      {/* Branch connector: AI step → the two outputs. */}
+      <motion.svg
+        {...nodeIn}
+        transition={pop(0.4)}
+        viewBox="0 0 56 96"
+        preserveAspectRatio="none"
+        aria-hidden
+        className="h-20 w-9 shrink-0 sm:h-24 sm:w-12"
+      >
+        <motion.path
+          d="M56 48C38 48 30 20 0 20"
+          {...dash}
+          fill="none"
+          stroke="rgba(255,255,255,0.35)"
+          strokeWidth={1.5}
+          strokeDasharray="4 6"
+          strokeLinecap="round"
+        />
+        <motion.path
+          d="M56 48C38 48 30 76 0 76"
+          {...dash}
+          fill="none"
+          stroke="rgba(255,255,255,0.35)"
+          strokeWidth={1.5}
+          strokeDasharray="4 6"
+          strokeLinecap="round"
+        />
+      </motion.svg>
+
+      {/* Output nodes — send + save, each with a mint "ran OK" dot. */}
+      <div className="flex h-20 shrink-0 flex-col justify-between sm:h-24">
+        <motion.span
+          {...nodeIn}
+          transition={pop(0.5)}
+          className={`${node} size-9 text-fg/75 sm:size-10`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden
+            className="size-4 sm:size-[18px]"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.5}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="m22 2-7 20-4-9-9-4 20-7z" />
+            <path d="M22 2 11 13" />
+          </svg>
+          {successDot}
+        </motion.span>
+        <motion.span
+          {...nodeIn}
+          transition={pop(0.6)}
+          className={`${node} size-9 text-fg/75 sm:size-10`}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden
+            className="size-4 sm:size-[18px]"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.5}
+          >
+            <ellipse cx="12" cy="5" rx="8" ry="3" />
+            <path d="M4 5v14a8 3 0 0 0 16 0V5" />
+            <path d="M4 12a8 3 0 0 0 16 0" />
+          </svg>
+          {successDot}
+        </motion.span>
+      </div>
+    </div>
+  );
+}
+
+/** WhatsApp-style conversation mock (user mock, 2026-07-07). RTL chat
+    convention: the INBOUND lead bubble hangs at the reading start (right),
+    the bot's reply at the end (left) with a ✓, and a mint dot + "saved to
+    CRM automatically" status under the reply. Bubbles pop in in message
+    order on first view (motion-meaning); skipped under reduced motion. */
+function ChatVignette() {
+  const reduce = useReducedMotion();
+  const bubbleIn = reduce
+    ? undefined
+    : {
+        initial: { opacity: 0, y: 10, scale: 0.95 },
+        whileInView: { opacity: 1, y: 0, scale: 1 },
+        viewport: { once: true, amount: 0.8 },
+      };
+  const delay = (d: number) =>
+    reduce ? undefined : { duration: 0.4, ease: EASE_OUT, delay: d };
+
+  return (
+    <div className="flex flex-col gap-2 text-[13px] font-light leading-none tracking-[-0.01em] sm:gap-2.5 sm:text-[15px]">
+      {/* Inbound lead — start side (right in RTL). */}
+      <motion.span
+        {...bubbleIn}
+        transition={delay(0)}
+        className="self-start rounded-[14px] rounded-ss-[5px] bg-white/[0.1] px-4 py-3 text-fg ring-1 ring-white/10 sm:px-5 sm:py-3.5"
+      >
+        {servicesChat.inbound}
+      </motion.span>
+
+      {/* Bot reply — end side, checkmark leading (booking confirmed). */}
+      <motion.span
+        {...bubbleIn}
+        transition={delay(0.5)}
+        className="flex items-center gap-2 self-end rounded-[14px] rounded-ee-[5px] bg-white/[0.07] px-4 py-3 text-fg/95 ring-1 ring-white/10 sm:px-5 sm:py-3.5"
+      >
+        <svg viewBox="0 0 16 16" aria-hidden className="size-3.5 shrink-0 sm:size-4">
+          <path
+            d="M2.5 8.5 6 12l7.5-8"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={1.8}
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        {servicesChat.reply}
+      </motion.span>
+
+      {/* CRM status — mint dot + caption under the reply. */}
+      <motion.span
+        {...bubbleIn}
+        transition={delay(1)}
+        className="flex items-center gap-1.5 self-end pe-1 text-[11px] text-mint/80 sm:text-[12px]"
+      >
+        <span className="size-1.5 rounded-full bg-mint/80 shadow-[0_0_8px_rgba(165,237,238,0.6)]" />
+        {servicesChat.status}
+      </motion.span>
+    </div>
   );
 }
 

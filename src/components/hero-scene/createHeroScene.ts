@@ -12,6 +12,7 @@ import {
   NoiseEffect,
   BlendFunction,
   ToneMappingMode,
+  EffectAttribute,
 } from "postprocessing";
 import { buildHeroScene, data } from "./buildScene";
 import { Timeline } from "./timeline";
@@ -41,6 +42,24 @@ export interface HeroSceneHandle {
   dispose(): void;
 }
 
+/**
+ * SMAA without its EffectAttribute.DEPTH flag. SMAA only needs depth for its
+ * predication mode, which we leave DISABLED — but the flag alone makes the
+ * composer build its stable-depth pipeline: a full-res depth texture plus a
+ * per-frame blitDepthBuffer whose copy fails on Chrome/ANGLE (both depth
+ * textures are clones sharing one Source, so three binds the SAME GL image to
+ * read and draw → GL_INVALID_OPERATION spam and wasted GPU work every frame;
+ * the lag the client hit on mobile). Stripping the unused flag removes the
+ * whole depth pipeline. Revert to plain SMAAEffect only if predication is
+ * ever turned on.
+ */
+class DepthFreeSMAAEffect extends SMAAEffect {
+  constructor(...args: ConstructorParameters<typeof SMAAEffect>) {
+    super(...args);
+    this.setAttributes(this.getAttributes() & ~EffectAttribute.DEPTH);
+  }
+}
+
 export function createHeroScene(
   canvas: HTMLCanvasElement,
   width: number,
@@ -57,6 +76,14 @@ export function createHeroScene(
     powerPreference: "high-performance",
   });
   renderer.setSize(width, height, false);
+  // The fullscreen "Background" glass plane (transmission 1) makes three render
+  // the whole scene an EXTRA time into a full-res buffer + regenerate its mip
+  // chain every frame — the single biggest per-frame cost on iGPUs. Its result
+  // is only ever sampled through roughness-blurred mips (background 0.55–0.91,
+  // coins 0.387), so rendering that hidden pass at half size is visually
+  // indistinguishable while cutting its fill + mipmapping ~4×. (r172+ knob —
+  // the reason for the three 0.171→0.172 bump, 2026-07-08.)
+  renderer.transmissionResolutionScale = 0.5;
   renderer.toneMapping = THREE.NoToneMapping; // tone mapping lives in the post chain
   // Calibrated against the reference render (the ref engine applies a gain its
   // export doesn't carry): 1.8 matches its measured output within ±2 RGB across
@@ -91,7 +118,7 @@ export function createHeroScene(
   });
   const noise = new NoiseEffect({ blendFunction: 29 as BlendFunction });
   noise.blendMode.opacity.value = 0.2;
-  const smaa = new SMAAEffect({ preset: 2 as SMAAPreset });
+  const smaa = new DepthFreeSMAAEffect({ preset: 2 as SMAAPreset });
   const fluted = new FlutedGlassEffect();
 
   const composer = new EffectComposer(renderer, { frameBufferType: THREE.HalfFloatType });
