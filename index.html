@@ -10,6 +10,10 @@
     />
     <meta name="theme-color" content="#000000" />
 
+    <!-- First paint behind the hero = this poster (the WebGL scene streams in
+         behind it) — preload so the backdrop never flashes empty. -->
+    <link rel="preload" as="image" href="/hero-scene-poster.webp" fetchpriority="high" />
+
     <!-- Open Graph -->
     <meta property="og:title" content="Clix Solutions — בינה מהונדסת לעסק שלכם" />
     <meta
@@ -20,11 +24,14 @@
     <meta property="og:locale" content="he_IL" />
 
     <!-- Font: Heebo — neo-grotesque with strong Hebrew + Latin (whole site);
-         the closest free match to the reference's Helvetica Now Display feel. -->
+         the closest free match to the reference's Helvetica Now Display feel.
+         Weights trimmed to what the live page uses (300–700); 800/900 are only
+         used by PARKED components (Footer/CTA/Methodology/Stack) — re-add them
+         here if one of those is revived. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
 

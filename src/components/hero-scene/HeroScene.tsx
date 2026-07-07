@@ -12,7 +12,14 @@ import { createHeroScene, type HeroSceneHandle } from "./createHeroScene";
  * reduced-motion exception for the hero scene — the client reviews on a
  * reduced-motion machine), so it runs ungated.
  */
-export function HeroScene({ progressRef }: { progressRef: RefObject<number> }) {
+export function HeroScene({
+  progressRef,
+  coveredRef,
+}: {
+  progressRef: RefObject<number>;
+  /** True while solid sections fully cover the viewport — rendering skipped. */
+  coveredRef?: RefObject<boolean>;
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -35,7 +42,10 @@ export function HeroScene({ progressRef }: { progressRef: RefObject<number> }) {
 
     let visible = true;
     const tick = (_time: number, deltaTime: number) => {
-      if (!visible) return;
+      // Fully covered by a solid band → the canvas is invisible; skip the
+      // whole render (transmission + post chain) instead of drawing to it.
+      // Resumes on the next tick once a see-through section scrolls back in.
+      if (!visible || coveredRef?.current) return;
       handle.render(progressRef.current ?? 0, deltaTime / 1000);
     };
     gsap.ticker.add(tick);
@@ -76,7 +86,7 @@ export function HeroScene({ progressRef }: { progressRef: RefObject<number> }) {
       gsap.ticker.remove(tick);
       handle.dispose();
     };
-  }, [progressRef]);
+  }, [progressRef, coveredRef]);
 
   return <canvas ref={canvasRef} aria-hidden className="scene-canvas" />;
 }

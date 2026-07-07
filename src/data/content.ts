@@ -534,7 +534,8 @@ export const pricing = {
 // scene band). id="contact", so every "דברו איתנו"/#contact link lands here.
 // ⚠️ LinkedIn / WhatsApp links are placeholders — swap for the real profiles.
 export const closing = {
-  // Full sentence for a11y; visual two-line lockup below.
+  // ⚠️ UNUSED since the closing headline/CTA pair was removed (user call) —
+  // the footer's `heading` below is the band's title now. Kept for reuse.
   title: "צומחים עם Clix. מתחילים את המסע עוד היום.",
   titleLines: ["צומחים עם Clix.", "מתחילים את המסע עוד היום."],
   ctas: [
@@ -542,6 +543,8 @@ export const closing = {
     { label: "למידע נוסף", href: "#solutions", primary: false },
   ],
   footer: {
+    // Big footer display heading (approved mock: sits over the contact block).
+    heading: "בואו נדבר.",
     menuHeading: "תפריט",
     menu: [
       { label: "פתרונות", href: "#solutions" },
@@ -555,6 +558,29 @@ export const closing = {
       { label: "LinkedIn", href: "https://www.linkedin.com/company/clix-solution/" },
       { label: "WhatsApp", href: "#" },
     ],
+    // Newsletter signup — UI only for now; wire the form to a real list/endpoint.
+    newsletter: {
+      heading: "הירשמו לעדכונים שלנו",
+      // Heading folded into the placeholder (mock: single-line pill form).
+      placeholder: "הירשמו לעדכונים · כתובת אימייל",
+      button: "הרשמה",
+      ariaLabel: "כתובת אימייל לרישום לעדכונים",
+    },
+    // Compact footer-card CTA (ref: black pill + white arrow badge).
+    cta: { label: "בואו נדבר", href: "mailto:info@clixsolution.com" },
+    // Office map embed (old-site footer parity) — pin on Tel Aviv, Hebrew UI.
+    map: {
+      title: "המשרד שלנו על המפה — תל אביב",
+      src: "https://maps.google.com/maps?q=Tel+Aviv-Yafo&hl=iw&z=12&output=embed",
+    },
+    // Bottom legal bar. ⚠️ Legal links are placeholders — point to real pages.
+    legal: [
+      { label: "מדיניות פרטיות", href: "#" },
+      { label: "תנאי שימוש", href: "#" },
+      { label: "הצהרת נגישות", href: "#" },
+    ],
+    backToTop: "חזרה למעלה",
+    copyright: "© Clix 2026. כל הזכויות שמורות.",
   },
 } as const;
 

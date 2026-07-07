@@ -131,6 +131,11 @@ function makeMaterial(def: MaterialDef): THREE.MeshPhysicalMaterial {
   m.clearcoatRoughness = def.clearcoatRoughness;
   m.transmission = def.transmission;
   m.dispersion = def.dispersion;
+  // Reference value kept for the quality tiers: dispersion triples the
+  // (already expensive) transmission taps per pixel, and the ref runs it ONLY
+  // on the coins — the fullscreen Background plane is 0. applyQuality restores
+  // this instead of forcing 1 on every material.
+  m.userData.refDispersion = def.dispersion;
   m.specularIntensity = def.specularIntensity;
   m.specularColor.set(def.specularColor);
   m.thickness = def.thickness;
