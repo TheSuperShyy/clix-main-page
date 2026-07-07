@@ -22,7 +22,10 @@ export function HeroScene({ progressRef }: { progressRef: RefObject<number> }) {
 
     let handle: HeroSceneHandle;
     try {
-      handle = createHeroScene(canvas, host.clientWidth, host.clientHeight);
+      // Size to the CANVAS box, not the host layer — on mobile the canvas is
+      // shorter than the layer (it leaves a dark safe-gutter at the bottom for
+      // the address bar), so the host height would give the wrong aspect.
+      handle = createHeroScene(canvas, canvas.clientWidth, canvas.clientHeight);
     } catch (err) {
       // No WebGL (or context creation failed) — the section's own dark
       // background is the graceful fallback.
@@ -45,19 +48,18 @@ export function HeroScene({ progressRef }: { progressRef: RefObject<number> }) {
 
     // Only rebuild the GL buffers on a real WIDTH change (layout / orientation).
     // Ignore height-only changes: on mobile the browser's address bar collapses
-    // and expands continuously during scroll, changing the fixed layer's height
-    // every few frames. Reallocating the composer's render targets mid-scroll
-    // flashes the canvas black (the strobing background flicker). The canvas is
-    // CSS-stretched to fill (absolute inset-0 h-full w-full), so the ambient
-    // scene tolerates the few-px vertical wobble without a visible resize.
-    let lastW = host.clientWidth;
+    // and expands continuously during scroll. The layer is locked to `lvh` and
+    // the canvas leaves a fixed-px safe-gutter, so its height is already stable
+    // as the bar toggles — but the width guard keeps a stray height-only event
+    // from reallocating the composer's render targets (which flashes black).
+    let lastW = canvas.clientWidth;
     const ro = new ResizeObserver(() => {
-      const nw = host.clientWidth;
+      const nw = canvas.clientWidth;
       if (nw === lastW) return;
       lastW = nw;
-      handle.setSize(nw, host.clientHeight);
+      handle.setSize(nw, canvas.clientHeight);
     });
-    ro.observe(host);
+    ro.observe(canvas);
 
     const onPointerMove = (e: PointerEvent) => {
       handle.setPointer(
@@ -76,5 +78,5 @@ export function HeroScene({ progressRef }: { progressRef: RefObject<number> }) {
     };
   }, [progressRef]);
 
-  return <canvas ref={canvasRef} aria-hidden className="absolute inset-0 h-full w-full" />;
+  return <canvas ref={canvasRef} aria-hidden className="scene-canvas" />;
 }
