@@ -286,6 +286,10 @@ html.lenis body { height: auto; }
   top: 0;
   inset-inline: 0;
   height: 100vh;
+  /* Dark base for the bottom safe-gutter the canvas leaves on mobile (below) —
+     matches the scene's/poster's near-black so the seam is invisible. */
+  background-color: #04081f;
+  --scene-safe-bottom: 0px;
 }
 
 /* Progressive upgrade to `lvh` — kept in its own @supports block so the minifier
@@ -294,6 +298,33 @@ html.lenis body { height: auto; }
 @supports (height: 100lvh) {
   .scene-fixed {
     height: 100lvh;
+  }
+}
+
+@utility scene-canvas {
+  /* The WebGL canvas fills the scene layer, top-anchored. On mobile it stops
+     short of the bottom by --scene-safe-bottom (set below) so it never reaches
+     under the address bar. */
+  position: absolute;
+  top: 0;
+  inset-inline: 0;
+  width: 100%;
+  height: calc(100% - var(--scene-safe-bottom, 0px));
+}
+
+/* Mobile only (touch = has an overlaying browser bar): reserve a dark bottom
+   safe-area sized to the tallest the address bar gets, and fade the scene into
+   it. The bar slides over this gutter instead of the composition, so the scene
+   never appears to resize when the bar shows/hides — while the layer height
+   stays constant (lvh), so there's still no rebuild/flicker. Tune the value
+   on-device: bigger = safer against a taller bar, but crops a touch more scene. */
+@media (pointer: coarse) {
+  .scene-fixed {
+    --scene-safe-bottom: 120px;
+  }
+  .scene-canvas {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
   }
 }
 
