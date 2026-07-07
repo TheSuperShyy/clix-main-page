@@ -152,8 +152,8 @@ export const features = {
       img: "/features/feature-2.webp",
     },
     {
-      title: "תובנות בזמן אמת",
-      desc: "החלטות מבוססות נתונים, בכל רגע.",
+      title: "CRM מותאם אישית",
+      desc: "מערכת ניהול לקוחות שנבנית סביב העסק שלכם.",
       img: "/features/feature-3.webp",
     },
   ],
