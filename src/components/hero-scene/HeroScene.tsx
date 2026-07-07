@@ -43,8 +43,19 @@ export function HeroScene({ progressRef }: { progressRef: RefObject<number> }) {
     });
     io.observe(host);
 
+    // Only rebuild the GL buffers on a real WIDTH change (layout / orientation).
+    // Ignore height-only changes: on mobile the browser's address bar collapses
+    // and expands continuously during scroll, changing the fixed layer's height
+    // every few frames. Reallocating the composer's render targets mid-scroll
+    // flashes the canvas black (the strobing background flicker). The canvas is
+    // CSS-stretched to fill (absolute inset-0 h-full w-full), so the ambient
+    // scene tolerates the few-px vertical wobble without a visible resize.
+    let lastW = host.clientWidth;
     const ro = new ResizeObserver(() => {
-      handle.setSize(host.clientWidth, host.clientHeight);
+      const nw = host.clientWidth;
+      if (nw === lastW) return;
+      lastW = nw;
+      handle.setSize(nw, host.clientHeight);
     });
     ro.observe(host);
 
