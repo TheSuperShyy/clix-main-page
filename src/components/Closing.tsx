@@ -78,14 +78,18 @@ export function Closing() {
             "בואו נדבר." heading is now the band's title) hugs the bottom. */}
         <div aria-hidden />
 
-        {/* Footer — approved mock: NO glass card, content directly over the
-            scene in three hairline-divided rows. Row 1: contact block (display
-            heading, email, hours | location, socials + CTA pill) at the reading
-            start (right) opposite a large office map (left). Row 2: wordmark +
-            horizontal menu (right) opposite the newsletter pill (left).
-            Row 3: copyright (right) opposite legal links + back-to-top (left).
+        {/* Footer — approved mock 1c: rows 1–2 live in ONE frosted glass card
+            (same recipe as the navbar: hairline white/10 border + translucent
+            white fill + backdrop blur of the scene), the legal bar rides below
+            it outside the card. Row 1: contact block (display heading, email,
+            hours | location, socials + CTA pill) at the reading start (right)
+            opposite a large office map (left). Row 2: wordmark + horizontal
+            menu (right) opposite the newsletter pill (left). Row 3 (outside):
+            copyright (right) opposite legal links + back-to-top (left).
             Stacks to a column on mobile. */}
         <footer className="w-full">
+          {/* Glass panel — everything but the legal bar, in one frosted card. */}
+          <div className="rounded-[24px] border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl sm:p-8 lg:p-10">
           {/* Row 1 — contact block · office map. On mobile the CONTACT block
               leads (the "בואו נדבר." heading is the band's title — the map was
               sitting above it) and the map follows below. */}
@@ -201,10 +205,12 @@ export function Closing() {
               </button>
             </form>
           </div>
+          </div>
 
           {/* Row 3 — legal bar: copyright (reading start / right) opposite the
-              legal links + back-to-top (left). */}
-          <div className="mt-7 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+              legal links + back-to-top (left). Outside the glass card (mock 1c)
+              — the card's edge is the separator, so no hairline of its own. */}
+          <div className="mt-5 flex flex-col gap-3 px-2 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-[13px] font-light tracking-[-0.02em] text-fg/40">
               {footer.copyright}
             </p>

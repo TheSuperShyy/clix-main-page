@@ -118,19 +118,11 @@ export function Training() {
           </a>
         </div>
 
-        {/* Stage clip — ambient muted loop with a live badge; caption rides
-            under the card (ref format: "ON STAGE" + "RECENT · Q3 KEYNOTE"). */}
+        {/* Stage clip — ambient muted loop; caption rides under the card
+            (the "ON STAGE" live badge was removed — user call, 2026-07-08). */}
         <figure className="flex w-full flex-col gap-3">
           <div className="relative overflow-hidden rounded-[12px] bg-white/[0.04] ring-1 ring-white/10">
             <StageClip />
-            {/* Live-style badge — Latin small caps, so pinned LTR. */}
-            <span
-              dir="ltr"
-              className="absolute start-3 top-3 flex items-center gap-2 rounded-full bg-black/45 px-3.5 py-1.5 text-[10px] font-medium uppercase tracking-[0.3em] text-fg ring-1 ring-white/15 backdrop-blur-[12px] sm:text-[11px]"
-            >
-              {training.video.badge}
-              <span aria-hidden className="size-1.5 animate-pulse rounded-full bg-sky" />
-            </span>
           </div>
           <figcaption
             dir="ltr"

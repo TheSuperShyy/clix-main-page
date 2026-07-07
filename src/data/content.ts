@@ -265,7 +265,9 @@ export const stack = {
 // Services — the sticky-header + glass-cards band (ref: SERVICES · "Tailored
 // for every…"). Header start-side, 4 tall glass cards scrolling past it.
 // `art` picks the redrawn ref vignette: tiles (lit tile + cursor) · prompt
-// (bottom prompt-bar UI, text at top) · none (bare) · nodes (branch diagram).
+// (bottom prompt-bar UI, text at top) · flow (n8n-style workflow node canvas:
+// trigger → AI step → two output branches) · chat (WhatsApp-style
+// lead→booking exchange, copy in `servicesChat` below).
 export const services = {
   eyebrow: "שירותים",
   title: "פתרון מותאם לכל עסק.",
@@ -285,30 +287,55 @@ export const services = {
     {
       title: "אוטומציות ואינטגרציות",
       body: "מחברים את הכלים שכבר יש לכם לזרימת עבודה אחת, עם Vapi, n8n, Make, OpenAI ו-Claude.",
-      art: "none" as const,
+      art: "flow" as const,
     },
     {
       title: "CRM ואוטומציית WhatsApp",
       body: "אוטומציות WhatsApp ומערכות CRM מותאמות אישית שמלוות את הלקוח מהליד הראשון ועד הסגירה.",
-      art: "nodes" as const,
+      art: "chat" as const,
     },
   ],
 } as const;
 
-// Benefits — the sticky-header + stat-cards band (ref: BENEFITS · +48%/−21%/…).
-// First card inverted white, the rest glass.
-// ⚠️ Stat values are PLACEHOLDER marketing numbers — confirm real figures
-// with the client before launch.
+// Chat vignette copy — the CRM/WhatsApp card's mock conversation (art: "chat"):
+// inbound lead → the bot's booking confirmation → auto-saved-to-CRM status.
+export const servicesChat = {
+  inbound: "היי, אשמח לשמוע פרטים",
+  reply: "קבעתי לך שיחה מחר ב-10:00",
+  status: "נשמר אוטומטית ב-CRM",
+} as const;
+
+// Benefits band → build-process steps (user call, 2026-07-07): same sticky-
+// header + wide-cards skeleton as the ref BENEFITS band, but the cards now
+// walk the client through the 4 build steps (CRM dashboard → automations →
+// landing page → closing leads). Each card gets a looping vignette drawn in
+// the component (icons/shapes only — no extra copy needed here).
 export const benefits = {
-  eyebrow: "יתרונות",
+  eyebrow: "התהליך",
   // Full sentence for a11y; visual two-line lockup below.
-  title: "חכם. מאובטח. גדל איתכם. ברוכים הבאים ל-Clix.",
-  titleLines: ["חכם. מאובטח. גדל איתכם.", "ברוכים הבאים ל-Clix."],
-  stats: [
-    { value: "+40%", label: "יותר פגישות ביומן" },
-    { value: "24/7", label: "מענה לכל שיחה, בלי להחמיץ ליד" },
-    { value: "-65%", label: "פחות עבודה ידנית על תהליכים" },
-    { value: "x3", label: "טיפול מהיר יותר בלידים חדשים" },
+  title: "כך אנחנו בונים לכם מערכת שעובדת. שלב אחרי שלב.",
+  titleLines: ["כך אנחנו בונים לכם", "מערכת שעובדת. שלב אחרי שלב."],
+  steps: [
+    {
+      num: "01",
+      title: "בונים את דשבורד ה-CRM",
+      desc: "מרכז שליטה אחד לכל הלידים, הפגישות והנתונים של העסק.",
+    },
+    {
+      num: "02",
+      title: "בונים את האוטומציות",
+      desc: "מחברים את הכלים שלכם לזרימת עבודה אחת, עם נודים חכמים בסגנון n8n.",
+    },
+    {
+      num: "03",
+      title: "בונים דף נחיתה בהתאמה אישית",
+      desc: "אתר מהיר וממוקד המרה, שהופך מבקרים ללידים.",
+    },
+    {
+      num: "04",
+      title: "סוגרים לידים",
+      desc: "מעקב ותזכורות אוטומטיות עד לסגירה — אף ליד לא הולך לאיבוד.",
+    },
   ],
 } as const;
 
@@ -596,7 +623,7 @@ export const training = {
   video: {
     src: "/training/lecture-preview.mp4",
     poster: "/training/lecture-preview-poster.jpg",
-    badge: "ON STAGE",
+    badge: "ON STAGE", // UNUSED since v6.19.34 — the live badge was removed (user call)
     caption: "RECENT · Q3 KEYNOTE",
     ariaLabel: "הצצה מהרצאה על הבמה",
   },
