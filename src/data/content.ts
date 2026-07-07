@@ -650,6 +650,19 @@ export const contact = {
   instagramUrl: "https://instagram.com/clix_solution",
 } as const;
 
+// Cookie-consent banner — small glass card at the bottom start corner. The
+// choice persists in localStorage + a first-party `clix_consent` cookie so
+// future analytics can honor it. ⚠️ Privacy-policy link is a placeholder,
+// same as the footer legal links — point to the real page when it exists.
+export const cookies = {
+  title: "אנחנו משתמשים בעוגיות",
+  body: "האתר משתמש בעוגיות כדי לשפר את חוויית הגלישה ולהבין איך מבקרים משתמשים בו.",
+  accept: "אישור",
+  decline: "לא תודה",
+  policy: { label: "מדיניות פרטיות", href: "#" },
+  ariaLabel: "הודעת שימוש בעוגיות",
+} as const;
+
 export const footer = {
   blurb: "סוכנות הנדסת AI שבונה מערכות שעובדות, מהונדסות לצמיחה.",
   socials: [

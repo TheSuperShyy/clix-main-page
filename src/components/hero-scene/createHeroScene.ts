@@ -135,9 +135,21 @@ export function createHeroScene(
     // an absolute value. A phone at devicePixelRatio 2–3 previously rendered
     // the scene at dpr 1 (~⅓ of its real resolution) then upscaled it → the
     // ball/glass looked pixelated. Now high-DPR screens render near their true
-    // resolution like the desktop does; the caps + adaptive downgrade keep the
-    // (expensive) transmission glass affordable. Desktop (dpr 1) is unchanged.
-    const cap = q === "low" ? 1 : q === "med" ? 1.5 : 2;
+    // resolution like the desktop does; the caps keep the (expensive)
+    // transmission glass affordable. Desktop (dpr 1) is unchanged.
+    //
+    // PHONES cap at 1.5, not 2: at cap 2 a dpr-3 phone renders EVERY pass (main
+    // render + SMAA + bloom + fluted glass) at 4× the PC's pixels — the fill
+    // cost that made the fully-visible intro stutter on real devices. Cap 1.5 =
+    // ~44% fewer pixels through the whole pipeline, yet still 1.5× the PC's
+    // resolution (dpr 1) — and sharper to the eye, since phone pixels are ~3×
+    // denser, so "full quality like PC" holds (user call, 2026-07-08). Touch
+    // (coarse-pointer) is the phone/tablet signal — orientation-independent,
+    // and it leaves scaled/retina desktops on their 2 cap untouched.
+    const isTouch =
+      typeof window.matchMedia === "function" && window.matchMedia("(pointer: coarse)").matches;
+    const highCap = isTouch ? 1.5 : 2;
+    const cap = q === "low" ? 1 : q === "med" ? 1.5 : highCap;
     const dpr = Math.min(window.devicePixelRatio || 1, cap);
     renderer.setPixelRatio(dpr);
     composer.setSize(w, h);
