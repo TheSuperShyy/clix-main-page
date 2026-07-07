@@ -273,6 +273,30 @@ html.lenis body { height: auto; }
   padding-inline: var(--gutter);
 }
 
+@utility scene-fixed {
+  /* Fixed WebGL-scene layer, locked to the LARGE viewport height — the height
+     with the mobile address bar HIDDEN, which does NOT change as the bar shows/
+     hides. Using `inset-0` (top+bottom:0, which tracks the LIVE height) instead
+     made the layer resize every time the address bar animated on scroll-up,
+     resizing the WebGL scene and strobing it black. Anchored top/inline-0 so the
+     extra height spills off the bottom (behind the bar), not shifting the scene.
+     Base = 100vh (already the stable large value on iOS/Chrome mobile); the
+     @supports rule below upgrades it to the spec-exact `lvh` where available. */
+  position: fixed;
+  top: 0;
+  inset-inline: 0;
+  height: 100vh;
+}
+
+/* Progressive upgrade to `lvh` — kept in its own @supports block so the minifier
+   can't fold the 100vh fallback away (Lightning CSS drops adjacent same-property
+   declarations). Unlayered → wins over the @utility's 100vh where lvh is known. */
+@supports (height: 100lvh) {
+  .scene-fixed {
+    height: 100lvh;
+  }
+}
+
 @utility gutter-x {
   /* Full-bleed panels/sections: gutter as MARGIN (the element's background
      itself stays inset from the viewport edge — Solutions/Partners style). */

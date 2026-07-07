@@ -95,7 +95,7 @@ export function SceneBackdrop() {
   });
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
+    <div aria-hidden className="scene-fixed pointer-events-none z-0">
       <Suspense
         fallback={
           // Poster of the scene's first beat — holds the frame until the WebGL
