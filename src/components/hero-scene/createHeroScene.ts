@@ -16,6 +16,7 @@ import {
 import { buildHeroScene, data } from "./buildScene";
 import { Timeline } from "./timeline";
 import { FlutedGlassEffect } from "./flutedGlass";
+import { SEQ_END } from "./constants";
 
 /**
  * The hero background engine: builds the scene, the post chain and the scroll
@@ -25,8 +26,6 @@ import { FlutedGlassEffect } from "./flutedGlass";
  * approved; the scroll sequence is sampled 0 → SEQ_END across the hero region
  * ("stop at scrub 52% thats the final stop").
  */
-
-export const SEQ_END = 0.52;
 
 // Transmission ("glass") makes three render the scene an extra time per frame
 // at full canvas resolution, so pixel ratio is the #1 cost lever. Dispersion
@@ -115,7 +114,11 @@ export function createHeroScene(
     const dpr = Math.min(window.devicePixelRatio || 1, cap);
     renderer.setPixelRatio(dpr);
     composer.setSize(w, h);
-    for (const m of built.materials) m.dispersion = q === "high" ? 1 : 0;
+    // High tier restores each material's REFERENCE dispersion (coins 1,
+    // fullscreen Background plane 0) — forcing 1 everywhere tripled the
+    // transmission taps on ~every pixel for a fringe the ref doesn't have.
+    for (const m of built.materials)
+      m.dispersion = q === "high" ? ((m.userData.refDispersion as number) ?? 0) : 0;
   };
 
   // Full quality on every device (per user): always the TOP tier — dispersion

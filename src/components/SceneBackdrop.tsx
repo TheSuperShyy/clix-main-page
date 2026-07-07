@@ -1,6 +1,9 @@
 import { Suspense, lazy, useRef } from "react";
 import { ScrollTrigger, useGSAP } from "../lib/gsap";
-import { SEQ_END } from "./hero-scene/createHeroScene";
+// From the constants module, NOT createHeroScene — a static import of the
+// engine drags three + postprocessing into the eager bundle (Vite then
+// modulepreloads the 660kB three chunk before first paint).
+import { SEQ_END } from "./hero-scene/constants";
 
 // Defer the WebGL scene (three.js + @react-three, the bulk of the JS) out of
 // the initial bundle — it downloads/parses on its own chunk after first paint.
@@ -43,13 +46,27 @@ const ANCHORS = [
   { sel: "#contact", seq: 0.4 },
 ] as const;
 
+/** Scroll windows where SOLID bands fully cover the viewport, so the scene is
+    invisible and rendering it is pure GPU waste (~30fps on iGPUs mid-page):
+    Features→KeyFeatures (both bg-[#03021b], contiguous) hide it from the
+    moment #features' top passes the viewport top until #services (transparent)
+    enters the viewport bottom; Testimonials→Training likewise until #contact.
+    A margin keeps a safety strip rendered around each edge. */
+const COVERED = [
+  { from: "#features", to: "#services" },
+  { from: "#testimonials", to: "#contact" },
+] as const;
+const COVER_MARGIN = 96;
+
 export function SceneBackdrop() {
   const progressRef = useRef(0);
+  const coveredRef = useRef(false);
 
   useGSAP(() => {
     // Piecewise map: scroll y → sequence position, re-measured on every
     // ScrollTrigger refresh (resize, late images/fonts).
     let points: { y: number; seq: number }[] = [{ y: 0, seq: 0 }];
+    let covered: [number, number][] = [];
 
     const measure = () => {
       const max = ScrollTrigger.maxScroll(window);
@@ -64,6 +81,18 @@ export function SceneBackdrop() {
       }
       points.push({ y: max, seq: SEQ_END });
       points.sort((a, b) => a.y - b.y);
+
+      covered = [];
+      for (const c of COVERED) {
+        const from = document.querySelector(c.from);
+        const to = document.querySelector(c.to);
+        if (!from || !to) continue;
+        // Covered once the solid band's top passes the viewport top, until the
+        // next transparent section enters the viewport bottom.
+        const start = from.getBoundingClientRect().top + window.scrollY + COVER_MARGIN;
+        const end = to.getBoundingClientRect().top + window.scrollY - window.innerHeight - COVER_MARGIN;
+        if (end > start) covered.push([start, end]);
+      }
     };
 
     const seqAt = (y: number) => {
@@ -86,11 +115,14 @@ export function SceneBackdrop() {
       onRefresh: measure,
       onUpdate: (self) => {
         // Engine expects normalized 0–1 (it multiplies by SEQ_END itself).
-        progressRef.current = seqAt(self.scroll()) / SEQ_END;
+        const y = self.scroll();
+        progressRef.current = seqAt(y) / SEQ_END;
+        coveredRef.current = covered.some(([a, b]) => y >= a && y <= b);
       },
     });
     measure();
     progressRef.current = seqAt(st.scroll()) / SEQ_END;
+    coveredRef.current = covered.some(([a, b]) => st.scroll() >= a && st.scroll() <= b);
     return () => st.kill();
   });
 
@@ -106,7 +138,7 @@ export function SceneBackdrop() {
           />
         }
       >
-        <HeroScene progressRef={progressRef} />
+        <HeroScene progressRef={progressRef} coveredRef={coveredRef} />
       </Suspense>
     </div>
   );
