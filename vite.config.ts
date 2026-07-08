@@ -7,6 +7,19 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {
+      // Multi-page build: the main landing page + three standalone legal pages
+      // (privacy / terms / accessibility). Each legal page is its own tiny
+      // entry sharing only the theme CSS — none of the WebGL/GSAP/Lenis landing
+      // bundle loads on them. Adding `input` means `main` must be listed too, or
+      // the landing page stops building.
+      // Paths are relative to the project root (no node:path needed —
+      // @types/node isn't installed, and Vite resolves these from `root`).
+      input: {
+        main: "index.html",
+        privacy: "privacy.html",
+        terms: "terms.html",
+        accessibility: "accessibility.html",
+      },
       output: {
         // Split the heavy, rarely-changing vendors into their own chunks so
         // (a) the initial bundle isn't one 1.2MB blob and (b) browsers cache
