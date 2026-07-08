@@ -600,11 +600,12 @@ export const closing = {
       title: "המשרד שלנו על המפה — תל אביב",
       src: "https://maps.google.com/maps?q=Tel+Aviv-Yafo&hl=iw&z=12&output=embed",
     },
-    // Bottom legal bar. ⚠️ Legal links are placeholders — point to real pages.
+    // Bottom legal bar — each opens its own dedicated page (src/legal/*),
+    // content scraped verbatim from the old clixsolutions.info site.
     legal: [
-      { label: "מדיניות פרטיות", href: "#" },
-      { label: "תנאי שימוש", href: "#" },
-      { label: "הצהרת נגישות", href: "#" },
+      { label: "מדיניות פרטיות", href: "/privacy.html" },
+      { label: "תנאי שימוש", href: "/terms.html" },
+      { label: "הצהרת נגישות", href: "/accessibility.html" },
     ],
     backToTop: "חזרה למעלה",
     copyright: "© Clix 2026. כל הזכויות שמורות.",
@@ -652,14 +653,14 @@ export const contact = {
 
 // Cookie-consent banner — small glass card at the bottom start corner. The
 // choice persists in localStorage + a first-party `clix_consent` cookie so
-// future analytics can honor it. ⚠️ Privacy-policy link is a placeholder,
-// same as the footer legal links — point to the real page when it exists.
+// future analytics can honor it. The policy link opens the dedicated privacy
+// page (src/legal), which details the cookie usage.
 export const cookies = {
   title: "אנחנו משתמשים בעוגיות",
   body: "האתר משתמש בעוגיות כדי לשפר את חוויית הגלישה ולהבין איך מבקרים משתמשים בו.",
   accept: "אישור",
   decline: "לא תודה",
-  policy: { label: "מדיניות פרטיות", href: "#" },
+  policy: { label: "מדיניות פרטיות", href: "/privacy.html" },
   ariaLabel: "הודעת שימוש בעוגיות",
 } as const;
 

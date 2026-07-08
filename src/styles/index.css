@@ -13,6 +13,8 @@
   --font-sans: "Heebo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   /* Kept as a token for the navbar/wordmark — same face so the bar matches. */
   --font-apple: "Heebo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Brand wordmark (CLIX lockup) — Rubik, per client call. */
+  --font-brand: "Rubik", "Heebo", ui-sans-serif, system-ui, sans-serif;
 
   /* ===== Palette: "AI Finance" dark =====
      Dark, premium AI-fintech. Near-black canvas with deep indigo/navy

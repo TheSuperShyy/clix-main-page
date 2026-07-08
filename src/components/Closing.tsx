@@ -89,7 +89,7 @@ export function Closing() {
             Stacks to a column on mobile. */}
         <footer className="w-full">
           {/* Glass panel — everything but the legal bar, in one frosted card. */}
-          <div className="rounded-[24px] border border-white/10 bg-white/[0.05] p-6 backdrop-blur-xl sm:p-8 lg:p-10">
+          <div className="rounded-[24px] border border-white/12 bg-[#33353c]/55 p-6 backdrop-blur-xl sm:p-8 lg:p-10">
           {/* Row 1 — contact block · office map. On mobile the CONTACT block
               leads (the "בואו נדבר." heading is the band's title — the map was
               sitting above it) and the map follows below. */}

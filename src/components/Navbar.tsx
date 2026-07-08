@@ -33,7 +33,7 @@ function Wordmark({ className = "" }: { className?: string }) {
     <a
       href="#top"
       aria-label={brand.full}
-      className={`inline-flex items-center gap-[0.4em] font-apple font-medium uppercase leading-none transition-opacity hover:opacity-70 ${className}`}
+      className={`inline-flex items-center gap-[0.4em] font-brand font-medium uppercase leading-none transition-opacity hover:opacity-70 ${className}`}
     >
       {/* Logomark + wordmark lockup — mark sits at the reading start (right in
           RTL), CLIX to its inline-end. currentColor: white on the dark bar,
