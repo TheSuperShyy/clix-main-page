@@ -34,6 +34,102 @@ export const nav = {
   menuLabel: "תפריט",
 } as const;
 
+// Industries — the "תעשיות" sectors we build for. Powers the navbar dropdown
+// (icon-tile menu), the /industries.html overview hub, AND a dedicated page per
+// sector (/industry-<id>.html). Per-sector copy (tagline · problem · features ·
+// promise) is scraped verbatim from the old site's /industries page
+// (clixsolutions.info/industries). Dropdown rows → each sector's own page;
+// "כל התעשיות" → the overview hub. `id` (= icon) keys the mount + page URL.
+export const industries = {
+  label: "תעשיות",
+  heading: "תעשיות שאנחנו בונים בהן", // dropdown panel heading
+  page: {
+    // Overview hub (/industries.html) — hero + closing (scraped from old site).
+    eyebrow: "תעשיות · לפי מגזר",
+    title: "AI שמדבר את השפה של התעשייה שלכם.",
+    intro:
+      "לכל מגזר יש שפה, קצב ונקודות כאב משלו. אנחנו מהנדסים את אותה מערכת AI סביב מה שבאמת מזיז את המחט אצלכם.",
+    cardCta: "כל הפרטים", // overview card affordance → the sector page
+    // Per-sector page (/industry-<id>.html) — shared section labels.
+    detail: {
+      eyebrowPrefix: "תעשיות", // eyebrow renders as "תעשיות · <sector>"
+      featuresHeading: "מה נבנה לכם",
+      moreHeading: "תעשיות נוספות",
+    },
+    // Closing CTA band (scraped: "בואו נבנה משהו / אתם מביאים את העסק…").
+    closing: {
+      eyebrow: "מוכנים להתחיל?",
+      title: "בואו נבנה משהו.",
+      body: "אתם מביאים את העסק. אנחנו מביאים את הבינה.",
+      note: "זמן מענה ממוצע: פחות מיום עסקים אחד.",
+      cta: { label: "בואו נתחיל", href: "/#contact" },
+    },
+  },
+  items: [
+    {
+      id: "realestate",
+      icon: "realestate",
+      title: 'נדל"ן',
+      desc: "לסגור עסקאות מהר יותר",
+      problem: "לידים נופלים בין הסדקים, והמתווך הראשון שמגיב מנצח.",
+      features: ["סוכן לידים ב-WhatsApp", "CRM שמרכז הכול", "מעקבים שלא נשכחים"],
+      promise: "מענה ראשוני בשניות לא בשעות.",
+      href: "/industry-realestate.html",
+    },
+    {
+      id: "finance",
+      icon: "finance",
+      title: "פיננסים וביטוח",
+      desc: "לתפעל בלי לוותר על ציות",
+      problem: "תהליכים ידניים, רגולציה כבדה ואפס מקום לטעות בנתונים.",
+      features: ["אוטומציית מסמכים ו-KYC", "סוכן AI לקליטה ושירות", "אינטגרציות מאובטחות"],
+      promise: "תהליך קליטה שלם בלי להעתיק נתון פעמיים.",
+      href: "/industry-finance.html",
+    },
+    {
+      id: "health",
+      icon: "health",
+      title: "בריאות וקליניקות",
+      desc: "להחזיר זמן לצוות הרפואי",
+      problem: "המזכירות טובעת בתיאומים, תזכורות ומענה טלפוני חוזר.",
+      features: ["תיאום תורים אוטומטי", "תזכורות חכמות", "מענה ראשוני מבוסס ידע"],
+      promise: "פחות זמן על הטלפון, יותר זמן עם המטופל.",
+      href: "/industry-health.html",
+    },
+    {
+      id: "ecommerce",
+      icon: "ecommerce",
+      title: "קמעונאות ו-eCommerce",
+      desc: "להמיר כל שיחה למכירה",
+      problem: "עגלות ננטשות ושאלות לקוחות מחכות שעות למענה.",
+      features: ["בוט מכירות ב-WhatsApp", "אוטומציית מלאי והזמנות", "מועדון לקוחות חכם"],
+      promise: "ערוץ מכירה שעובד גם ב-2 בלילה.",
+      href: "/industry-ecommerce.html",
+    },
+    {
+      id: "logistics",
+      icon: "logistics",
+      title: "לוגיסטיקה ותפעול",
+      desc: "לאחד מערך מקוטע",
+      problem: "חמישה כלים שלא מדברים, ועדכון שמגיע תמיד מאוחר מדי.",
+      features: ["פורטל תפעול אחד", "סוכן AI לתמחור וניתוב", "סנכרון בזמן אמת"],
+      promise: "תמונת תפעול אחת בזמן אמת.",
+      href: "/industry-logistics.html",
+    },
+    {
+      id: "education",
+      icon: "education",
+      title: "חינוך והדרכה",
+      desc: "להפוך פניות להרשמות",
+      problem: "פניות מתעניינים נערמות, והליווי האישי לא מתכלל.",
+      features: ["ליווי נרשמים מקצה לקצה", "אוטומציית הרשמה", "מענה רב-לשוני 24/7"],
+      promise: "כל פנייה מקבלת מענה מיד.",
+      href: "/industry-education.html",
+    },
+  ],
+  all: { label: "כל התעשיות", href: "/industries.html" },
+} as const;
+
 export const hero = {
   // Full accessible sentence — used as the h1 aria-label / for SEO.
   headline: "מערכות AI מהונדסות לעסק שלכם.",
@@ -651,6 +747,38 @@ export const contact = {
   instagramUrl: "https://instagram.com/clix_solution",
 } as const;
 
+// Contact popup — the form that opens when any "בואו נדבר" / "דברו איתנו"
+// CTA (#contact link, or the contact mailto) is clicked. UI only for now; wire
+// `submit` to a real endpoint (email/CRM/WhatsApp) later. The agreement text is
+// split around its two inline links so they can be rendered as <a> to the legal
+// pages.
+export const contactForm = {
+  windowTitle: "Contact Form", // mac-window chrome tag (matches the mock)
+  ariaLabel: "טופס יצירת קשר",
+  eyebrow: "צרו קשר",
+  title: "בואו נדבר.",
+  intro: "השאירו פרטים ונחזור אליכם עם צעד ראשון קונקרטי — בדרך כלל תוך יום עסקים אחד.",
+  fields: {
+    name: { label: "שם מלא", placeholder: "השם שלך" },
+    phone: { label: "טלפון", placeholder: "050-000-0000" },
+    message: { label: "איך נוכל לעזור?", optional: "(אופציונלי)", placeholder: "ספר לנו על האתגרים שלך..." },
+  },
+  requiredHint: "שדה חובה",
+  agreement: {
+    before: "אני מאשר/ת את ",
+    terms: { label: "תנאי השימוש", href: "/terms.html" },
+    middle: " ואת ",
+    privacy: { label: "מדיניות הפרטיות", href: "/privacy.html" },
+    after: ", ומסכים/ה לשמירת פרטיי ליצירת קשר.",
+  },
+  submit: "שליחה",
+  closeLabel: "סגירה",
+  success: {
+    title: "תודה!",
+    body: "קיבלנו את הפנייה — נחזור אליכם בהקדם.",
+  },
+} as const;
+
 // Cookie-consent banner — small glass card at the bottom start corner. The
 // choice persists in localStorage + a first-party `clix_consent` cookie so
 // future analytics can honor it. The policy link opens the dedicated privacy
@@ -662,6 +790,35 @@ export const cookies = {
   decline: "לא תודה",
   policy: { label: "מדיניות פרטיות", href: "/privacy.html" },
   ariaLabel: "הודעת שימוש בעוגיות",
+} as const;
+
+/**
+ * Accessibility widget (תפריט נגישות) — copy for the floating a11y tool that
+ * lets visitors enlarge text, boost contrast, highlight links, stop motion, etc.
+ * Standard on Israeli sites. Links to the existing accessibility.html statement.
+ */
+export const a11y = {
+  buttonLabel: "תפריט נגישות",
+  title: "נגישות",
+  intro: "התאמת האתר לצרכים שלך.",
+  fontSize: {
+    label: "גודל טקסט",
+    increase: "הגדלת טקסט",
+    decrease: "הקטנת טקסט",
+    reset: "איפוס גודל",
+  },
+  toggles: {
+    contrast: "ניגודיות גבוהה",
+    invert: "היפוך צבעים",
+    grayscale: "גווני אפור",
+    links: "הדגשת קישורים",
+    readable: "פונט קריא",
+    bigCursor: "סמן גדול",
+    stopMotion: "עצירת אנימציות",
+  },
+  reset: "איפוס כל ההגדרות",
+  statement: { label: "הצהרת נגישות", href: "/accessibility.html" },
+  close: "סגירת תפריט הנגישות",
 } as const;
 
 export const footer = {

@@ -12,6 +12,8 @@ import { Testimonials } from "./components/Testimonials";
 import { Training } from "./components/Training";
 import { Closing } from "./components/Closing";
 import { CookieConsent } from "./components/CookieConsent";
+import { ContactModal } from "./components/ContactModal";
+import { AccessibilityWidget } from "./components/AccessibilityWidget";
 
 // Flow (AI Finance clone, built section by section): Hero → Solutions →
 // Partners → Features → Key Features → Services → Benefits → Testimonials →
@@ -63,6 +65,10 @@ export default function App() {
       </main>
       {/* Cookie-consent card — first visit only, rises after the hero lands. */}
       <CookieConsent />
+      {/* Contact popup — opens from every "בואו נדבר"/#contact CTA on the page. */}
+      <ContactModal />
+      {/* Accessibility tool (תפריט נגישות) — floating, site-wide. */}
+      <AccessibilityWidget />
     </div>
   );
 }

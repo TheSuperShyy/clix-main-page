@@ -7,15 +7,23 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {
-      // Multi-page build: the main landing page + three standalone legal pages
-      // (privacy / terms / accessibility). Each legal page is its own tiny
-      // entry sharing only the theme CSS — none of the WebGL/GSAP/Lenis landing
-      // bundle loads on them. Adding `input` means `main` must be listed too, or
-      // the landing page stops building.
+      // Multi-page build: the main landing page + the standalone sub-pages
+      // (the industries overview hub, a page per sector, and three legal pages).
+      // Each sub-page is its own entry; the legal pages share only the theme
+      // CSS, while every industries page also loads the shared WebGL scene (same
+      // live 3D backdrop as the home page). Adding `input` means `main` must be
+      // listed too, or the landing page stops building.
       // Paths are relative to the project root (no node:path needed —
       // @types/node isn't installed, and Vite resolves these from `root`).
       input: {
         main: "index.html",
+        industries: "industries.html",
+        industryRealestate: "industry-realestate.html",
+        industryFinance: "industry-finance.html",
+        industryHealth: "industry-health.html",
+        industryEcommerce: "industry-ecommerce.html",
+        industryLogistics: "industry-logistics.html",
+        industryEducation: "industry-education.html",
         privacy: "privacy.html",
         terms: "terms.html",
         accessibility: "accessibility.html",

@@ -1,8 +1,8 @@
 import { motion, useReducedMotion } from "motion/react";
-import { ClixMark } from "../components/ui/ClixMark";
+import { Navbar } from "../components/Navbar";
+import { SiteFooter } from "../components/SiteFooter";
 import { LegalScene } from "./LegalScene";
 import type { LegalBlock, LegalDoc } from "./content";
-import { legalNav } from "./content";
 
 /**
  * LegalPage — one dark, RTL, editorial document page shared by the three legal
@@ -11,8 +11,11 @@ import { legalNav } from "./content";
  *
  * Design matches the home page: the SAME live WebGL scene runs as a fixed
  * backdrop (<LegalScene>), and the document floats over it in a frosted glass
- * panel — the site's Solutions/navbar glass language — so the text stays
- * readable while the 3D scene breathes in the margins and up top (hero-like).
+ * panel — the site's Solutions/navbar glass language. It also wears the SAME
+ * chrome as the home page and the industries pages: the real floating
+ * <Navbar variant="page" /> up top and the shared <SiteFooter /> at the bottom
+ * (whose legal bar already cross-links privacy/terms/accessibility), so a legal
+ * page never reads as a different site.
  *
  * Accessibility (this brand ships an accessibility statement — the page must
  * practice it): a real skip-link, semantic landmarks, h1→h2 hierarchy, visible
@@ -62,7 +65,7 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
   });
 
   return (
-    <div className="relative min-h-dvh text-fg">
+    <div id="top" className="relative min-h-dvh text-fg">
       {/* Live WebGL scene — same engine as the home page, fixed behind the
           page (z-0). The glass panel below floats over it. */}
       <LegalScene />
@@ -76,39 +79,13 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
         דילוג לתוכן
       </a>
 
-      {/* Top bar — wordmark home link (start) + back-to-site (end). */}
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-ink/60 backdrop-blur-xl">
-        <div className="container-x flex h-16 items-center justify-between">
-          <a
-            href="/"
-            aria-label="Clix — חזרה לעמוד הבית"
-            className="flex items-center gap-2 text-fg transition-opacity hover:opacity-80"
-          >
-            <ClixMark className="h-5 w-auto" />
-            <span className="text-[17px] font-semibold tracking-[-0.02em]">Clix</span>
-          </a>
-          <a
-            href="/"
-            className="group inline-flex items-center gap-1.5 text-[13.5px] font-medium text-muted transition-colors hover:text-fg"
-          >
-            {/* RTL: "back" points right (→ the reading start). */}
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-4">
-              <path
-                d="M14 5l7 7-7 7M21 12H3"
-                stroke="currentColor"
-                strokeWidth={1.8}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            חזרה לאתר
-          </a>
-        </div>
-      </header>
+      {/* Same floating navbar as the home page (sub-page variant → its in-page
+          links resolve back to the home sections). */}
+      <Navbar variant="page" />
 
       {/* Scene strip up top (hero-like), then the document floats over the
           scene in one frosted glass panel. */}
-      <main id="legal-content" className="relative z-10 container-x pb-20 pt-[14vh] sm:pt-[18vh]">
+      <main id="legal-content" className="relative z-10 container-x pb-24 pt-[13vh] sm:pt-[17vh]">
         <motion.article
           {...reveal(0)}
           className="mx-auto max-w-[760px] rounded-[24px] border border-white/12 bg-[#33353c]/55 px-6 py-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_40px_90px_-40px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:px-12 sm:py-14"
@@ -140,30 +117,11 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
         </motion.article>
       </main>
 
-      {/* Footer — cross-links to the other legal pages + copyright + back home. */}
-      <footer className="relative z-10 border-t border-white/10 bg-ink/50 backdrop-blur-xl">
-        <div className="container-x mx-auto flex max-w-[760px] flex-col gap-4 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-[13px] font-light text-faint">© Clix 2026. כל הזכויות שמורות.</p>
-          <nav aria-label="עמודים משפטיים" className="flex flex-wrap items-center gap-x-6 gap-y-2">
-            {legalNav.map((link) => {
-              const current = link.path === doc.path;
-              return (
-                <a
-                  key={link.path}
-                  href={link.path}
-                  aria-current={current ? "page" : undefined}
-                  className={
-                    "text-[13px] font-light transition-colors " +
-                    (current ? "text-fg" : "text-muted hover:text-fg")
-                  }
-                >
-                  {link.label}
-                </a>
-              );
-            })}
-          </nav>
-        </div>
-      </footer>
+      {/* Shared site footer (identical to the home page). Its legal bar already
+          cross-links privacy / terms / accessibility. */}
+      <div className="relative z-10 container-x mx-auto max-w-[1120px] pb-8">
+        <SiteFooter linkBase="/" homeHref="/" />
+      </div>
     </div>
   );
 }

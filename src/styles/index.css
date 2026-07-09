@@ -429,3 +429,54 @@ html.lenis body { height: auto; }
     scroll-behavior: auto !important;
   }
 }
+
+/* ============================================================
+   Accessibility widget modes — classes toggled on <html> by
+   <AccessibilityWidget>. The visual filters (grayscale /
+   contrast / invert) are NOT applied here: a `filter` on <html>
+   would make it the containing block for the fixed WebGL scene
+   and detach it, so those run through a fixed backdrop-filter
+   overlay the widget renders instead. Text enlargement uses
+   `zoom` (set inline) so it also scales the site's many px sizes.
+   ============================================================ */
+
+/* Highlight links — underline + gold outline so every link stands out. */
+html.a11y-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  outline: 2px solid var(--color-gold) !important;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Readable font — swap the display face for a plain, high-legibility stack
+   and open up spacing. */
+html.a11y-readable,
+html.a11y-readable * {
+  font-family: Arial, "Segoe UI", Tahoma, sans-serif !important;
+  letter-spacing: 0.02em !important;
+}
+html.a11y-readable p,
+html.a11y-readable li,
+html.a11y-readable a,
+html.a11y-readable span {
+  line-height: 1.8 !important;
+}
+
+/* Big cursor — a larger arrow pointer (data-URI SVG, tip at 2,2). */
+html.a11y-cursor,
+html.a11y-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 24 24'%3E%3Cpath d='M4 2l6 17 2.3-6.7 6.7-2.3z' fill='white' stroke='black' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 2 2, auto !important;
+}
+
+/* Stop animations — freeze CSS motion; the widget also pauses <video>. */
+html.a11y-stop-motion *,
+html.a11y-stop-motion *::before,
+html.a11y-stop-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}

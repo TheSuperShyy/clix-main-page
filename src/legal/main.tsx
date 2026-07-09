@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "../styles/index.css";
 import { LegalPage } from "./LegalPage";
 import { LEGAL_DOCS, type LegalKey } from "./content";
+import { AccessibilityWidget } from "../components/AccessibilityWidget";
 
 // Shared entry for the three legal pages. Each page's HTML sets
 // data-page="privacy|terms|accessibility" on the mount node; we render that doc.
@@ -17,5 +18,6 @@ if (!doc) {
 createRoot(mount).render(
   <StrictMode>
     <LegalPage doc={doc} />
+    <AccessibilityWidget />
   </StrictMode>,
 );
