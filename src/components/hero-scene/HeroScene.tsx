@@ -27,6 +27,19 @@ export function HeroScene({
     const host = canvas?.parentElement;
     if (!canvas || !host) return;
 
+    // Tell the index.html loading splash when the scene is ready to be revealed
+    // — either it has painted its first real frames (below), or there's nothing
+    // to wait for (no WebGL). The splash holds until this fires so it only fades
+    // once the 3D background is actually on screen. Flag + event so it works
+    // whether the splash's listener attaches before or after we signal.
+    let sceneSignaled = false;
+    const signalSceneReady = () => {
+      if (sceneSignaled) return;
+      sceneSignaled = true;
+      (window as unknown as { __clixSceneReady?: boolean }).__clixSceneReady = true;
+      window.dispatchEvent(new Event("clix:scene-ready"));
+    };
+
     let handle: HeroSceneHandle;
     try {
       // Size to the CANVAS box, not the host layer — on mobile the canvas is
@@ -35,18 +48,24 @@ export function HeroScene({
       handle = createHeroScene(canvas, canvas.clientWidth, canvas.clientHeight);
     } catch (err) {
       // No WebGL (or context creation failed) — the section's own dark
-      // background is the graceful fallback.
+      // background is the graceful fallback. Release the splash immediately so
+      // it doesn't wait for a frame that will never come.
       if (import.meta.env.DEV) console.warn("[hero-scene] disabled:", err);
+      signalSceneReady();
       return;
     }
 
     let visible = true;
+    let framesPainted = 0;
     const tick = (_time: number, deltaTime: number) => {
       // Fully covered by a solid band → the canvas is invisible; skip the
       // whole render (transmission + post chain) instead of drawing to it.
       // Resumes on the next tick once a see-through section scrolls back in.
       if (!visible || coveredRef?.current) return;
       handle.render(progressRef.current ?? 0, deltaTime / 1000);
+      // A few real frames in (past any black warm-up) the composition is on
+      // screen — let the loading splash fade to reveal a fully-drawn scene.
+      if (!sceneSignaled && ++framesPainted >= 3) signalSceneReady();
     };
     gsap.ticker.add(tick);
 

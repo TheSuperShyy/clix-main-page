@@ -154,30 +154,18 @@ export function SiteFooter({
             </nav>
           </div>
 
-          {/* Newsletter — email field + inset white submit, one pill (UI only;
-              wire the form to a real list). */}
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="flex w-full items-center rounded-full border border-white/10 bg-white/[0.06] p-1.5 transition-colors focus-within:border-white/25 sm:max-w-[380px]"
+          {/* Newsletter — now a single button (not an email form): opens the
+              contact popup via #contact (the site-wide interceptor). On sub-pages
+              link() resolves it to "/#contact" so it lands on the home footer. */}
+          <a
+            href={link("#contact")}
+            className="group inline-flex h-12 shrink-0 items-center gap-2.5 rounded-full bg-white ps-6 pe-2 text-[15px] font-bold text-ink transition-colors hover:bg-white/90"
           >
-            <label htmlFor="nl-email" className="sr-only">
-              {footer.newsletter.ariaLabel}
-            </label>
-            <input
-              id="nl-email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder={footer.newsletter.placeholder}
-              className="min-w-0 flex-1 bg-transparent px-4 text-[14px] text-fg placeholder:text-fg/40 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="shrink-0 rounded-full bg-white px-5 py-2.5 text-[14px] font-medium text-ink transition-colors hover:bg-white/90"
-            >
-              {footer.newsletter.button}
-            </button>
-          </form>
+            {footer.newsletter.heading}
+            <span className="grid size-8 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
+              <CtaArrow className="size-4" />
+            </span>
+          </a>
         </div>
       </div>
 

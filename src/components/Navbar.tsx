@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { brand, industries, nav } from "../data/content";
 import { ScrollTrigger, useGSAP } from "../lib/gsap";
+import { getLenis } from "../hooks/useLenis";
 import { ClixMark } from "./ui/ClixMark";
 import { IndustryGlyph } from "./ui/IndustryGlyph";
 
@@ -207,6 +208,23 @@ export function Navbar({ variant = "home" }: { variant?: "home" | "page" }) {
   const resolve = (href: string) => (page && href.startsWith("#") ? `/${href}` : href);
   const homeHref = page ? "/" : "#top";
 
+  // "בואו נדבר" (Get Started) now SCROLLS down to the footer/contact band rather
+  // than opening the contact popup. On the home page the resolved href is the
+  // same-page "#contact" → smooth-scroll to it (Lenis when active, else native).
+  // On sub-pages it resolves to "/#contact", so we let the browser navigate home
+  // and land on the footer. Calling preventDefault() also makes <ContactModal>'s
+  // click interceptor skip this click (it bails on defaultPrevented) — no popup.
+  const scrollToContact = (e: ReactMouseEvent) => {
+    const href = resolve(nav.cta.href);
+    if (!href.startsWith("#")) return; // sub-page → navigate to /#contact
+    const el = document.getElementById(href.slice(1));
+    if (!el) return;
+    e.preventDefault();
+    const lenis = getLenis();
+    if (lenis) lenis.scrollTo(el);
+    else el.scrollIntoView({ behavior: "smooth" });
+  };
+
   useGSAP(() => {
     // Sub-pages have none of the tracked sections — skip the observers entirely
     // (onDark is already pinned true above for the dark sub-page treatment).
@@ -278,6 +296,7 @@ export function Navbar({ variant = "home" }: { variant?: "home" | "page" }) {
           <motion.a
             {...pillMotion}
             href={resolve(nav.cta.href)}
+            onClick={scrollToContact}
             className="inline-flex h-14 items-center gap-3 rounded-md bg-ink ps-6 pe-2.5 text-[16px] font-bold text-on-ink ring-1 ring-white/10 transition-colors hover:bg-ink-2"
           >
             {nav.cta.label}
@@ -407,7 +426,10 @@ export function Navbar({ variant = "home" }: { variant?: "home" | "page" }) {
                 {/* Get Started CTA — dark rounded button + white arrow badge. */}
                 <a
                   href={resolve(nav.cta.href)}
-                  onClick={() => setOpen(false)}
+                  onClick={(e) => {
+                    setOpen(false);
+                    scrollToContact(e);
+                  }}
                   className="group mt-3 inline-flex h-12 items-center gap-2.5 rounded-[10px] bg-ink ps-5 pe-2.5 text-[14px] font-bold text-white transition-colors hover:bg-ink-2"
                 >
                   {nav.cta.label}
