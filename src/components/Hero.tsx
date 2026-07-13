@@ -37,9 +37,8 @@ export function Hero({ children }: { children?: ReactNode }) {
   const stickyRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const scrimRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLDivElement>(null);
 
-  // ── GSAP: video scrubber + copy fade-out (scroll-tied, ungated) ──
+  // ── GSAP: copy + scrim fade-out (scroll-tied, ungated) ──
   useGSAP(
     () => {
       // 1) The copy melts away over the first ~28vh of scroll (quick vanish,
@@ -70,21 +69,8 @@ export function Hero({ children }: { children?: ReactNode }) {
         },
       });
 
-      // 3) The ambient footage fades with the copy so the blank beat that
-      //    follows is pure moving scene (the 3D alone), matching the ref.
-      const footage = gsap.to(videoRef.current, {
-        autoAlpha: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top top",
-          end: "+=28%",
-          scrub: true,
-        },
-      });
-
       return () => {
-        [fade, scrim, footage].forEach((tw) => {
+        [fade, scrim].forEach((tw) => {
           tw.scrollTrigger?.kill();
           tw.kill();
         });
@@ -122,38 +108,6 @@ export function Hero({ children }: { children?: ReactNode }) {
         ref={stickyRef}
         className="sticky top-0 flex h-dvh flex-col justify-end overflow-hidden"
       >
-        {/* ── Stock-footage montage — a stitched sequence of corporate clips
-            (teams talking / brainstorming / programming), played FULLY VISIBLE
-            over the fixed WebGL scene. It fills the hero on load; on scroll it
-            fades out (below) to reveal the 3D scene for the rest of the page,
-            so the 3D is kept, not replaced. Runs ungated (ambient hero motion —
-            standing reduced-motion exception). A slim veil + the bottom scrim
-            only exist to keep the overlaid copy legible. ── */}
-        {/* Stock-footage montage. The homepage navy/indigo colour grade is
-            BAKED INTO the file (ffmpeg), so playback needs NO runtime blend
-            layers — the previous full-screen `mix-blend` overlays were the
-            source of the stutter (per-frame compositing of the whole viewport
-            over a playing video + the WebGL scene). Now it's a plain video on
-            its OWN compositor layer (`translateZ(0)`), so it decodes/paints
-            smoothly. Only a cheap normal-blend veil remains for copy legibility. */}
-        <div ref={videoRef} className="pointer-events-none absolute inset-0 overflow-hidden">
-          <video
-            aria-hidden
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="auto"
-            poster="/hero-people-poster.webp"
-            className="absolute inset-0 h-full w-full object-cover [transform:translateZ(0)] [will-change:transform] [backface-visibility:hidden]"
-          >
-            <source src="/hero-people.mp4" type="video/mp4" />
-          </video>
-          {/* Barely-there darkening so white copy stays readable over bright
-              office footage (normal blend — no per-frame compositing cost). */}
-          <div aria-hidden className="absolute inset-0 bg-ink/15" />
-        </div>
-
         {/* ── The scene itself renders in <SceneBackdrop> (fixed, page-wide).
             Here only a bottom scrim keeps the copy crisp; it thins as the
             copy fades. ── */}

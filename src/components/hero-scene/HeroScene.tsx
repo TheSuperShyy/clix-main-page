@@ -58,10 +58,14 @@ export function HeroScene({
     let visible = true;
     let framesPainted = 0;
     const tick = (_time: number, deltaTime: number) => {
-      // Fully covered by a solid band → the canvas is invisible; skip the
-      // whole render (transmission + post chain) instead of drawing to it.
+      if (!visible) return;
+      // Fully covered by a solid mid-page band → the canvas is invisible; skip
+      // the whole render (transmission + post chain) instead of drawing to it.
       // Resumes on the next tick once a see-through section scrolls back in.
-      if (!visible || coveredRef?.current) return;
+      // Guarded on `sceneSignaled` so the skip can never starve the loading
+      // splash of its warm-up frames (covered bands sit well below the fold, so
+      // this only matters as a defensive backstop).
+      if (coveredRef?.current && sceneSignaled) return;
       handle.render(progressRef.current ?? 0, deltaTime / 1000);
       // A few real frames in (past any black warm-up) the composition is on
       // screen — let the loading splash fade to reveal a fully-drawn scene.
