@@ -80,7 +80,7 @@ export function IndustriesPage() {
           whileInView="show"
           viewport={{ once: true, amount: 0.12 }}
           variants={{ show: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } } }}
-          className="mt-14 overflow-hidden rounded-[24px] border border-white/12 bg-[#33353c]/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_50px_110px_-55px_rgba(0,0,0,0.92)] backdrop-blur-2xl sm:mt-20"
+          className="mt-14 overflow-hidden rounded-[24px] border border-white/12 bg-[#1a1a2e]/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_50px_110px_-55px_rgba(0,0,0,0.92)] backdrop-blur-2xl sm:mt-20"
         >
           {items.map((it, i) => (
             <motion.a
@@ -153,10 +153,10 @@ export function IndustriesPage() {
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
             <a
               href={closing.cta.href}
-              className="group inline-flex h-12 items-center gap-3 rounded-[12px] bg-white ps-6 pe-2 text-[15px] font-bold text-ink transition-colors hover:bg-white/90"
+              className="group btn-fill inline-flex h-12 items-center gap-3 rounded-[12px] ps-6 pe-2 text-[15px] font-bold"
             >
               {closing.cta.label}
-              <span className="grid size-8 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5">
+              <span className="grid size-8 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-3.5">
                   <path d="M14 6l-6 6 6 6" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>

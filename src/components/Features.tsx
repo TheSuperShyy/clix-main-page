@@ -20,7 +20,7 @@ import { features } from "../data/content";
 
 export function Features() {
   return (
-    <section id="features" className="relative bg-[#03021b] py-24 sm:py-32">
+    <section id="features" className="relative bg-[#0d0d0d] py-24 sm:py-32">
       <div className="container-x">
         {/* Centered header (ref: eyebrow → statement headline → light subcopy). */}
         <p className="eyebrow text-center text-fg/80">{features.eyebrow}</p>

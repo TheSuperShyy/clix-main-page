@@ -1,7 +1,7 @@
 /**
  * Per-industry accent colors — each pulled verbatim from the landing page's own
- * palette (src/styles/index.css): sky #aad4f6 · mint #a5edee · gold #ffe08c ·
- * brand orange #ff7600. This is the ONE thing that differs page-to-page: every
+ * palette (src/styles/index.css): sky #6f9adf · mint #a9c7ef · gold #f2879b ·
+ * brand orange #e94560. This is the ONE thing that differs page-to-page: every
  * sector page shares the home editorial skeleton but gets its own signature
  * light, so finance (sky) reads differently from health (mint) or eCommerce
  * (orange) while all clearly belong to the same site.
@@ -15,15 +15,15 @@
 export type Accent = { hex: string; soft: string };
 
 export const industryAccents: Record<string, Accent> = {
-  realestate: { hex: "#ffe08c", soft: "#ffe08c" }, // gold
-  finance: { hex: "#aad4f6", soft: "#aad4f6" }, // sky
-  health: { hex: "#a5edee", soft: "#a5edee" }, // mint
-  ecommerce: { hex: "#ff7600", soft: "#ffb066" }, // brand orange
-  logistics: { hex: "#aad4f6", soft: "#aad4f6" }, // sky
-  education: { hex: "#ffe08c", soft: "#ffe08c" }, // gold
+  realestate: { hex: "#f2879b", soft: "#f2879b" }, // gold
+  finance: { hex: "#6f9adf", soft: "#6f9adf" }, // sky
+  health: { hex: "#a9c7ef", soft: "#a9c7ef" }, // mint
+  ecommerce: { hex: "#e94560", soft: "#f2879b" }, // brand orange
+  logistics: { hex: "#6f9adf", soft: "#6f9adf" }, // sky
+  education: { hex: "#f2879b", soft: "#f2879b" }, // gold
 };
 
-const fallback: Accent = { hex: "#ffb066", soft: "#ffb066" };
+const fallback: Accent = { hex: "#f2879b", soft: "#f2879b" };
 
 export const accentFor = (id: string): Accent => industryAccents[id] ?? fallback;
 

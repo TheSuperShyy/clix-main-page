@@ -79,7 +79,7 @@ export function CookieConsent() {
               <motion.button
                 {...pillMotion}
                 onClick={() => choose("accepted")}
-                className="h-11 grow rounded-[10px] bg-on-ink px-5 text-[14px] font-bold text-ink transition-colors hover:bg-white/90 sm:grow-0"
+                className="btn-fill h-11 grow rounded-[10px] px-5 text-[14px] font-bold sm:grow-0"
               >
                 {cookies.accept}
               </motion.button>

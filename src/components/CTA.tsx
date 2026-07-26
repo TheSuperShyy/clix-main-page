@@ -34,10 +34,8 @@ export function CTA() {
               <a
                 key={b.label}
                 href={b.href}
-                className={`inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-semibold transition-all duration-300 ${
-                  b.primary
-                    ? "bg-on-ink text-ink hover:-translate-y-0.5 hover:bg-white"
-                    : "border border-on-ink/25 text-on-ink hover:border-on-ink/60 hover:bg-on-ink/5"
+                className={`inline-flex items-center justify-center rounded-full px-8 py-4 text-base font-semibold ${
+                  b.primary ? "btn-fill" : "btn-fill-soft"
                 }`}
               >
                 {b.label}

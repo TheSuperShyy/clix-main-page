@@ -48,7 +48,7 @@ const ANCHORS = [
 
 /** Scroll windows where SOLID bands fully cover the viewport, so the scene is
     invisible and rendering it is pure GPU waste (~30fps on iGPUs mid-page):
-    Features→KeyFeatures (both bg-[#03021b], contiguous) hide it from the
+    Features→KeyFeatures (both bg-[#0d0d0d], contiguous) hide it from the
     moment #features' top passes the viewport top until #services (transparent)
     enters the viewport bottom; Testimonials→Training likewise until #contact.
     A margin keeps a safety strip rendered around each edge. */
@@ -133,7 +133,7 @@ export function SceneBackdrop() {
           // Poster of the scene's first beat — holds the frame until the WebGL
           // chunk loads, so there's no flash of empty background.
           <div
-            className="absolute inset-0 bg-[#04081f] bg-cover bg-center"
+            className="absolute inset-0 bg-[#0d0d0d] bg-cover bg-center"
             style={{ backgroundImage: "url(/hero-scene-poster.webp)" }}
           />
         }

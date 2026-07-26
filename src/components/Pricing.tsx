@@ -9,10 +9,10 @@ import { pricing } from "../data/content";
  * with an inverted white CTA.
  *
  * Ref spec (clone CSS): section pt 60px / pb 200px (100/100 ≤992), flat
- * `#03021b` base — the same color Testimonials sits on, so the bands keep
+ * `#0d0d0d` base — the same color Testimonials sits on, so the bands keep
  * chaining · centered header, gap 40px · cards row gap 24px, `align-items:
  * center`, max-w 1440, p 40 · card p 32 (20 mobile), inner gap 24px, radius
- * 8px; side fills `#03021b`, featured fill `#000` · per card: 28px medium
+ * 8px; side fills `#0d0d0d`, featured fill `#000` · per card: 28px medium
  * title → 20px light desc → 1px hairline → display-size price + 32px "/mo"
  * suffix → feature rows (gap 16, 12px sparkle icons — bright on the featured
  * card, dim on the sides) → 48px full-width `rounded-[8px]` CTA (black on
@@ -55,7 +55,7 @@ function CtaArrow({ className = "" }: { className?: string }) {
 function PricingBackdrop() {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-[#03021b]" />
+      <div className="absolute inset-0 bg-[#0d0d0d]" />
       {/* Faint glow behind the featured middle card. */}
       <div
         className="absolute inset-x-0 top-[20%] h-[60%]"
@@ -96,7 +96,7 @@ export function Pricing() {
             <article
               key={tier.name}
               className={`flex flex-col gap-6 rounded-[8px] p-5 sm:p-8 ${
-                tier.featured ? "bg-black sm:py-14" : "bg-[#03021b]"
+                tier.featured ? "bg-black sm:py-14" : "bg-[#0d0d0d]"
               }`}
             >
               {/* Plan name + who it's for. */}
@@ -144,10 +144,8 @@ export function Pricing() {
               {/* CTA — black on the side tiers, inverted white on the featured. */}
               <a
                 href={pricing.ctaHref}
-                className={`mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-[8px] text-[16px] font-light tracking-[-0.03em] transition-colors ${
-                  tier.featured
-                    ? "bg-white text-ink hover:bg-white/90"
-                    : "bg-black text-fg ring-1 ring-white/10 hover:bg-ink-2"
+                className={`mt-2 flex h-12 w-full items-center justify-center gap-2 rounded-[8px] text-[16px] font-light tracking-[-0.03em] ${
+                  tier.featured ? "btn-fill" : "btn-fill-soft"
                 }`}
               >
                 {tier.cta}

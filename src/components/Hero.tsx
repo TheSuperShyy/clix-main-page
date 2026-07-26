@@ -138,7 +138,16 @@ export function Hero({ children }: { children?: ReactNode }) {
                 >
                   {hero.headlineLines.map((line) => (
                     <span key={line} className="block">
-                      {line}
+                      {/* Accent the "AI" token in crimson (reference), rest white. */}
+                      {line.split(/(AI)/).map((part, i) =>
+                        part === "AI" ? (
+                          <span key={i} className="text-brand">
+                            {part}
+                          </span>
+                        ) : (
+                          part
+                        ),
+                      )}
                     </span>
                   ))}
                 </motion.h1>
@@ -159,10 +168,10 @@ export function Hero({ children }: { children?: ReactNode }) {
                       <a
                         key={c.href}
                         href={c.href}
-                        className="group inline-flex h-12 items-center gap-3 rounded-full bg-white ps-6 pe-2 text-[15px] font-bold text-ink transition-colors hover:bg-white/90"
+                        className="group btn-fill inline-flex h-12 items-center gap-3 rounded-full ps-6 pe-2 text-[15px] font-bold"
                       >
                         {c.label}
-                        <span className="grid size-8 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5">
+                        <span className="grid size-8 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5">
                           <ArrowIcon />
                         </span>
                       </a>
@@ -170,7 +179,7 @@ export function Hero({ children }: { children?: ReactNode }) {
                       <a
                         key={c.href}
                         href={c.href}
-                        className="inline-flex h-12 items-center rounded-full border border-border-strong bg-white/[0.06] px-6 text-[15px] font-bold text-fg backdrop-blur-sm transition-colors hover:bg-white/[0.12]"
+                        className="btn-fill-soft inline-flex h-12 items-center rounded-full px-6 text-[15px] font-bold backdrop-blur-sm"
                       >
                         {c.label}
                       </a>

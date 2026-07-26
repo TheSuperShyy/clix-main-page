@@ -88,7 +88,7 @@ export function LegalPage({ doc }: { doc: LegalDoc }) {
       <main id="legal-content" className="relative z-10 container-x pb-24 pt-[13vh] sm:pt-[17vh]">
         <motion.article
           {...reveal(0)}
-          className="mx-auto max-w-[760px] rounded-[24px] border border-white/12 bg-[#33353c]/55 px-6 py-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_40px_90px_-40px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:px-12 sm:py-14"
+          className="mx-auto max-w-[760px] rounded-[24px] border border-white/12 bg-[#1a1a2e]/55 px-6 py-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_40px_90px_-40px_rgba(0,0,0,0.9)] backdrop-blur-2xl sm:px-12 sm:py-14"
         >
           {/* Title block */}
           <div>

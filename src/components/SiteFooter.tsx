@@ -68,7 +68,7 @@ export function SiteFooter({
   return (
     <footer className="w-full">
       {/* Glass panel — everything but the legal bar, in one frosted card. */}
-      <div className="rounded-[24px] border border-white/12 bg-[#33353c]/55 p-6 backdrop-blur-xl sm:p-8 lg:p-10">
+      <div className="rounded-[24px] border border-white/12 bg-[#1a1a2e]/55 p-6 backdrop-blur-xl sm:p-8 lg:p-10">
         {/* Row 1 — contact block · office map. */}
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-14">
           <div className="flex flex-col items-start gap-4">
@@ -107,10 +107,10 @@ export function SiteFooter({
               })}
               <a
                 href={link(footer.cta.href)}
-                className="group inline-flex h-12 items-center gap-2.5 rounded-full bg-black ps-6 pe-2 text-[15px] font-medium text-fg ring-1 ring-white/10 transition-colors hover:bg-ink-2"
+                className="group btn-fill-soft inline-flex h-12 items-center gap-2.5 rounded-full ps-6 pe-2 text-[15px] font-medium"
               >
                 {footer.cta.label}
-                <span className="grid size-8 place-items-center rounded-full bg-white text-ink transition-transform duration-200 group-hover:-translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
+                <span className="grid size-8 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
                   <CtaArrow className="size-4" />
                 </span>
               </a>
@@ -159,10 +159,10 @@ export function SiteFooter({
               link() resolves it to "/#contact" so it lands on the home footer. */}
           <a
             href={link("#contact")}
-            className="group inline-flex h-12 shrink-0 items-center gap-2.5 rounded-full bg-white ps-6 pe-2 text-[15px] font-bold text-ink transition-colors hover:bg-white/90"
+            className="group btn-fill inline-flex h-12 shrink-0 items-center gap-2.5 rounded-full ps-6 pe-2 text-[15px] font-bold"
           >
             {footer.newsletter.heading}
-            <span className="grid size-8 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
+            <span className="grid size-8 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
               <CtaArrow className="size-4" />
             </span>
           </a>

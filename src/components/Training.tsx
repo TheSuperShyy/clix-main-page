@@ -73,7 +73,7 @@ function StageClip() {
 function TrainingBackdrop() {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
-      <div className="absolute inset-0 bg-[#03021b]" />
+      <div className="absolute inset-0 bg-[#0d0d0d]" />
       {/* Faint glow behind the video card (inline-end half). */}
       <div
         className="absolute inset-y-0 end-0 w-[60%]"

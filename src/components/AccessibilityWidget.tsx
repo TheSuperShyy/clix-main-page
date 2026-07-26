@@ -228,7 +228,7 @@ export function AccessibilityWidget() {
         whileHover={reduced ? undefined : { scale: 1.06 }}
         whileTap={reduced ? undefined : { scale: 0.94 }}
         transition={{ type: "spring", stiffness: 420, damping: 26 }}
-        className="fixed bottom-5 end-5 z-[9999] grid size-13 place-items-center rounded-full border border-white/15 bg-[#33353c]/85 text-fg shadow-[0_18px_40px_-12px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-colors hover:bg-[#3d4048]/90 sm:size-14"
+        className="fixed bottom-5 end-5 z-[9999] grid size-13 place-items-center rounded-full border border-white/15 bg-[#e94560] text-white shadow-[0_18px_40px_-12px_rgba(0,0,0,0.7)] backdrop-blur-xl transition-colors hover:bg-[#d1324c] sm:size-14"
       >
         <AccessIcon className="size-7 sm:size-[30px]" />
       </motion.button>
@@ -245,7 +245,7 @@ export function AccessibilityWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 28 }}
-            className="fixed bottom-[5.5rem] end-5 z-[9999] max-h-[min(70vh,560px)] w-[calc(100vw-2.5rem)] max-w-[330px] overflow-y-auto overscroll-contain rounded-[22px] border border-white/12 bg-[#33353c]/90 p-4 shadow-[0_40px_100px_-24px_rgba(0,0,0,0.85)] backdrop-blur-2xl font-apple sm:bottom-24"
+            className="fixed bottom-[5.5rem] end-5 z-[9999] max-h-[min(70vh,560px)] w-[calc(100vw-2.5rem)] max-w-[330px] overflow-y-auto overscroll-contain rounded-[22px] border border-white/12 bg-[#1a1a2e]/90 p-4 shadow-[0_40px_100px_-24px_rgba(0,0,0,0.85)] backdrop-blur-2xl font-apple sm:bottom-24"
           >
             {/* Header */}
             <div className="mb-3 flex items-start justify-between gap-3">

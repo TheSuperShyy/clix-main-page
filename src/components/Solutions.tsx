@@ -67,10 +67,10 @@ export function Solutions() {
                   <a
                     key={c.href}
                     href={c.href}
-                    className="group inline-flex h-11 items-center gap-2.5 rounded-[12px] bg-white ps-5 pe-2 text-[14px] font-bold text-ink transition-colors hover:bg-white/90"
+                    className="group btn-fill inline-flex h-11 items-center gap-2.5 rounded-[12px] ps-5 pe-2 text-[14px] font-bold"
                   >
                     {c.label}
-                    <span className="grid size-7 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5">
+                    <span className="grid size-7 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5">
                       <ArrowIcon />
                     </span>
                   </a>
@@ -78,7 +78,7 @@ export function Solutions() {
                   <a
                     key={c.href}
                     href={c.href}
-                    className="inline-flex h-11 items-center rounded-[12px] bg-white/[0.16] px-5 text-[14px] font-bold text-fg backdrop-blur-sm transition-colors hover:bg-white/25"
+                    className="btn-fill-soft inline-flex h-11 items-center rounded-[12px] px-5 text-[14px] font-bold backdrop-blur-sm"
                   >
                     {c.label}
                   </a>

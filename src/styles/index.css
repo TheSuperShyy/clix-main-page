@@ -2,9 +2,9 @@
 
 /* ============================================================
    Clix Solutions — Design Tokens (Tailwind v4 @theme)
-   "AI Finance" dark: near-black canvas · deep indigo/navy undertones ·
-   warm ORANGE accent + sky/mint/gold pastels · white text ladder · Heebo (RTL)
-   Reference: https://futureoffinance.peachweb.io/  (see CLAUDE.md → Design Reference)
+   Dark NAVY palette: #0D0D0D canvas · #1A1A2E cards · #16213E elevated
+   (nav/modals) · #0F3460 interactive (hover/active) · #E94560 accent
+   (buttons/links/highlights) · white text ladder · Heebo (RTL)
    ============================================================ */
 @theme {
   /* Fonts — Heebo (neo-grotesque, full Hebrew + Latin) across the whole site:
@@ -16,32 +16,34 @@
   /* Brand wordmark (CLIX lockup) — Rubik, per client call. */
   --font-brand: "Rubik", "Heebo", ui-sans-serif, system-ui, sans-serif;
 
-  /* ===== Palette: "AI Finance" dark =====
-     Dark, premium AI-fintech. Near-black canvas with deep indigo/navy
-     undertones, a warm ORANGE primary accent over soft sky/mint/gold pastels,
-     white opacity-ladder text + hairline white borders. ~75% dark / ~20% text /
-     ~5% accent. Body text (white ladder) on black meets WCAG AA; pastels are
-     decorative (glows, gradient sparks). */
+  /* ===== Palette: dark NAVY =====
+     Near-black #0D0D0D canvas → #1A1A2E cards → #16213E elevated (nav/modals)
+     → #0F3460 interactive (hover/active) → #E94560 accent. White opacity-ladder
+     text + hairline white borders. Decorative glows now stay in this family
+     (navy/interactive-blue + a rose accent tint), no sky/mint/gold rainbow. */
 
   /* Dark base + card surfaces */
-  --color-bg: #000000;          /* page base — true black (ref theme-color) */
-  --color-bg-2: #08090f;        /* raised base, faint navy undertone */
-  --color-surface: #14151a;     /* card / chip surface on dark */
-  --color-surface-2: #1a1b22;   /* raised card */
-  --color-surface-3: #23242c;   /* higher elevation */
+  --color-bg: #0d0d0d;          /* page base — main background */
+  --color-bg-2: #14141f;        /* raised base, faint navy undertone */
+  --color-surface: #1a1a2e;     /* card / chip surface (secondary background) */
+  --color-surface-2: #16213e;   /* raised card / elevated surface */
+  --color-surface-3: #1e2c4f;   /* higher elevation (toward interactive navy) */
 
   /* Deep brand undertones — for gradient glows / the hero aurora */
-  --color-navy: #000735;
-  --color-indigo: #10004a;
+  --color-navy: #16213e;
+  --color-indigo: #0f3460;
 
-  /* Ink-band tokens kept (the whole site is dark now, so these = the base) */
-  --color-ink: #000000;
-  --color-ink-2: #14151a;
+  /* Ink-band tokens (whole site is dark → these = the dark base / cards) */
+  --color-ink: #0d0d0d;
+  --color-ink-2: #1a1a2e;
   --color-on-ink: #ffffff;
 
   /* Graphite (legacy name) → dark card surfaces */
-  --color-graphite: #14151a;
-  --color-graphite-2: #1a1b22;
+  --color-graphite: #1a1a2e;
+  --color-graphite-2: #16213e;
+
+  /* Interactive — hover states / active navigation */
+  --color-interactive: #0f3460;
 
   /* Lines — hairline white */
   --color-border: rgba(255, 255, 255, 0.10);
@@ -52,29 +54,30 @@
   --color-muted: rgba(255, 255, 255, 0.70);  /* secondary (#ffffffb3) */
   --color-faint: rgba(255, 255, 255, 0.45);  /* tertiary / captions */
 
-  /* Accent — warm ORANGE primary + soft pastels */
-  --color-brand: #ff7600;        /* orange — primary action / highlight */
-  --color-brand-600: #e96700;    /* deeper orange — hover / press */
-  --color-brand-300: #ffb066;    /* soft orange — tints / labels on dark */
-  /* Pastels — soft glows, gradient sparks, accent text */
-  --color-sky: #aad4f6;
-  --color-mint: #a5edee;
-  --color-gold: #ffe08c;
-  /* Legacy spectrum names remapped to pastels so existing gradient/glow
-     utilities keep rendering during the section-by-section rebuild. */
-  --color-cyan: #a5edee;
-  --color-cyan-300: #c8f4f5;
-  --color-green: #aad4f6;
-  --color-green-300: #cfe6fb;
+  /* Accent — #E94560 primary (buttons/links/highlights) + derived tints */
+  --color-brand: #e94560;        /* accent — primary action / highlight */
+  --color-brand-600: #d1324c;    /* deeper — hover / press */
+  --color-brand-300: #f2879b;    /* soft rose — tints / labels on dark */
+  /* Decorative accents (kept token names) — retuned into the navy palette:
+     a light interactive-blue + soft periwinkle + rose, so glows/gradients read
+     cohesive with #0F3460 + #E94560 instead of the old sky/mint/gold rainbow. */
+  --color-sky: #6f9adf;          /* light interactive blue */
+  --color-mint: #a9c7ef;         /* soft periwinkle (no teal-green) */
+  --color-gold: #f2879b;         /* soft rose (accent tint) */
+  /* Legacy spectrum names remapped so existing gradient/glow utilities render. */
+  --color-cyan: #a9c7ef;
+  --color-cyan-300: #c8d8f4;
+  --color-green: #6f9adf;
+  --color-green-300: #a9c7ef;
 
   /* Semantic */
   --color-success: #4ade80;
 
-  /* Pastel tints (kept token names) — now the vivid pastels for accent chips. */
-  --color-tint-mint: #a5edee;
-  --color-tint-sky: #aad4f6;
-  --color-tint-blush: #ffe08c;
-  --color-tint-lavender: #f8f5ff;
+  /* Accent tints (kept token names) — now the navy-palette decorative set. */
+  --color-tint-mint: #a9c7ef;
+  --color-tint-sky: #6f9adf;
+  --color-tint-blush: #f2879b;
+  --color-tint-lavender: #e7ecff;
 
   /* Radii — restrained: 8px workhorse, pill buttons via rounded-full/999px */
   --radius-xs: 0.375rem;   /* 6px */
@@ -289,8 +292,8 @@ html.lenis body { height: auto; }
   inset-inline: 0;
   height: 100vh;
   /* Dark base for the bottom safe-gutter the canvas leaves on mobile (below) —
-     matches the scene's/poster's near-black so the seam is invisible. */
-  background-color: #04081f;
+     matches the scene's/poster's palette navy so the seam is invisible. */
+  background-color: #0d0d0d;
   --scene-safe-bottom: 0px;
 }
 
@@ -359,15 +362,15 @@ html.lenis body { height: auto; }
   );
 }
 
-/* Dark aurora — near-black base washed with deep indigo/navy glows plus faint
-   orange + sky sparks. The signature dark section/hero backdrop. */
+/* Dark aurora — #0D0D0D base washed with deep interactive-navy glows plus a
+   faint accent-rose + interactive-blue spark. The signature dark backdrop. */
 @utility pastel-wash {
   background-color: var(--color-bg);
   background-image:
-    radial-gradient(60% 60% at 15% 0%, rgba(16, 0, 74, 0.55), transparent 60%),
-    radial-gradient(55% 55% at 92% 8%, rgba(0, 7, 53, 0.60), transparent 60%),
-    radial-gradient(48% 48% at 82% 100%, rgba(255, 118, 0, 0.10), transparent 62%),
-    radial-gradient(60% 60% at 8% 96%, rgba(170, 212, 246, 0.08), transparent 62%);
+    radial-gradient(60% 60% at 15% 0%, rgba(15, 52, 96, 0.55), transparent 60%),
+    radial-gradient(55% 55% at 92% 8%, rgba(22, 33, 62, 0.75), transparent 60%),
+    radial-gradient(48% 48% at 82% 100%, rgba(233, 69, 96, 0.12), transparent 62%),
+    radial-gradient(60% 60% at 8% 96%, rgba(111, 154, 223, 0.10), transparent 62%);
 }
 
 @utility surface-card {
@@ -414,6 +417,69 @@ html.lenis body { height: auto; }
 @utility nums {
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
+}
+
+/* ============================================================
+   Buttons — outline default, crimson wipe-fill on hover
+   All CTAs are WHITE outline-only at rest; on hover/focus a crimson
+   (#E94560) fill wipes in from the inline-start (RTL-aware), the label +
+   arrow badge stay white. `.btn-fill` = solid-white outline (primary
+   emphasis); `.btn-fill-soft` = hairline-white outline (secondary) — same
+   crimson fill. The arrow badge inside should use `border border-current`
+   (no bg) so it inherits the button's white through the transition.
+   ============================================================ */
+.btn-fill,
+.btn-fill-soft,
+.btn-fill-onlight {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: transparent;
+  color: #fff;
+  transition:
+    color 0.35s var(--ease-out-expo),
+    border-color 0.35s var(--ease-out-expo);
+}
+.btn-fill {
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+.btn-fill-soft {
+  border: 1px solid var(--color-border-strong);
+}
+/* Crimson outline for use ON light/white surfaces (e.g. the mobile menu
+   sheet) where a white outline would be invisible; same crimson fill. */
+.btn-fill-onlight {
+  border: 1px solid var(--color-brand);
+  color: var(--color-brand);
+}
+.btn-fill::before,
+.btn-fill-soft::before,
+.btn-fill-onlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--color-brand);
+  transform: scaleX(0);
+  transform-origin: right center; /* RTL: inline-start = right */
+  transition: transform 0.45s var(--ease-out-expo);
+}
+.btn-fill:hover,
+.btn-fill:focus-visible,
+.btn-fill-soft:hover,
+.btn-fill-soft:focus-visible,
+.btn-fill-onlight:hover,
+.btn-fill-onlight:focus-visible {
+  color: #fff;
+  border-color: var(--color-brand);
+}
+.btn-fill:hover::before,
+.btn-fill:focus-visible::before,
+.btn-fill-soft:hover::before,
+.btn-fill-soft:focus-visible::before,
+.btn-fill-onlight:hover::before,
+.btn-fill-onlight:focus-visible::before {
+  transform: scaleX(1);
 }
 
 /* ============================================================

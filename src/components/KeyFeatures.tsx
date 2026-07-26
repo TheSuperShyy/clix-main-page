@@ -7,7 +7,7 @@ import { keyFeatures } from "../data/content";
  * statement headline → body → small dark CTA) beside a large rounded image
  * with the row number pinned to its top corner.
  *
- * Ref spec (clone CSS): section bg `#03021b`, pt 60px / pb 200px (100px
+ * Ref spec (clone CSS): section bg `#0d0d0d`, pt 60px / pb 200px (100px
  * mobile) · rows 70vh desktop / 50vh tablet, 24px padding, 12px radius ·
  * image full-height, object-cover, 8px radius, number at top/start 24px ·
  * text col: 12px gap, copy max-width 500px · CTA 48px tall, 8px radius,
@@ -41,7 +41,7 @@ function CtaArrow({ className = "" }: { className?: string }) {
 
 export function KeyFeatures() {
   return (
-    <section id="key-features" className="relative bg-[#03021b] pt-6 pb-24 sm:pt-16 sm:pb-48">
+    <section id="key-features" className="relative bg-[#0d0d0d] pt-6 pb-24 sm:pt-16 sm:pb-48">
       <div className="container-x">
         {/* Two-column header (ref: eyebrow + display title vs. end-aligned subcopy). */}
         <div className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between md:gap-10">
@@ -99,12 +99,12 @@ export function KeyFeatures() {
                     rows 1 & 3 keep the compact content-width pill. */}
                 <a
                   href={keyFeatures.cta.href}
-                  className={`group mt-7 h-12 items-center gap-3 rounded-[8px] bg-black text-[16px] font-light tracking-[-0.03em] text-fg ring-1 ring-white/10 transition-colors hover:bg-white/[0.06] ${
+                  className={`group btn-fill-soft mt-7 h-12 items-center gap-3 rounded-[8px] text-[16px] font-light tracking-[-0.03em] ${
                     i === 1 ? "flex w-full justify-center px-6" : "inline-flex ps-6 pe-2"
                   }`}
                 >
                   {keyFeatures.cta.label}
-                  <span className="grid size-8 place-items-center rounded-full bg-on-ink text-ink transition-transform duration-200 group-hover:-translate-x-0.5">
+                  <span className="grid size-8 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5">
                     <CtaArrow className="size-4" />
                   </span>
                 </a>

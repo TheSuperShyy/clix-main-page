@@ -138,7 +138,7 @@ export function Stack() {
                     <a
                       key={c.href}
                       href={c.href}
-                      className="inline-flex h-11 items-center rounded-full bg-brand px-6 text-[15px] font-bold text-white shadow-[0_10px_24px_-10px_rgba(46,91,255,0.6)] transition-colors hover:bg-brand-600"
+                      className="btn-fill inline-flex h-11 items-center rounded-full px-6 text-[15px] font-bold"
                     >
                       {c.label}
                     </a>

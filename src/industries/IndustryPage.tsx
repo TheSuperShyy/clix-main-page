@@ -122,7 +122,7 @@ export function IndustryPage({ item }: { item: Item }) {
                 key={f}
                 variants={stepItem}
                 whileHover={reduced ? undefined : { y: -5, transition: { type: "spring", stiffness: 320, damping: 22 } }}
-                className="group flex transform-gpu flex-col rounded-[18px] border border-white/12 bg-[#33353c]/45 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_40px_90px_-55px_rgba(0,0,0,0.9)] backdrop-blur-2xl transition-colors duration-300 hover:border-[color-mix(in_oklab,var(--accent)_45%,transparent)] sm:p-7"
+                className="group flex transform-gpu flex-col rounded-[18px] border border-white/12 bg-[#1a1a2e]/45 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_40px_90px_-55px_rgba(0,0,0,0.9)] backdrop-blur-2xl transition-colors duration-300 hover:border-[color-mix(in_oklab,var(--accent)_45%,transparent)] sm:p-7"
               >
                 <span className="nums text-[15px] font-medium tracking-[0.1em] text-[color:var(--accent-soft)]">
                   {String(i + 1).padStart(2, "0")}
@@ -157,10 +157,10 @@ export function IndustryPage({ item }: { item: Item }) {
           <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
             <a
               href={closing.cta.href}
-              className="group inline-flex h-12 items-center gap-3 rounded-[12px] bg-white ps-6 pe-2 text-[15px] font-bold text-ink transition-colors hover:bg-white/90"
+              className="group btn-fill inline-flex h-12 items-center gap-3 rounded-[12px] ps-6 pe-2 text-[15px] font-bold"
             >
               {closing.cta.label}
-              <span className="grid size-8 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5">
+              <span className="grid size-8 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-3.5">
                   <path d="M14 6l-6 6 6 6" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -174,7 +174,7 @@ export function IndustryPage({ item }: { item: Item }) {
             Each row carries its OWN sector accent on the glyph + hover chevron. */}
         <motion.nav {...reveal(0)} aria-label={detail.moreHeading} className="mt-24 border-t border-white/10 pt-14 sm:mt-32 sm:pt-20">
           <p className="eyebrow text-[color:var(--accent-soft)]">{detail.moreHeading}</p>
-          <ul className="mt-8 overflow-hidden rounded-[20px] border border-white/12 bg-[#33353c]/45 backdrop-blur-2xl">
+          <ul className="mt-8 overflow-hidden rounded-[20px] border border-white/12 bg-[#1a1a2e]/45 backdrop-blur-2xl">
             {others.map((o) => (
               <li key={o.id} className="border-t border-white/10 first:border-t-0">
                 <a

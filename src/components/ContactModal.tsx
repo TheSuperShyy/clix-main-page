@@ -175,7 +175,7 @@ export function ContactModal() {
             type="button"
             aria-label={f.closeLabel}
             onClick={closeContactModal}
-            className="absolute inset-0 cursor-default bg-[#33353c]/45 backdrop-blur-md"
+            className="absolute inset-0 cursor-default bg-[#16213e]/45 backdrop-blur-md"
           />
 
           {/* Panel — mac-window card. */}
@@ -185,7 +185,7 @@ export function ContactModal() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.98 }}
             transition={{ type: "spring", stiffness: 260, damping: 26 }}
-            className="relative z-10 w-full max-w-[480px] overflow-hidden rounded-[22px] border border-white/12 bg-[#33353c]/80 shadow-[0_50px_120px_-30px_rgba(0,0,0,0.85)] backdrop-blur-xl"
+            className="relative z-10 w-full max-w-[480px] overflow-hidden rounded-[22px] border border-white/12 bg-[#16213e]/80 shadow-[0_50px_120px_-30px_rgba(0,0,0,0.85)] backdrop-blur-xl"
           >
             {/* Hairline highlight along the top edge (matches the site's frosted cards). */}
             <div
@@ -222,7 +222,7 @@ export function ContactModal() {
                   <button
                     type="button"
                     onClick={closeContactModal}
-                    className="mt-2 h-11 rounded-full bg-white px-6 text-[14px] font-bold text-ink transition-colors hover:bg-white/90"
+                    className="btn-fill mt-2 h-11 rounded-full px-6 text-[14px] font-bold"
                   >
                     {f.closeLabel}
                   </button>
@@ -334,10 +334,10 @@ export function ContactModal() {
                   <button
                     type="submit"
                     disabled={!agreed}
-                    className="group mt-5 flex h-12 w-full items-center justify-center gap-3 rounded-full bg-white text-[15px] font-bold text-ink transition-all duration-200 hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-40"
+                    className="group btn-fill mt-5 flex h-12 w-full items-center justify-center gap-3 rounded-full text-[15px] font-bold disabled:cursor-not-allowed disabled:opacity-40"
                   >
                     {f.submit}
-                    <span className="grid size-8 place-items-center rounded-full bg-ink text-white transition-transform duration-200 group-hover:-translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
+                    <span className="grid size-8 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
                       <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-[18px]">
                         <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
                       </svg>

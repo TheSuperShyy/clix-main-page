@@ -41,7 +41,7 @@ function TestimonialsBackdrop() {
   return (
     <div aria-hidden className="absolute inset-0 overflow-hidden">
       {/* Flat continuation of the Benefits band's final color. */}
-      <div className="absolute inset-0 bg-[#03021b]" />
+      <div className="absolute inset-0 bg-[#0d0d0d]" />
       {/* Faint aurora behind the headline. */}
       <div
         className="absolute inset-x-0 top-0 h-[70%]"

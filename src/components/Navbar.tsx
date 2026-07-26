@@ -297,10 +297,10 @@ export function Navbar({ variant = "home" }: { variant?: "home" | "page" }) {
             {...pillMotion}
             href={resolve(nav.cta.href)}
             onClick={scrollToContact}
-            className="inline-flex h-14 items-center gap-3 rounded-md bg-ink ps-6 pe-2.5 text-[16px] font-bold text-on-ink ring-1 ring-white/10 transition-colors hover:bg-ink-2"
+            className="btn-fill inline-flex h-14 items-center gap-3 rounded-md ps-6 pe-2.5 text-[16px] font-bold"
           >
             {nav.cta.label}
-            <span className="grid size-9 place-items-center rounded-full bg-on-ink text-ink">
+            <span className="grid size-9 place-items-center rounded-full border border-current">
               <NavArrow className="size-5" />
             </span>
           </motion.a>
@@ -430,10 +430,10 @@ export function Navbar({ variant = "home" }: { variant?: "home" | "page" }) {
                     setOpen(false);
                     scrollToContact(e);
                   }}
-                  className="group mt-3 inline-flex h-12 items-center gap-2.5 rounded-[10px] bg-ink ps-5 pe-2.5 text-[14px] font-bold text-white transition-colors hover:bg-ink-2"
+                  className="group btn-fill-onlight mt-3 inline-flex h-12 items-center gap-2.5 rounded-[10px] ps-5 pe-2.5 text-[14px] font-bold"
                 >
                   {nav.cta.label}
-                  <span className="grid size-7 place-items-center rounded-full bg-white text-ink transition-transform duration-200 group-hover:-translate-x-0.5">
+                  <span className="grid size-7 place-items-center rounded-full border border-current transition-transform duration-200 group-hover:-translate-x-0.5">
                     <NavArrow className="size-4" />
                   </span>
                 </a>
